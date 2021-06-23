@@ -4,27 +4,28 @@ import {
     Card, Col, Item, Input, Container, Header, Content, Button, Text, CardItem, Left, Right, Body
 } from 'native-base';
 import Fromadd from '../component/addwork/Fromadd';
+import FromAddV2 from '../component/addwork/FromAddV2';
 const AddWork = () => {
     return (
         <>
-            <View>
-                <Header androidStatusBarColor="#EEEEEE" searchBar rounded style={{ backgroundColor: '#DADADA' }}>
+            <View >
+                <Header androidStatusBarColor="#ff5722" searchBar rounded style={{ backgroundColor: '#ff5722' }}>
                     <Text style={styles.textHead}>
                         เพิ่มงาน
                     </Text>
                 </Header>
-
             </View>
-            <Fromadd />
+            <FromAddV2 />
         </>
     )
 }
 const styles = StyleSheet.create({
     textHead: {
         marginTop: 10,
-        color: '#ff5722',
+        color: '#ffff',
         fontSize: 22
-    }
+    },
+
 })
 
 export default AddWork

@@ -8,7 +8,6 @@ const CardList = ({ data }) => {
             <View style={styles.heades}>
                 {data.map((item) => {
                     return (
-                        <>
                             <Card transparent key={item.id}>
                                 <TouchableOpacity style={styles.touch} onPress={() => Actions.profile()} >
                                     <CardItem style={styles.CardItem}>
@@ -24,14 +23,11 @@ const CardList = ({ data }) => {
                                                 {item.des}
                                             </Text>
                                         </Body>
-
                                     </CardItem>
                                 </TouchableOpacity>
                             </Card>
-                        </>
                     )
                 })}
-
             </View>
         </>
     )

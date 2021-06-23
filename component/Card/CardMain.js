@@ -6,7 +6,7 @@ const CardMain = () => {
     return (
         <>
         <View>
-              <CardList key="cardlist" data={Data}/>
+              <CardList key={Data.id} data={Data}/>
         </View>
           
         </>

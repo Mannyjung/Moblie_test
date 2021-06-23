@@ -9,6 +9,9 @@ import Login from './screen/Login'
 import Blue from './screen/Blue'
 import Model from './screen/Model'
 import Profile from './screen/Profile';
+import LoginV2 from './screen/LoginV2';
+import Mywork from './screen/Mywork';
+import Test from './screen/Test';
 const TabIcon = (props) => {
   let textColor = props.focused ? '#ff5722' : '#999999'
   return (
@@ -24,16 +27,16 @@ const App = () => {
 
       <Router >
         <Scene key="root" hideNavBar={true} >
-
           <Scene key="tabbar" showLabel={false} tabs={true} tabBarStyle={{ backgroundColor: '#fff' }}>
-
             <Scene key="addWork" component={AddWork} title="AddWork" icon={TabIcon} hideNavBar={true} initial={false} />
-            <Scene key="login" component={Login} title="Login" icon={TabIcon} hideNavBar={true} initial={true} />
-            <Scene key="Main" title='HOME'  component={Main} icon={TabIcon} hideNavBar={true} initial={false} />
-            <Scene key="blue" component={Blue} title="Blue" icon={TabIcon} hideNavBar={true} initial={false} />
+            <Scene key="loginV2" component={LoginV2} title="LoginV2" icon={TabIcon}  hideNavBar={true} initial={false} />
+            <Scene key="main" title='HOME' component={Main} icon={TabIcon} hideNavBar={true} initial={false} />
+            <Scene key="mywork" component={Mywork} title="Mywork" icon={TabIcon} hideNavBar={true} initial={true} />
             <Scene key="profile" component={Profile} title="Profile" icon={TabIcon} hideNavBar={true} initial={false} />
           </Scene>
           <Scene key="model" component={Model} title="Model" direction="vertical" hideNavBar />
+          {/* <Scene key="test" component={Test} title="Test" icon={TabIcon} hideNavBar={true} initial={true} /> */}
+
         </Scene>
       </Router>
     </>

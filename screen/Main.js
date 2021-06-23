@@ -31,7 +31,7 @@ const Main = () => {
                 </Header>
                 <Content>
                 {/* import Carouselmained from '../component/carou/Carouselmained'; */}
-                    <Carouselmained />
+                    <Carouselmained key='carou'/>
                     <ScrollView
                         style={{ flex: 1 }}
                         contentContainerStyle={{ flexGlow: 1 }}
@@ -49,7 +49,7 @@ const Main = () => {
                             </Card>
                         </Content>
                         {/* import CardMain from '../component/Card/CardMain'; */}
-                        <CardMain />
+                        <CardMain key='cardlist'/>
                         
                     </ScrollView>
                 </Content>

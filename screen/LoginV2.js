@@ -1,21 +1,19 @@
 
 import React from 'react'
-import { StyleSheet, Text, View, Dimensions, TextInput, ImageBackground } from 'react-native'
+import { StyleSheet, Text, View, Dimensions, TextInput, ImageBackground, Image } from 'react-native'
 import { Card, Item, Input, Content, CardItem, Body, Form, Label, Textarea, Header, Button } from 'native-base'
 import { LinearGradient } from 'expo-linear-gradient';
-import { AntDesign } from '@expo/vector-icons'
-import { Actions } from 'react-native-router-flux';
+
+import { Feather, MaterialCommunityIcons, AntDesign ,Ionicons } from '@expo/vector-icons'
+import { Actions } from 'react-native-router-flux'; 
 const { width, height } = Dimensions.get('screen')
-const Login = () => {
+const LoginV2 = () => {
     return (
         <>
             <View style={styles.container} androidStatusBarColor="#ff5722" searchBar rounded transparent>
-                {/* background-image: linear-gradient(-60deg, #ff5858 0%, #f09819 100%); */}
-                <LinearGradient
-                    start={{ x: 0.0, y: 0.1 }} end={{ x: 0.5, y: 1 }}
-                    colors={['#ff6622', '#ff5858']}
-                    style={styles.background}
-                />
+                <View>
+                    <Image source={{ uri: 'http://www.vistaimage.net/wp-content/uploads/2018/12/IMG_4674102-683x1024.jpg' }} style={{ width: width, height: height, position: 'absolute' }} />
+                </View>
                 <Card transparent>
                     <CardItem style={styles.card}>
                         <Text style={styles.text28}>
@@ -29,37 +27,25 @@ const Login = () => {
                 <Card transparent >
                     <CardItem style={{ backgroundColor: 'transparent' }}>
                         <Form style={styles.from}>
-                            <AntDesign name="aliwangwang" style={styles.icon} />
-                            {/* <AntDesign name="dingding-o"  */}
-                            {/* <FontAwesome name="user-circle-o"   /> */}
-                            <Label style={styles.lable}>
-                                <Text style={styles.text22}>
-                                    ชื่อผู้ใช้ / อีเมล์
-                                </Text>
-                            </Label>
-                            <Item>
-                                <Input />
+                            <Item regular style={styles.inputItem}>
+                                <Feather name="user" size={24} color="black" />
+                                <Input placeholder='ชื่อผู้ใช้ / รหัสนักศึกษา' />
                             </Item>
-                            <Label style={styles.lable}>
-                                <Text style={styles.text22}>
-                                    รหัสผ่าน
-                                </Text>
-                            </Label>
-                            <Item>
-                                <Input />
+                            <Item regular style={styles.inputItem}>
+                                <MaterialCommunityIcons name="form-textbox-password" size={24} color="black" />
+                                <Input placeholder='รหัสผ่าน' />
                             </Item>
-
-                            <Button block style={styles.button}  onPress={() => Actions.loginV2()}>
-                                <Text style={styles.text22} >เข้าสู่ระบบ</Text>
+                            <Button block style={styles.button} >
+                                <Text style={styles.text22}  >เข้าสู่ระบบ</Text>
                             </Button>
-                            <Button transparent light>
-                                <Text style={styles.text16}>ย้อนกลับ >></Text>
+                            <Button transparent light  onPress={() => Actions.main()}>
+                                <Ionicons name="arrow-back-circle-outline" size={16} color="#ff5722" />
+                                <Text style={styles.text16} >ย้อนกลับ
+                                </Text>
                             </Button>
                         </Form>
-
                     </CardItem>
                 </Card>
-
             </View>
         </>
     )
@@ -80,7 +66,7 @@ const styles = StyleSheet.create({
     },
 
     card: {
-        marginTop: 40,
+        marginTop: 80,
         width: 300,
         marginLeft: -1,
         height: 70,
@@ -117,14 +103,13 @@ const styles = StyleSheet.create({
         position: 'absolute'
     },
     from: {
+        alignItems: 'center',
         flex: 1,
-        height: height / 1.6,
         backgroundColor: '#fff',
-        padding: 20,
-        marginTop: 130,
-        marginRight: -20,
-        borderTopLeftRadius: 25,
-        borderBottomLeftRadius: 25,
+        padding: 30,
+        paddingBottom:10,
+        marginTop: height / 6,
+        borderRadius: 10,
         shadowColor: '#000',
         shadowOffset: { width: 0.5, height: 0.5 },
         shadowOpacity: 1,
@@ -145,6 +130,7 @@ const styles = StyleSheet.create({
         // color: '#000'
     },
     button: {
+        color: '#fff',
         backgroundColor: '#ff5722',
         marginTop: 30,
         marginBottom: 15,
@@ -155,17 +141,25 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         elevation: 5,
     },
+    inputItem: {
+        marginBottom: 8,
+        paddingLeft: 8,
+        borderRadius: 10
+    },
     lable: {
         marginTop: 15
     },
     text16: {
-        fontSize: 16
+        fontSize: 16,
+        paddingLeft:3
     },
     text22: {
         fontSize: 22,
+        color: '#ffff'
     },
     text28: {
-        fontSize: 28
+        fontSize: 28,
+        marginBottom: 15
     },
 
 
@@ -174,4 +168,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default Login
+export default LoginV2
