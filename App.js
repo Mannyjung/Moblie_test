@@ -12,6 +12,8 @@ import Mywork from './screen/Mywork';
 import Editpic from './component/Edit/Editpic';
 import Editpack from './component/Edit/Editpack';
 import Editwork from './component/Edit/Editwork';
+import SelectPost from './screen/SelectPost';
+import Addpack from './component/Edit/Addpackage';
 const TabIcon = (props) => {
   let textColor = props.focused ? '#ff5722' : '#999999'
   return (
@@ -29,14 +31,16 @@ const App = () => {
           <Scene key="tabbar" showLabel={false} tabs={true} tabBarStyle={{ backgroundColor: '#fff' }}>
             <Scene key="addWork" component={AddWork} title="AddWork" icon={TabIcon} hideNavBar={true} initial={false} />
             <Scene key="loginV2" component={LoginV2} title="LoginV2" icon={TabIcon} hideNavBar={true} initial={false} />
-            <Scene key="main" title='HOME' component={Main} icon={TabIcon} hideNavBar={true} initial={false} />
-            <Scene key="mywork" component={Mywork} title="Mywork" icon={TabIcon} hideNavBar={true} initial={true} />
+            <Scene key="main" title='HOME' component={Main} icon={TabIcon} hideNavBar={true} initial={true} />
+            <Scene key="mywork" component={Mywork} title="Mywork" icon={TabIcon} hideNavBar={true} initial={false} />
             <Scene key="profile" component={Profile} title="Profile" icon={TabIcon} hideNavBar={true} initial={false} />
           </Scene>
           <Scene key="model" component={Model} title="Model" direction="vertical" hideNavBar />
           <Scene key="editpic" component={Editpic} title="Editpic" icon={TabIcon} hideNavBar={true} initial={false} />
           <Scene key="editpack" component={Editpack} title="Editpack" icon={TabIcon} hideNavBar={true} initial={false} />
           <Scene key="editwork" component={Editwork} title="Editwork" icon={TabIcon} hideNavBar={true} initial={false} />
+          <Scene key="selectpost" component={SelectPost} title="SelectPost" icon={TabIcon} hideNavBar={true} initial={false} />
+          <Scene key="addpack" component={Addpack} title="Addpack" icon={TabIcon} hideNavBar={true} initial={false} />
         </Scene>
       </Router>
     </>

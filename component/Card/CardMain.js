@@ -4,6 +4,7 @@ import { Container, Header, Content, Card, CardItem, Text, Body, View } from "na
 import CardList from './CardList'
 import { Data } from '../carou/data'
 import axios from 'axios'
+import { Actions } from 'react-native-router-flux';
 const CardMain = () => {
     const [data, setData] = useState([]);
     useEffect(() => {
@@ -25,7 +26,7 @@ const CardMain = () => {
                     return (
                         <>
                             <Card transparent key={dataW.aw_id}>
-                                <TouchableOpacity style={styles.touch} onPress={() => Actions.profile()} >
+                                <TouchableOpacity style={styles.touch} onPress={() => Actions.selectpost({dataW})} >
                                     <CardItem style={styles.CardItem}>
                                         <Image
                                              source={{ uri: dataW.w_img_name }}

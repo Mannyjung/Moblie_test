@@ -9,7 +9,7 @@ const CardList = ({ data }) => {
                 {data.map((item) => {
                     return (
                             <Card transparent key={item.id}>
-                                <TouchableOpacity style={styles.touch} onPress={() => Actions.profile()} >
+                                <TouchableOpacity style={styles.touch} onPress={() => Actions.selectpost({item})} >
                                     <CardItem style={styles.CardItem}>
                                         <Image
                                             source={{ uri: item.url }}

@@ -7,27 +7,21 @@ import axios from 'axios'
 //import Icon from 'react-native-vector-icons/dist/FontAwesome'
 const Fromadd = () => {
     const [selectedValue, setSelectedValue] = useState("java");
-
     const initCate = {
         main_cate_name: "",
         main_cate_img: "",
     };
     const [maincategory, setMaincategory] = useState("");
-
     // inputValueUpdate = (val, prop) => {
     //     const state = this.state;
     //     state[prop] = val;
     //     this.setMaincategory(state);
     // }
-
     // const handleInputChange = (event) => {
     //     let { name, value } = event.target;
-
     //     setMaincategory({ ...maincategory, [name]: value })
     // };
-
     const saveMaincate = () => {
-
         let statu ="Admin";
         let img ="https://www.g-able.com/engine/wp-content/uploads/2017/11/digital4_review-4Travel.jpg";
         let name ="ดมกหมดหกพ";
@@ -39,7 +33,7 @@ const Fromadd = () => {
         console.log(data);
         axios.post("https://newapi-flashwork.herokuapp.com/public/addmaincate/", data)
             .then((response) => {
-                console.log(response);
+                setMaincategory(response);
 
             })
             .catch((error) => {
@@ -70,7 +64,6 @@ const Fromadd = () => {
             <View style={styles.view}>
                 <Content style={styles.heades}>
                     <Card transparent>
-
                         <Form style={styles.from}>
                             <CardItem style={styles.headCard}>
                                 <Body >
@@ -84,9 +77,7 @@ const Fromadd = () => {
                                 <TextInput />
                             </Item> */}
                             <Label style={styles.text16}>หมวดหลัก </Label>
-
-                            {/* <TextInput name="main_cate_name" onChangeText={text => setMaincategory(text)} /> */}
-
+                            {/* <TextInput name="main_cate_name" onChangeText={text => handleInputChange(text)} /> */}
                             <Button
                                 title="ตกลง"
                                 onPress={() => saveMaincate()}
