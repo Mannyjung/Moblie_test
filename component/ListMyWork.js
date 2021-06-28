@@ -16,16 +16,19 @@ import { Actions } from 'react-native-router-flux';
 const { width, height } = Dimensions.get('screen');
 
 const ListMyWork = ({ data }) => {
+
   const leftSwipe = (progress, dragX) => {
     const scale = dragX.interpolate({
       inputRange: [0, 100],
       outputRange: [2, 0],
       extrapolate: 'clamp',
     });
+    
+
     return (
 
       <>
-        <TouchableOpacity onPress={data.handleDelete} activeOpacity={0.6} onPress={() => Actions.editwork()}>
+        <TouchableOpacity activeOpacity={0.6} onPress={() => Actions.editwork()}>
           <View style={styles.editBox} >
             <Animated.Text style={{ transform: [{ scale: scale }] }} >
               <View >
@@ -41,7 +44,7 @@ const ListMyWork = ({ data }) => {
             </Animated.Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={data.handleDelete} activeOpacity={0.6} onPress={() => Actions.editpack()}>
+        <TouchableOpacity activeOpacity={0.6} onPress={() => Actions.editpack()}>
           <View style={styles.packBox}>
             <Animated.Text style={{ transform: [{ scale: scale }] }}>
               <View >
@@ -57,7 +60,7 @@ const ListMyWork = ({ data }) => {
             </Animated.Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={data.handleDelete} activeOpacity={0.6} onPress={() => Actions.editpic()}>
+        <TouchableOpacity activeOpacity={0.6} onPress={() => Actions.editpic()}>
           <View style={styles.picBox}>
             <Animated.Text style={{ transform: [{ scale: scale }] }}>
               <View >
@@ -80,18 +83,18 @@ const ListMyWork = ({ data }) => {
   return (
     <Swipeable renderRightActions={leftSwipe}>
       <View style={styles.container}>
-        <Card transparent key={data.id}>
+        <Card transparent key={data.aw_id}>
           <CardItem style={styles.CardItem}>
             <Image
-              source={{ uri: data.url }}
+              source={{ uri: data.w_img_name }}
               style={styles.image}
             />
             <Body style={styles.body}>
               <Text style={styles.textTitle}>
-                {data.title}
+                {data.aw_name}
               </Text>
               <Text style={styles.textDes}>
-                {data.des}
+                {/* {data.aw_detail} */}
               </Text>
             </Body>
           </CardItem>
@@ -170,8 +173,8 @@ const styles = StyleSheet.create({
   textTitle: {
     textShadowColor: '#4E4E4E',
     textShadowOffset: { width: -1, height: 0.5 },
-    textShadowRadius: 5,
-    fontSize: 22,
+    //textShadowRadius: 5,
+    fontSize: 16,
     color: '#000'
   },
   textDes: {

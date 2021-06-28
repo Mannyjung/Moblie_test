@@ -7,6 +7,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('screen')
 const FromAddV2 = () => {
     const [selectedValue, setSelectedValue] = useState("java");
+
+    
+
     return (
         <>
             <View style={styles.view}>
@@ -20,7 +23,7 @@ const FromAddV2 = () => {
 
                             <Label style={styles.text16}>ชื่องาน</Label>
                             <Item style={styles.item} regular>
-                                <Input />
+                                <Input  />
                             </Item>
                             <Label style={styles.text16}>ลายละเอียดงาน</Label>
                             <Item style={styles.item} regular>

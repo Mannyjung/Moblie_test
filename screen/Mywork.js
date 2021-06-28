@@ -1,17 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Image, StyleSheet, TouchableOpacity, Animated, StatusBar, SafeAreaView, View, FlatList } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { Container, Header, Content, Card, CardItem, Text, Body } from "native-base";
-import { Data } from '../component/carou/data'
+//import { Data } from '../component/carou/data'
 import ListMyWork from '../component/ListMyWork';
+import axios from 'axios'
 const Mywork = () => {
-    const [lists, setLists] = useState(Data);
+    //const [lists, setLists] = useState(Data);
 
-    const deleteItem = (index) => {
-        const arr = [...lists];
-        arr.splice(index, 1);
-        setLists(arr);
-    };
+    const [mypost, setmypost] = useState([]);
+    console.log(mypost);
+    useEffect(() => {
+        axios.get("https://newapi-flashwork.herokuapp.com/public/mypost/614259048")
+            .then(response => {
+                setmypost(response.data)
+                
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }, []);
+
+
     return (
         <>
             <View >
@@ -23,9 +33,9 @@ const Mywork = () => {
             </View>
             <SafeAreaView style={styles.container}>
                 <FlatList
-                    data={lists}
+                    data={mypost}
                     renderItem={({ item, index }) => {
-                        return <ListMyWork data={item} handleDelete={() => deleteItem(index)}  />;
+                        return <ListMyWork data={item}/>;
                     }}
                     ItemSeparatorComponent={() => {
                         return <View ></View>;

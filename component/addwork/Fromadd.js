@@ -1,11 +1,70 @@
-import React, { useState } from 'react'
-import { Image, View, StyleSheet, ScrollView, TouchableOpacity, Picker } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { Image, View, StyleSheet, ScrollView, TouchableOpacity, Picker, TextInput, Button } from 'react-native'
 import {
     Card, Item, Input, Content, Text, CardItem, Body, Form, Label, Textarea
 } from 'native-base';
+import axios from 'axios'
 //import Icon from 'react-native-vector-icons/dist/FontAwesome'
 const Fromadd = () => {
     const [selectedValue, setSelectedValue] = useState("java");
+
+    const initCate = {
+        main_cate_name: "",
+        main_cate_img: "",
+    };
+    const [maincategory, setMaincategory] = useState("");
+
+    // inputValueUpdate = (val, prop) => {
+    //     const state = this.state;
+    //     state[prop] = val;
+    //     this.setMaincategory(state);
+    // }
+
+    // const handleInputChange = (event) => {
+    //     let { name, value } = event.target;
+
+    //     setMaincategory({ ...maincategory, [name]: value })
+    // };
+
+    const saveMaincate = () => {
+
+        let statu ="Admin";
+        let img ="https://www.g-able.com/engine/wp-content/uploads/2017/11/digital4_review-4Travel.jpg";
+        let name ="ดมกหมดหกพ";
+        var data = {
+            status: statu,
+            main_cate_name: name,
+            main_cate_img:img
+        }
+        console.log(data);
+        axios.post("https://newapi-flashwork.herokuapp.com/public/addmaincate/", data)
+            .then((response) => {
+                console.log(response);
+
+            })
+            .catch((error) => {
+                console.log(error);
+
+            });
+
+    }
+
+    // const saveMaincate = () => {
+    //     fetch('https://newapi-flashwork.herokuapp.com/public/addmaincate/', {
+    //         method: 'POST',
+    //         headers: {
+    //             Accept: 'application/json',
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             main_cate_name: 'yourValue',
+    //             main_cate_img: 'https://www.g-able.com/engine/wp-content/uploads/2017/11/digital4_review-4Travel.jpg',
+    //             status :'Admin'
+    //         })
+    //     });
+    // }
+
+
     return (
         <>
             <View style={styles.view}>
@@ -20,81 +79,23 @@ const Fromadd = () => {
                                     </Text>
                                 </Body>
                             </CardItem>
-                            <Label style={styles.text16}>ชื่องาน</Label>
+                            {/* <Label style={styles.text16}>ชื่องาน</Label>
                             <Item>
-                                <Input />
-                            </Item>
-                            <Label style={styles.text16}>ลายละเอียดงาน</Label>
-                            <Item >
-                                {/* <Input rowSpan={5} bordered /> */}
-                                <Textarea rowSpan={3} placeholder="ลายละเอียดงาน" />
-                            </Item>
-                            <Label style={styles.text16}>หมวดหลัก</Label>
-                            <Item>
-                                <Input />
-                            </Item>
-                            <Label style={styles.text16}>หมวดย่อย</Label>
-                            <Picker
-                                selectedValue={selectedValue}
-                                style={{ height: 50 }}
-                                onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-                            >
-                                <Picker.Item label="SEO" value="SEO" />
-                                <Picker.Item label="Developer" value="dev" />
-                            </Picker>
-                        </Form>
-                    </Card>
-                    <Card transparent>
-                        <CardItem style={styles.headCard}>
-                            <Body >
-                                <Text style={{ color: '#ff5722', fontSize: 22 }}>
-                                    แพ็คเกจ
-                                </Text>
-                            </Body>
-                        </CardItem>
-                        <Form style={styles.from}>
-                            <Label style={styles.text16}>ชื่อแพ็คเกจ</Label>
-                            <Item>
-                                <Input />
-                            </Item>
-                            <Label style={styles.text16}>ลายละเอียดรายแพ็คเกจ</Label>
-                            <Item >
-                                {/* <Input rowSpan={5} bordered /> */}
-                                <Textarea rowSpan={3} placeholder="ลายละเอียดงาน" />
-                            </Item>
-                            <Label style={styles.text16}>ราคา</Label>
-                            <Item>
-                                <Input />
-                            </Item>
-                            <Label style={styles.text16}>ระยะเวลา</Label>
+                                <TextInput />
+                            </Item> */}
+                            <Label style={styles.text16}>หมวดหลัก </Label>
 
-                            <Picker
-                                selectedValue={selectedValue}
-                                style={{ height: 50 }}
-                                onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-                            >
-                                <Picker.Item label="7 วัน" value="7" />
-                                <Picker.Item label="30 วัน" value="30" />
-                            </Picker>
+                            {/* <TextInput name="main_cate_name" onChangeText={text => setMaincategory(text)} /> */}
 
-
+                            <Button
+                                title="ตกลง"
+                                onPress={() => saveMaincate()}
+                            />
                         </Form>
                     </Card>
 
-                    <Card transparent>
-                        <CardItem style={styles.headCard}>
-                            <Body >
-                                <Text style={{ color: '#ff5722', fontSize: 22 }}>
-                                    รูป
-                                </Text>
-                            </Body>
-                        </CardItem>
-                        {/* <Form style={styles.fromIcon}>
-                            <Icon name='camera-retro' style={styles.icon} />
-                            <Label>เพิ่มรูป</Label>
-                        </Form> */}
 
-                    </Card>
+
                 </Content>
             </View>
 

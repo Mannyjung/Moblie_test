@@ -10,7 +10,7 @@ const CardMain = () => {
         axios.get("https://newapi-flashwork.herokuapp.com/public/show_work")
             .then(response => {
                 setData(response.data)
-                console.log(response.data);
+                //console.log(response.data);
             })
             .catch(error => {
                 console.log(error);
