@@ -6,7 +6,11 @@ const Editpic = () => {
     return (
         <>
             <View style={styles.view}>
-              
+                {Data.map((uri) => {
+                    return (
+                        <Image source={{ uri: uri.url }} style={styles.pic} />
+                    )
+                })}
             </View>
         </>
     )
@@ -14,12 +18,13 @@ const Editpic = () => {
 const styles = StyleSheet.create({
     view: {
         flex: 1,
-        flexDirection:'row',
-        // flexWrap:'wrap',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
     },
     pic: {
-        width:width/2,
-        height:height/2,
+        width: width / 2,
+        height:150
+       
 
     }
 })

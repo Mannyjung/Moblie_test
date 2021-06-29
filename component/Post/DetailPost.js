@@ -1,23 +1,14 @@
 import React from 'react'
 import { Text, View, StyleSheet } from 'react-native'
-import {
-    Content,
-    Card,
-    CardItem,
-    Thumbnail,
-    Left,
-    Body,
-    Right, Button, Title, List, ListItem, Header, Icon
-} from 'native-base';
-const DetailPost = ({id}) => {
+import { Card, CardItem, Body, Content } from 'native-base';
+const DetailPost = ({ id }) => {
     return (
-        <View style={styles.item}>
-            
-            <Card transparent>
-                <CardItem header style={styles.work} >
+        <Content padder>
+            <Card >
+                <CardItem header >
                     <Body >
                         <Text style={{ color: '#000000', fontSize: 20 }}>
-                           SEO ขั้นเทพ | สร้าง1-10ล้าน backlinks เสริมด้วย edu/gov เพิ่มอันดับเว็บให้ติดหน้าแรกๆ GOOG
+                            SEO ขั้นเทพ | สร้าง1-10ล้าน backlinks เสริมด้วย edu/gov เพิ่มอันดับเว็บให้ติดหน้าแรกๆ GOOG
                         </Text >
                     </Body>
                 </CardItem>
@@ -35,21 +26,10 @@ const DetailPost = ({id}) => {
                     </Body>
                 </CardItem>
             </Card>
-        </View>
-
+        </Content>
     )
 }
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        alignItems: 'flex-start' // if you want to fill rows left to right
-    },
-    item: {
-        width: '100%'
-    },
-
     btpack: {
         backgroundColor: '#F57C00'
     },

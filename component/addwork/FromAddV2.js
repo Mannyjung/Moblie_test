@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Image, View, StyleSheet, ScrollView, TouchableOpacity, Picker, Dimensions } from 'react-native'
+import {View, StyleSheet,Picker, Dimensions } from 'react-native'
 import {
     Card, Item, Input, Content, Text, CardItem, Body, Form, Label, Textarea
 } from 'native-base';

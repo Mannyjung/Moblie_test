@@ -1,43 +1,35 @@
 import React from 'react'
-import { Text, View, ScrollView, StyleSheet } from 'react-native'
-import { Header } from 'native-base'
+import { Text, View, ScrollView, StyleSheet, Dimensions } from 'react-native'
+import { Content, Header } from 'native-base'
 import DetailPost from '../component/Post/DetailPost'
 import Review from '../component/Post/Review'
 import Package from '../component/Post/Package'
 import { Data } from '../component/carou/data'
 import Carouselmained from '../component/carou/Carouselmained'
+const { width, height } = Dimensions.get('screen')
 const SelectPost = ({ dataW }) => {
     return (
         <>
-
-            <View style={styles.container}>
-                <Header androidStatusBarColor="#ff5722" searchBar rounded style={{ backgroundColor: '#ff5722' }}>
-                    <Text style={styles.text}>
-                        {dataW.aw_id}
-                    </Text>
-
-                </Header>
-                <View style={styles.view} >
-                    <ScrollView >
-                        <Carouselmained />
-                        <DetailPost />
-                        <Package />
-                        {/* <Review /> */}
-                    </ScrollView>
-                </View>
-            </View>
-
-
+            <Header androidStatusBarColor="#ff5722" searchBar rounded style={{ backgroundColor: '#ff5722' }}>
+                <Text style={styles.text}>
+                    {dataW.aw_id}
+                </Text>
+            </Header>
+            <Content  style={styles.container}>
+                <ScrollView >
+                    <Carouselmained />
+                    <DetailPost />
+                    <Package/>
+                    <Review />
+                </ScrollView>
+            </Content>
         </>
     )
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginBottom: 60
-    },
-    item: {
-        width: '100%'
+        width: width,
     },
 
     btpack: {

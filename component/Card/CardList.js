@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { Container, Header, Content, Card, CardItem, Text, Body, View } from "native-base";
+import {Card, CardItem, Text, Body, View } from "native-base";
 import { Actions } from 'react-native-router-flux';
 const CardList = ({ data }) => {
     return (
