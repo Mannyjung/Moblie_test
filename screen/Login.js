@@ -53,7 +53,7 @@ const Login = () => {
                                 <Text style={styles.text22} >เข้าสู่ระบบ</Text>
                             </Button>
                             <Button transparent light>
-                                <Text style={styles.text16}>ย้อนกลับ >></Text>
+                                <Text style={styles.text16}>ย้อนกลับ</Text>
                             </Button>
                         </Form>
 

@@ -8,38 +8,19 @@ import axios from 'axios'
 const Fromadd = () => {
     const [selectedValue, setSelectedValue] = useState("java");
 
-    const initCate = {
+
+    const [maincategory, setMaincategory] = useState(
+        {
         main_cate_name: "",
         main_cate_img: "",
-    };
-    const [maincategory, setMaincategory] = useState("");
-
-    // inputValueUpdate = (val, prop) => {
-    //     const state = this.state;
-    //     state[prop] = val;
-    //     this.setMaincategory(state);
-    // }
-
-    // const handleInputChange = (event) => {
-    //     let { name, value } = event.target;
-
-    //     setMaincategory({ ...maincategory, [name]: value })
-    // };
-
+        status :"Admin"
+        }
+    );
     const saveMaincate = () => {
 
-        let statu ="Admin";
-        let img ="https://www.g-able.com/engine/wp-content/uploads/2017/11/digital4_review-4Travel.jpg";
-        let name ="ดมกหมดหกพ";
-        var data = {
-            status: statu,
-            main_cate_name: name,
-            main_cate_img:img
-        }
-        console.log(data);
-        axios.post("https://newapi-flashwork.herokuapp.com/public/addmaincate/", data)
+        axios.post("https://newapi-flashwork.herokuapp.com/public/addmaincate", maincategory)
             .then((response) => {
-                console.log(response);
+                console.log(maincategory);
 
             })
             .catch((error) => {
@@ -48,23 +29,6 @@ const Fromadd = () => {
             });
 
     }
-
-    // const saveMaincate = () => {
-    //     fetch('https://newapi-flashwork.herokuapp.com/public/addmaincate/', {
-    //         method: 'POST',
-    //         headers: {
-    //             Accept: 'application/json',
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //             main_cate_name: 'yourValue',
-    //             main_cate_img: 'https://www.g-able.com/engine/wp-content/uploads/2017/11/digital4_review-4Travel.jpg',
-    //             status :'Admin'
-    //         })
-    //     });
-    // }
-
-
     return (
         <>
             <View style={styles.view}>
@@ -85,8 +49,8 @@ const Fromadd = () => {
                             </Item> */}
                             <Label style={styles.text16}>หมวดหลัก </Label>
 
-                            {/* <TextInput name="main_cate_name" onChangeText={text => setMaincategory(text)} /> */}
-
+                            <Input name="main_cate_name" onChangeText={(e) => setMaincategory({ ...maincategory, main_cate_name: e })} />
+                            <Input name="main_cate_img" onChangeText={(e) => setMaincategory({ ...maincategory, main_cate_img: e })} />
                             <Button
                                 title="ตกลง"
                                 onPress={() => saveMaincate()}

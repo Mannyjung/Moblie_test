@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Text, Body, View } from "native-base";
-import CardList from './CardList'
-import { Data } from '../carou/data'
-import axios from 'axios'
+import axios from 'axios';
 const CardMain = () => {
     const [data, setData] = useState([]);
     useEffect(() => {

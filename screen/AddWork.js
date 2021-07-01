@@ -15,7 +15,7 @@ const AddWork = () => {
                     </Text>
                 </Header>
             </View>
-            <Fromadd key='Fromadd' />
+            <FromAddV2 key='FromAddV2r' />
         </>
     )
 }

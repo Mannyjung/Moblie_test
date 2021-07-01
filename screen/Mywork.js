@@ -9,7 +9,7 @@ const Mywork = () => {
     //const [lists, setLists] = useState(Data);
 
     const [mypost, setmypost] = useState([]);
-    console.log(mypost);
+    //console.log(mypost);
     useEffect(() => {
         axios.get("https://newapi-flashwork.herokuapp.com/public/mypost/614259048")
             .then(response => {
