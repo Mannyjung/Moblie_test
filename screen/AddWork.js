@@ -1,9 +1,6 @@
 import React from 'react';
-import { Image, View, StyleSheet, ScrollView, TouchableOpacity, Handle } from 'react-native'
-import {
-    Card, Col, Item, Input, Container, Header, Content, Button, Text, CardItem, Left, Right, Body
-} from 'native-base';
-import Fromadd from '../component/addwork/Fromadd';
+import {Text, View, StyleSheet } from 'react-native'
+import { Header } from 'native-base';
 import FromAddV2 from '../component/addwork/FromAddV2';
 const AddWork = () => {
     return (
@@ -15,7 +12,7 @@ const AddWork = () => {
                     </Text>
                 </Header>
             </View>
-            <Fromadd key='Fromadd' />
+            <FromAddV2 key='FromAddV2' />
         </>
     )
 }

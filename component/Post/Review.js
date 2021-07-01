@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Container, Content, List, ListItem, Left, Body, Right, Thumbnail, Text, Card, CardItem } from 'native-base';
+import { StyleSheet, Text } from 'react-native';
+import { Content, Left, Body, Thumbnail, Card, CardItem } from 'native-base';
 const Review = () => {
     return (
         <Content padder style={styles.content}>

@@ -1,15 +1,15 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import Carousel from './Carousel'
 import { Data } from './data'
 
 const Carouselmained = () => {
     return (
-        <>
+
             <View>
                 <Carousel key="carousel" data={Data} />
             </View>
-        </>
+
     )
 }
 

@@ -1,8 +1,8 @@
 
 import React from 'react'
-import { StyleSheet, Text, View, Dimensions, TextInput, ImageBackground, Image } from 'react-native'
-import { Card, Item, Input, Content, CardItem, Body, Form, Label, Textarea, Header, Button } from 'native-base'
-import { LinearGradient } from 'expo-linear-gradient';
+import { StyleSheet, Text, View, Dimensions, Image } from 'react-native'
+import { Card, Item, Input, CardItem, Form, Button } from 'native-base'
+
 
 import { Feather, MaterialCommunityIcons, AntDesign ,Ionicons } from '@expo/vector-icons'
 import { Actions } from 'react-native-router-flux'; 

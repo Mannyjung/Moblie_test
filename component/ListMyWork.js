@@ -1,18 +1,11 @@
 import React from 'react';
 import {
-  Image,
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  Animated,
-  TouchableOpacity,
+  Image, View, Text, StyleSheet, Dimensions, Animated, TouchableOpacity,
 } from 'react-native';
-import { Container, Header, Content, Card, CardItem, Body, Label } from "native-base";
-import { AntDesign, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
+import { Card, CardItem, Body } from "native-base";
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { Actions } from 'react-native-router-flux';
-// import CardList from './Card/CardList';
 const { width, height } = Dimensions.get('screen');
 
 const ListMyWork = ({ data }) => {
@@ -23,7 +16,7 @@ const ListMyWork = ({ data }) => {
       outputRange: [2, 0],
       extrapolate: 'clamp',
     });
-    
+
 
     return (
 
@@ -82,8 +75,8 @@ const ListMyWork = ({ data }) => {
   };
   return (
     <Swipeable renderRightActions={leftSwipe}>
-      <View style={styles.container}>
-        <Card transparent key={data.aw_id}>
+      <View style={styles.container} key={data.aw_id}>
+        <Card transparent >
           <CardItem style={styles.CardItem}>
             <Image
               source={{ uri: data.w_img_name }}

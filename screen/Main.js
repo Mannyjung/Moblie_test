@@ -1,12 +1,10 @@
 import React from 'react'
-import { Image, View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
-import {
-    Card, Col, Item, Input, Container, Header, Content, Button, Text, CardItem, Left, Right, Body
-} from 'native-base';
+import { Text,Image,StyleSheet, ScrollView} from 'react-native'
+import { Card, Col, Item, Input, Container, Header, Content, CardItem, Body} from 'native-base';
 //import Icon from 'react-native-vector-icons/FontAwesome';
 import Carouselmained from '../component/carou/Carouselmained';
 import CardMain from '../component/Card/CardMain';
-import { Actions } from 'react-native-router-flux';
+
 
 const Main = () => {
 

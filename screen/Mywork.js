@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Image, StyleSheet, TouchableOpacity, Animated, StatusBar, SafeAreaView, View, FlatList } from 'react-native';
-import { SwipeListView } from 'react-native-swipe-list-view';
-import { Container, Header, Content, Card, CardItem, Text, Body } from "native-base";
+import { StyleSheet, SafeAreaView, View, FlatList, Text } from 'react-native';
+
+import { Header } from "native-base";
 //import { Data } from '../component/carou/data'
 import ListMyWork from '../component/ListMyWork';
 import axios from 'axios'
@@ -14,10 +14,10 @@ const Mywork = () => {
         axios.get("https://newapi-flashwork.herokuapp.com/public/mypost/614259048")
             .then(response => {
                 setmypost(response.data)
-                
+
             })
             .catch(error => {
-                console.log(error);
+                // console.log(error);
             });
     }, []);
 
@@ -35,11 +35,9 @@ const Mywork = () => {
                 <FlatList
                     data={mypost}
                     renderItem={({ item, index }) => {
-                        return <ListMyWork data={item}/>;
+                        return <ListMyWork data={item} />;
                     }}
-                    ItemSeparatorComponent={() => {
-                        return <View ></View>;
-                    }}
+                 
                 />
             </SafeAreaView>
         </>

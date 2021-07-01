@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { Card, CardItem, Text, Body, View } from "native-base";
+import { Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Card, CardItem, Body, View } from "native-base";
 import axios from 'axios'
 import { Actions } from 'react-native-router-flux';
 const CardMain = () => {

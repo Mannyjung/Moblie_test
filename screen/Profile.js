@@ -1,6 +1,5 @@
 import React from 'react'
 import { Text, View, StyleSheet, ImageBackground, Image } from 'react-native'
-
 const Profile = () => {
     return (
         <>

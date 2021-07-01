@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { Text,StyleSheet } from 'react-native'
 import { Card, CardItem, Body, Content } from 'native-base';
 const DetailPost = ({ id }) => {
     return (

@@ -1,10 +1,9 @@
 import React from 'react'
-import { Text, View, ScrollView, StyleSheet, Dimensions } from 'react-native'
+import { Text, ScrollView, StyleSheet, Dimensions } from 'react-native'
 import { Content, Header } from 'native-base'
 import DetailPost from '../component/Post/DetailPost'
 import Review from '../component/Post/Review'
 import Package from '../component/Post/Package'
-import { Data } from '../component/carou/data'
 import Carouselmained from '../component/carou/Carouselmained'
 const { width, height } = Dimensions.get('screen')
 const SelectPost = ({ dataW }) => {
@@ -15,11 +14,11 @@ const SelectPost = ({ dataW }) => {
                     {dataW.aw_id}
                 </Text>
             </Header>
-            <Content  style={styles.container}>
+            <Content style={styles.container}>
                 <ScrollView >
                     <Carouselmained />
                     <DetailPost />
-                    <Package/>
+                    <Package />
                     <Review />
                 </ScrollView>
             </Content>

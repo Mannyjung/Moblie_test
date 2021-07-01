@@ -31,7 +31,7 @@ const App = () => {
           <Scene key="tabbar" showLabel={false} tabs={true} tabBarStyle={{ backgroundColor: '#fff' }}>
             <Scene key="addWork" component={AddWork} title="AddWork" icon={TabIcon} hideNavBar={true} initial={false} />
             <Scene key="loginV2" component={LoginV2} title="LoginV2" icon={TabIcon} hideNavBar={true} initial={false} />
-            <Scene key="main" title='HOME' component={Main} icon={TabIcon} hideNavBar={true} initial={true} />
+            <Scene key="main" title='HOME' component={Main} icon={TabIcon} hideNavBar={true} initial={false} />
             <Scene key="mywork" component={Mywork} title="Mywork" icon={TabIcon} hideNavBar={true} initial={false} />
             <Scene key="profile" component={Profile} title="Profile" icon={TabIcon} hideNavBar={true} initial={false} />
           </Scene>

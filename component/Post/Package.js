@@ -1,7 +1,7 @@
 import React from 'react'
-import { View, Image, StyleSheet, Dimensions } from 'react-native';
-import { Content, Card, CardItem, Text, Body, List, ListItem, Left, Thumbnail, Right, Container } from 'native-base';
-import { Entypo,Foundation  } from '@expo/vector-icons';
+import {  StyleSheet, Dimensions,Text } from 'react-native';
+import { Content, Card, CardItem,  Body, List,Left, Thumbnail, Right} from 'native-base';
+import { Foundation  } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('screen')
 const Package = () => {
     return (

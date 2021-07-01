@@ -1,4 +1,4 @@
-import { Body, Button, Card, CardItem, Content, Form, Header, Input, Item, Label, Textarea, View } from 'native-base'
+import { Button, Card, Content, Form, Header, Input, Item, Label, Textarea, View } from 'native-base'
 import React from 'react'
 import { useState } from 'react';
 import { Picker, StyleSheet, Text } from 'react-native'

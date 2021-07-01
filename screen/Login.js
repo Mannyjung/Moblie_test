@@ -1,7 +1,7 @@
 
 import React from 'react'
-import { StyleSheet, Text, View, Dimensions, TextInput, ImageBackground } from 'react-native'
-import { Card, Item, Input, Content, CardItem, Body, Form, Label, Textarea, Header, Button } from 'native-base'
+import { StyleSheet, Text, View, Dimensions } from 'react-native'
+import { Card, Item, Input,CardItem,Form, Label, Button } from 'native-base'
 import { LinearGradient } from 'expo-linear-gradient';
 import { AntDesign } from '@expo/vector-icons'
 import { Actions } from 'react-native-router-flux';
@@ -48,18 +48,15 @@ const Login = () => {
                             <Item>
                                 <Input />
                             </Item>
-
                             <Button block style={styles.button}  onPress={() => Actions.loginV2()}>
                                 <Text style={styles.text22} >เข้าสู่ระบบ</Text>
                             </Button>
                             <Button transparent light>
-                                <Text style={styles.text16}>ย้อนกลับ >></Text>
+                                <Text style={styles.text16}>ย้อนกลับ</Text>
                             </Button>
                         </Form>
-
                     </CardItem>
                 </Card>
-
             </View>
         </>
     )

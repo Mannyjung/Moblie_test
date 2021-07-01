@@ -1,29 +1,24 @@
 import React, { useState } from 'react'
-import {View, StyleSheet,Picker, Dimensions } from 'react-native'
+import { View, StyleSheet, Picker, Text, Dimensions } from 'react-native'
 import {
-    Card, Item, Input, Content, Text, CardItem, Body, Form, Label, Textarea
+    Card, Item, Input, Content, Body, Form, Label, Textarea
 } from 'native-base';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('screen')
 const FromAddV2 = () => {
-    const [selectedValue, setSelectedValue] = useState("java");
-
-    
-
+    const [selectedValue, setSelectedValue] = useState([]);
     return (
         <>
             <View style={styles.view}>
                 <Content style={styles.heades}>
                     <Card transparent>
                         <Form style={styles.from}>
-
                             <Text style={styles.text}>
                                 เนื้อหา
                             </Text>
-
                             <Label style={styles.text16}>ชื่องาน</Label>
                             <Item style={styles.item} regular>
-                                <Input  />
+                                <Input />
                             </Item>
                             <Label style={styles.text16}>ลายละเอียดงาน</Label>
                             <Item style={styles.item} regular>
@@ -47,12 +42,9 @@ const FromAddV2 = () => {
                     </Card>
                     <Card transparent>
                         <Form style={styles.from}>
-
                             <Text style={styles.text}>
                                 แพ็คเกจ
                             </Text>
-
-
                             <Label style={styles.text16}>ชื่อแพ็คเกจ</Label>
                             <Item style={styles.item} regular>
                                 <Input />
@@ -79,12 +71,9 @@ const FromAddV2 = () => {
                     </Card>
                     <Card transparent>
                         <Form style={styles.from}>
-
                             <Text style={styles.text}>
                                 รูป
                             </Text>
-
-
                             <Body>
                                 <MaterialCommunityIcons name="camera-burst" style={styles.icon} />
                                 <Label>เพิ่มรูป</Label>
@@ -102,9 +91,7 @@ const styles = StyleSheet.create({
         // flexDirection: 'row',
         // justifyContent: 'center',
         // alignItems: 'center',
-
     },
-
     heades: {
         // flex: 1,
         height: height,
