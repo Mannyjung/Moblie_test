@@ -3,7 +3,7 @@ import {
   Image, View, Text, StyleSheet, Dimensions, Animated, TouchableOpacity,
 } from 'react-native';
 import { Card, CardItem, Body } from "native-base";
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { Actions } from 'react-native-router-flux';
 const { width, height } = Dimensions.get('screen');
@@ -74,26 +74,29 @@ const ListMyWork = ({ data }) => {
     );
   };
   return (
-    <Swipeable renderRightActions={leftSwipe}>
-      <View style={styles.container} key={data.aw_id}>
-        <Card transparent >
-          <CardItem style={styles.CardItem}>
-            <Image
-              source={{ uri: data.w_img_name }}
-              style={styles.image}
-            />
-            <Body style={styles.body}>
-              <Text style={styles.textTitle}>
-                {data.aw_name}
-              </Text>
-              <Text style={styles.textDes}>
-                {/* {data.aw_detail} */}
-              </Text>
-            </Body>
-          </CardItem>
-        </Card>
-      </View>
-    </Swipeable>
+    <>
+     
+      <Swipeable renderRightActions={leftSwipe}>
+        <View style={styles.container} key={data.aw_id}>
+          <Card transparent >
+            <CardItem style={styles.CardItem}>
+              <Image
+                source={{ uri: data.w_img_name }}
+                style={styles.image}
+              />
+              <Body style={styles.body}>
+                <Text style={styles.textTitle}>
+                  {data.aw_name}
+                </Text>
+                <Text style={styles.textDes}>
+                  {/* {data.aw_detail} */}
+                </Text>
+              </Body>
+            </CardItem>
+          </Card>
+        </View>
+      </Swipeable>
+    </>
   );
 };
 

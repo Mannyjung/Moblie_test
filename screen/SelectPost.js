@@ -16,10 +16,10 @@ const SelectPost = ({ dataW }) => {
             </Header>
             <Content style={styles.container}>
                 <ScrollView >
-                    <Carouselmained />
-                    <DetailPost />
-                    <Package />
-                    <Review />
+                    <Carouselmained id={dataW.aw_id} />
+                    <DetailPost id={dataW.aw_id} />
+                    <Package id={dataW.aw_id} />
+                    <Review id={dataW.aw_id} />
                 </ScrollView>
             </Content>
         </>

@@ -1,11 +1,10 @@
-import {  Header } from 'native-base'
-import React, { useState} from 'react'
-import { Modal, Text, Image, View, StyleSheet, Dimensions, Pressable, TouchableOpacity } from 'react-native'
+import { Container, Header, Content, SwipeRow, Icon, Button } from 'native-base';
+import React, { useState } from 'react'
+import { Modal, Text, Image, View, StyleSheet, Dimensions, Pressable, TouchableOpacity, ScrollView } from 'react-native'
 import { Data } from '../carou/data'
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('screen')
 const Editpic = () => {
-    const [modalVisible, setModalVisible] = useState(false);
     return (
         <>
             <Header androidStatusBarColor="#ff5722" searchBar rounded style={{ backgroundColor: '#ff5722' }}>
@@ -13,38 +12,33 @@ const Editpic = () => {
                     รูป
                 </Text>
             </Header>
-            <View style={styles.view} >
-                {Data.map((uri) => {
-                    return (
-                        <TouchableOpacity onPress={() => setModalVisible(true)} key={uri.id}>
-                            <Image source={{ uri: uri.url }} style={styles.pic} />
-                        </TouchableOpacity>
-                    )
-                })}
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisible}
-                >
-                    <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            <AntDesign name="closecircleo" style={styles.btnclose} onPress={() => setModalVisible(!modalVisible)} />
-                            <Pressable
-                                style={[styles.button, styles.btnDelete]}
-                                onPress={() => setModalVisible(!modalVisible)}
-                            >
-                                <Text style={styles.textStyle}>ลบ</Text>
-                            </Pressable>
-                            <Pressable
-                                style={[styles.button, styles.btnEdit]}
-                                onPress={() => setModalVisible(!modalVisible)}
-                            >
-                                <Text style={styles.textStyle}>แก้ไข</Text>
-                            </Pressable>
-                        </View>
-                    </View>
-                </Modal>
-            </View>
+            <Text style={{ fontSize: 18 }}>
+                {/* เลื่อนขาว -> ซ้าย (เพื่อลบรูป) */}
+                <Ionicons name="hand-left" size={24} color="black" />ปัดซ้ายเพื่อ ลบ
+            </Text>
+
+            {/* <Container> */}
+
+
+                <ScrollView >
+                    {Data.map((uri) => {
+                        return (
+                            <SwipeRow style={{ width: width }} key={uri.id} rightOpenValue={-75}
+                                body={
+                                    <>
+                                        <Image source={{ uri: uri.url }} style={styles.pic} key={uri.id} />
+                                    </>
+                                }
+                                right={
+                                    <Button danger style={styles.butt} onPress={() => alert(uri.url)}>
+                                        <Icon active name="trash" />
+                                    </Button>
+                                }
+                            />
+                        )
+                    })}
+                </ScrollView>
+            {/* </Container> */}
         </>
     )
 }
@@ -68,50 +62,18 @@ const styles = StyleSheet.create({
         fontSize: 24
     },
     pic: {
-        width: width / 2,
-        height: 150,
-
+        // margin: -20,
+        marginTop: -13,
+        marginBottom: -15,
+        width: width,
+        height: 170,
     },
-    centeredView: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    modalView: {
-        // margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 15,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: { width: 0.5, height: 0.5 },
-        shadowOpacity: 0.1,
-        shadowRadius: 0.5,
-        elevation: 3
-    },
-    button: {
-        width: width / 2,
-        borderRadius: 20,
-        marginTop: 10,
-        padding: 10,
-        elevation: 2
-    },
-    btnDelete: {
-        backgroundColor: "red",
-    },
-    btnEdit: {
-        backgroundColor: "#3f50cc",
-    },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: "center"
+    butt:{
+        paddingBottom:-100,
+        paddingTop:-100
     }
+    
+
 })
 
 export default Editpic

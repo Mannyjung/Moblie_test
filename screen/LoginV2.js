@@ -1,13 +1,37 @@
-
-import React from 'react'
-import { StyleSheet, Text, View, Dimensions, Image } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, Text, View, Dimensions, Image, RefreshControlBase, RefreshControlComponent } from 'react-native'
 import { Card, Item, Input, CardItem, Form, Button } from 'native-base'
-
-
-import { Feather, MaterialCommunityIcons, AntDesign ,Ionicons } from '@expo/vector-icons'
-import { Actions } from 'react-native-router-flux'; 
+import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Feather, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
+import { Actions } from 'react-native-router-flux';
+import Main from './Main';
 const { width, height } = Dimensions.get('screen')
 const LoginV2 = () => {
+    const [data, setdata] = useState({
+        User_id: "",
+        User_password: ""
+    })
+    const login = async () => {
+        console.log('Post now')
+        await axios.post("https://newapi-flashwork.herokuapp.com/public/login_user", data)
+            .then(async (res) => {
+                if (res.data.message === 'Fail Login') {
+                    console.log('Failpass')
+                }
+                else if (res.data.message === 'success') {
+                    await AsyncStorage.setItem('User_id', res.data.username)
+                    await AsyncStorage.setItem('fname', res.data.fname)
+                    await AsyncStorage.setItem('lname', res.data.lname)
+                    await AsyncStorage.setItem('image', res.data.img)
+                    await AsyncStorage.setItem('status', res.data.status)
+                        // .then(ReferenceError.main())
+                }
+                else {
+                    console.log("err")
+                }
+            })
+    }
     return (
         <>
             <View style={styles.container} androidStatusBarColor="#ff5722" searchBar rounded transparent>
@@ -24,21 +48,22 @@ const LoginV2 = () => {
                         </Text>
                     </CardItem>
                 </Card>
+
                 <Card transparent >
                     <CardItem style={{ backgroundColor: 'transparent' }}>
                         <Form style={styles.from}>
                             <Item regular style={styles.inputItem}>
                                 <Feather name="user" size={24} color="black" />
-                                <Input placeholder='ชื่อผู้ใช้ / รหัสนักศึกษา' />
+                                <Input placeholder='ชื่อผู้ใช้ / รหัสนักศึกษา' name="User_id" onChangeText={(e) => setdata({ ...data, User_id: e })} />
                             </Item>
                             <Item regular style={styles.inputItem}>
                                 <MaterialCommunityIcons name="form-textbox-password" size={24} color="black" />
-                                <Input placeholder='รหัสผ่าน' />
+                                <Input placeholder='รหัสผ่าน' name="User_password" onChangeText={(e) => setdata({ ...data, User_password: e })} />
                             </Item>
-                            <Button block style={styles.button} >
-                                <Text style={styles.text22}  >เข้าสู่ระบบ</Text>
+                            <Button block style={styles.button} onPress={() => login()}  >
+                                <Text style={styles.text22} >เข้าสู่ระบบ</Text>
                             </Button>
-                            <Button transparent light  onPress={() => Actions.main()}>
+                            <Button transparent light onPress={() => Actions.main()}>
                                 <Ionicons name="arrow-back-circle-outline" size={16} color="#ff5722" />
                                 <Text style={styles.text16} >ย้อนกลับ
                                 </Text>
@@ -107,7 +132,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         padding: 30,
-        paddingBottom:10,
+        paddingBottom: 10,
         marginTop: height / 6,
         borderRadius: 10,
         shadowColor: '#000',
@@ -151,7 +176,7 @@ const styles = StyleSheet.create({
     },
     text16: {
         fontSize: 16,
-        paddingLeft:3
+        paddingLeft: 3
     },
     text22: {
         fontSize: 22,

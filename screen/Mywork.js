@@ -3,13 +3,14 @@ import { StyleSheet, SafeAreaView, View, FlatList, Text } from 'react-native';
 
 import { Header } from "native-base";
 //import { Data } from '../component/carou/data'
+import { AntDesign, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import ListMyWork from '../component/ListMyWork';
 import axios from 'axios'
 const Mywork = () => {
     //const [lists, setLists] = useState(Data);
 
     const [mypost, setmypost] = useState([]);
-    console.log(mypost);
+    // console.log(mypost);
     useEffect(() => {
         axios.get("https://newapi-flashwork.herokuapp.com/public/mypost/614259048")
             .then(response => {
@@ -31,13 +32,17 @@ const Mywork = () => {
                     </Text>
                 </Header>
             </View>
+            <Text style={{ fontSize: 18 }}>
+                {/* เลื่อนขาว -> ซ้าย (เพื่อลบรูป) */}
+                <Ionicons name="hand-left" size={24} color="black" />ปัดซ้ายเพื่อปรับปุ่ง
+            </Text>
             <SafeAreaView style={styles.container}>
                 <FlatList
                     data={mypost}
                     renderItem={({ item, index }) => {
                         return <ListMyWork data={item} />;
                     }}
-                 
+
                 />
             </SafeAreaView>
         </>

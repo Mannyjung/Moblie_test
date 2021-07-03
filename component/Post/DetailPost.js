@@ -1,29 +1,44 @@
-import React from 'react'
-import { Text,StyleSheet } from 'react-native'
+import React, { useState, useEffect } from 'react';
+import { Text, StyleSheet } from 'react-native';
 import { Card, CardItem, Body, Content } from 'native-base';
+import axios from 'axios'
 const DetailPost = ({ id }) => {
+    const [detailPost, setdetailPost] = useState([]);
+    useEffect(() => {
+        axios.get("https://newapi-flashwork.herokuapp.com/public/detailpost/" + id)
+            .then(response => {
+                setdetailPost(response.data)
+                //console.log(detailPost)
+            })
+            .catch(error => {
+                console.log(error);
+            });
+
+    }, [id]);
     return (
         <Content padder>
             <Card >
                 <CardItem header >
-                    <Body >
-                        <Text style={{ color: '#000000', fontSize: 20 }}>
-                            SEO ขั้นเทพ | สร้าง1-10ล้าน backlinks เสริมด้วย edu/gov เพิ่มอันดับเว็บให้ติดหน้าแรกๆ GOOG
-                        </Text >
-                    </Body>
+                    {detailPost.map((detailPosts) => {
+                        return (
+                            <Body >
+                                <Text style={{ color: '#000000', fontSize: 20 }}>
+                                    {detailPosts.aw_name}
+                                </Text >
+                            </Body>
+                        )
+                    })}
                 </CardItem>
                 <CardItem>
+                {detailPost.map((detailPosts) => {
+                        return (
                     <Body>
                         <Text>
-                            ขั้นตอนการทำงาน
-                            สำหรับ SEO ขั้นเทพ | สร้าง1-10ล้าน backlinks เสริมด้วย edu/gov เพิ่มอันดับเว็บให้ติดหน้าแรกๆ GOOGLE
-                            1. เเจ้ง URL เเละ KEYWORD ที่ต้องการ
-                            2. ทางเราจะเสนอราคาไป
-                            3. หากตกลงกันเเล้ว ลูกค้าชำระเงิน
-                            4. เราจะเริ่มสร้าง white hat seo backlink ให้ ใช้เวลาประมาณ 7-14 วัน
-                            5. ส่งงานขั้นสุดท้าย เทพจัด
+                           {detailPosts.aw_detail}
                         </Text>
                     </Body>
+                    )
+                })}
                 </CardItem>
             </Card>
         </Content>
@@ -36,4 +51,3 @@ const styles = StyleSheet.create({
 })
 
 export default DetailPost
-

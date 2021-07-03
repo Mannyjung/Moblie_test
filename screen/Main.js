@@ -30,6 +30,7 @@ const Main = () => {
                 <Content>
                 {/* import Carouselmained from '../component/carou/Carouselmained'; */}
                     <Carouselmained key='carou'/>
+                
                     <ScrollView
                         style={{ flex: 1 }}
                         contentContainerStyle={{ flexGlow: 1 }}
