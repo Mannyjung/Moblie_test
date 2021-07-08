@@ -6,7 +6,8 @@ import Review from '../component/Post/Review'
 import Package from '../component/Post/Package'
 import Carouselmained from '../component/carou/Carouselmained'
 const { width, height } = Dimensions.get('screen')
-const SelectPost = ({ dataW }) => {
+const SelectPost = ({ route, navigation }) => {
+    const { dataW } = route.params;
     return (
         <>
             <Header androidStatusBarColor="#ff5722" searchBar rounded style={{ backgroundColor: '#ff5722' }}>
@@ -17,7 +18,7 @@ const SelectPost = ({ dataW }) => {
             <Content style={styles.container}>
                 <ScrollView >
                     <Carouselmained id={dataW.aw_id} />
-                    <DetailPost id={dataW.aw_id} />
+                    {/* <DetailPost id={dataW.aw_id} /> */}
                     <Package id={dataW.aw_id} />
                     <Review id={dataW.aw_id} />
                 </ScrollView>

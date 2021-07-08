@@ -3,7 +3,7 @@ import { Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Card, CardItem, Body, View } from "native-base";
 import axios from 'axios'
 import { Actions } from 'react-native-router-flux';
-const CardMain = () => {
+const CardMain = ({ navigation }) => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
@@ -23,7 +23,13 @@ const CardMain = () => {
             {data.map((dataW) => {
                 return (
                     <Card transparent key={dataW.aw_id}>
-                        <TouchableOpacity style={styles.touch} onPress={() => Actions.selectpost({ dataW })} >
+                        <TouchableOpacity style={styles.touch} onPress={() => {
+                            /* 1. Navigate to the Details route with params */
+                            navigation.navigate('selectpost', {
+                                dataW: dataW,
+                                
+                            });
+                        }} >
                             <CardItem style={styles.CardItem}>
                                 <Image
                                     source={{ uri: dataW.w_img_name }}

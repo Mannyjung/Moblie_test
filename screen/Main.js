@@ -6,7 +6,7 @@ import Carouselmained from '../component/carou/Carouselmained';
 import CardMain from '../component/Card/CardMain';
 
 
-const Main = () => {
+const Main = ({navigation}) => {
 
     return (
         <>
@@ -48,7 +48,7 @@ const Main = () => {
                             </Card>
                         </Content>
                         {/* import CardMain from '../component/Card/CardMain'; */}
-                        <CardMain key='cardlist'/>
+                        <CardMain key='cardlist' navigation={navigation}/>
                         
                     </ScrollView>
                 </Content>

@@ -7,7 +7,7 @@ import { Feather, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
 import { Actions } from 'react-native-router-flux';
 import Main from './Main';
 const { width, height } = Dimensions.get('screen')
-const LoginV2 = () => {
+const LoginV2 = ({ navigation }) => {
     const [data, setdata] = useState({
         User_id: "",
         User_password: ""
@@ -18,6 +18,8 @@ const LoginV2 = () => {
             .then(async (res) => {
                 if (res.data.message === 'Fail Login') {
                     console.log('Failpass')
+                    navigation.navigate('login')
+
                 }
                 else if (res.data.message === 'success') {
                     await AsyncStorage.setItem('User_id', res.data.username)
@@ -25,7 +27,12 @@ const LoginV2 = () => {
                     await AsyncStorage.setItem('lname', res.data.lname)
                     await AsyncStorage.setItem('image', res.data.img)
                     await AsyncStorage.setItem('status', res.data.status)
-                        // .then(ReferenceError.main())
+                    if (res.data.status == 'Student') {
+                        navigation.navigate('student')
+                    }
+                    else if (res.data.status == 'Employer') {
+                        navigation.navigate('employer')
+                    }
                 }
                 else {
                     console.log("err")

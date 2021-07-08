@@ -1,157 +1,246 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react'
-import { View, Text, FlatList, StyleSheet } from 'react-native'
+import { View, Text, FlatList, StyleSheet, Dimensions } from 'react-native'
 import { Router, Scene } from 'react-native-router-flux'
-
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { MaterialCommunityIcons, AntDesign, FontAwesome5 } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons, AntDesign, FontAwesome5, Entypo, Ionicons } from '@expo/vector-icons';
 // import Tabbar from './component/Tabbar'
 import Main from './screen/Main'
 import AddWork from './screen/AddWork'
 import Profile from './screen/Profile';
-import LoginV2 from './screen/LoginV2';
+import Login from './screen/LoginV2';
 import Mywork from './screen/Mywork';
 import Editpic from './component/Edit/Editpic';
 import Editpack from './component/Edit/Editpack';
 import Editwork from './component/Edit/Editwork';
 import SelectPost from './screen/SelectPost';
 import Addpack from './component/Edit/Addpackage';
-import Employment from './screen/Employment';
+import EmploymentFL from './screen/EmploymentFL';
+import EmploymentEmp from './screen/EmploymentEmp';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+
+const { width, hieght } = Dimensions.get('screen')
+const Stack = createStackNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 
-
-
-const iMain = (props) => {
-  let textColor = props.focused ? '#ff5722' : '#999999'
-  return (
-    <>
-      <MaterialCommunityIcons name="home-circle-outline" size={24} style={{ color: textColor }} />
-      <Text style={{ color: textColor }}>{props.title}</Text>
-    </>
-  )
+function NotLogin() {
+    return (
+        <Tab.Navigator
+            initialRouteName="Main"
+            activeColor="#e91e63"
+            barStyle={{ backgroundColor: '#fff' }}
+        >
+            <Tab.Screen
+                name="Main"
+                component={Main}
+                options={{
+                    tabBarLabel: 'หน้าหลัก',
+                    tabBarIcon: ({ color }) => (
+                        <MaterialCommunityIcons name="home-circle-outline" size={26} color={color} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Login"
+                component={Login}
+                options={{
+                    tabBarLabel: 'เข้าสู่ระบบ',
+                    tabBarIcon: ({ color }) => (
+                        <AntDesign name="login" size={22} color={color} />
+                    ),
+                }}
+            />
+        </Tab.Navigator>
+    );
 }
-const iProfile = (props) => {
-  let textColor = props.focused ? '#ff5722' : '#999999'
-  return (
-    <>
-      <MaterialCommunityIcons name="face-profile" size={24} style={{ color: textColor }} />
-      <Text style={{ color: textColor }}>{props.title}</Text>
-    </>
-  )
+function Student() {
+    return (
+        <Tab.Navigator
+            initialRouteName="Main"
+            activeColor="#fff"
+            barStyle={{ backgroundColor: '#ff5990' }}
+        >
+            <Tab.Screen
+                name="Main"
+                component={Main}
+                options={{
+                    tabBarLabel: 'หน้าหลัก',
+                    tabBarIcon: ({ color }) => (
+                        <MaterialCommunityIcons name="home-circle-outline" size={26} color={color} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Mywork"
+                component={Mywork}
+                options={{
+                    tabBarLabel: 'Mywork',
+                    tabBarIcon: ({ color }) => (
+                        <Entypo name="network" size={22} color={color} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Employment"
+                component={EmploymentFL}
+                options={{
+                    tabBarLabel: 'Employment',
+                    tabBarIcon: ({ color }) => (
+                        <Ionicons name="list-circle" size={26} color={color} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Addwork"
+                component={AddWork}
+                options={{
+                    tabBarLabel: 'Addwork',
+                    tabBarIcon: ({ color }) => (
+                        <Ionicons name="md-add-circle" size={26} color={color} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Profile"
+                component={Profile}
+                options={{
+                    tabBarLabel: 'Profile',
+                    tabBarIcon: ({ color }) => (
+                        <MaterialCommunityIcons name="face-profile" size={26} color={color} />
+                    ),
+                }}
+            />
+
+        </Tab.Navigator>
+    );
 }
-const iAddWork = (props) => {
-  let textColor = props.focused ? '#ff5722' : '#999999'
-  return (
-    <>
-      <FontAwesome5 name="creative-commons-sampling-plus" size={24} style={{ color: textColor }} />
-      <Text style={{ color: textColor }}>{props.title}</Text>
-    </>
-  )
+function Employer() {
+    return (
+        <Tab.Navigator
+            initialRouteName="Main"
+            activeColor="#e91e63"
+            barStyle={{ backgroundColor: '#000' }}
+        >
+            <Tab.Screen
+                name="Main"
+                component={Main}
+                options={{
+                    tabBarLabel: 'Home',
+                    tabBarIcon: ({ color }) => (
+                        <MaterialCommunityIcons name="home-circle-outline" size={26} color={color} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Employment"
+                component={EmploymentEmp}
+                options={{
+                    tabBarLabel: 'Employment',
+                    tabBarIcon: ({ color }) => (
+                        <MaterialCommunityIcons name="account" color={color} size={26} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Profile"
+                component={Profile}
+                options={{
+                    tabBarLabel: 'Profile',
+                    tabBarIcon: ({ color }) => (
+                        <MaterialCommunityIcons name="face-profile" size={26} color={color} />
+                    ),
+                }}
+            />
+        </Tab.Navigator>
+    );
 }
-const iLoginV2 = (props) => {
-  let textColor = props.focused ? '#ff5722' : '#999999'
-  return (
-    <>
-      <AntDesign name="login" size={20} style={{ color: textColor }} />
-      <Text style={{ color: textColor }}>{props.title}</Text>
-    </>
-  )
-}
-const iEmployment = (props) => {
-  let textColor = props.focused ? '#ff5722' : '#999999'
-  return (
-    <>
-      <AntDesign name="login" size={20} style={{ color: textColor }} />
-      <Text style={{ color: textColor }}>{props.title}</Text>
-    </>
-  )
-}
+
+const App = ({ navigation }) => {
+    const [data, setdata] = useState({
+        Status: ""
+    })
+    useEffect(() => {
+        onLoad()
+    }, []);
+    const onLoad = async () => {
+        const status = await AsyncStorage.getItem('status');
+        setdata({ ...data, Status: status })
+    }
+    let status = data.Status
+    return (
+        <>
+            <NavigationContainer>
+                <Stack.Navigator screenOptions={{
+                    headerShown: false
+                }}>
+                    {/* {status == "Student" ?
+                        (
+                            <Stack.Screen name="student" component={Student} />
+                        )
+
+                        :
+                        status == "Employer" ?
+                            (
+                                <Stack.Screen name="employer" component={Employer} />
+                            )
+                            :
+                            (
+                                <Stack.Screen name="login" component={NotLogin} />
+                            )
+                    } */}
+                    
+                    <Stack.Screen name="login" component={NotLogin} />
+                    <Stack.Screen name="student" component={Student} />
+                    <Stack.Screen name="employer" component={Employer} />
+                    <Stack.Screen name="selectpost" component={SelectPost} />
+                    <Stack.Screen name="editpic" component={Editpic} />
+                    <Stack.Screen name="editpack" component={Editpack} />
+                    <Stack.Screen name="editwork" component={Editwork} />
+                    <Stack.Screen name="addpack" component={Addpack} />
 
 
-const App = () => {
-  const [data, setdata] = useState({
-    Status: ""
-  })
-  useEffect(() => {
-    onLoad()
-  }, []);
-  const onLoad = async () => {
-    const status = await AsyncStorage.getItem('status');
-    setdata({ ...data, Status: status })
-  }
 
-  return (
+                </Stack.Navigator>
 
-    <Router >
-      {
-        data.Status == 'Employer' ?
-          <Scene key="root" hideNavBar={true} >
-            <Scene key="tabbar" showLabel={false} tabs={true} tabBarStyle={{ backgroundColor: '#fff' }}>
-              <Scene key="main" title='HOME' component={Main} icon={iMain} hideNavBar={true} initial={true} />
-              <Scene key="profile" component={Profile} title="Profile" icon={iProfile} hideNavBar={true} initial={false} />
-            </Scene>
-            <Scene key="selectpost" component={SelectPost} title="SelectPost" hideNavBar={true} initial={false} />
-          </Scene>
-          :
-          data.Status == 'Student' ?
-            <Scene key="root" hideNavBar={true} >
-              <Scene key="tabbar" showLabel={false} tabs={true} tabBarStyle={{ backgroundColor: '#fff' }}>
-                <Scene key="addWork" component={AddWork} title="AddWork" icon={iAddWork} hideNavBar={true} initial={false} />
-                <Scene key="main" title='HOME' component={Main} icon={iMain} hideNavBar={true} initial={true} />
-                <Scene key="profile" component={Profile} title="Profile" icon={iProfile} hideNavBar={true} initial={false} />
-              </Scene>
-              <Scene key="mywork" component={Mywork} title="Mywork" hideNavBar={true} initial={false} />
-              <Scene key="editpic" component={Editpic} title="Editpic" hideNavBar={true} initial={false} />
-              <Scene key="editpack" component={Editpack} title="Editpack" hideNavBar={true} initial={false} />
-              <Scene key="editwork" component={Editwork} title="Editwork" hideNavBar={true} initial={false} />
-              <Scene key="selectpost" component={SelectPost} title="SelectPost" hideNavBar={true} initial={false} />
-              <Scene key="addpack" component={Addpack} title="Addpack" hideNavBar={true} initial={false} />
-            </Scene>
-            : data.Status == '' ?
-              <Scene key="root" hideNavBar={true} >
-                <Scene key="tabbar" showLabel={false} tabs={true} tabBarStyle={{ backgroundColor: '#fff' }}>
-                  <Scene key="loginV2" component={LoginV2} title="LoginV2" icon={iLoginV2} hideNavBar={true} initial={false} />
-                  <Scene key="main" title='HOME' component={Main} icon={iMain} hideNavBar={true} initial={true} />
-                </Scene>
-                <Scene key="selectpost" component={SelectPost} title="SelectPost" hideNavBar={true} initial={false} />
-              </Scene>
-              :
-              <Scene key="root" hideNavBar={true} >
-                <Scene key="tabbar" showLabel={false} tabs={true} tabBarStyle={{ backgroundColor: '#fff' }}>
-                  <Scene key="addWork" component={AddWork} title="AddWork" icon={iAddWork} hideNavBar={true} initial={false} />
-                  <Scene key="loginV2" component={LoginV2} title="LoginV2" icon={iLoginV2} hideNavBar={true} initial={false} />
-                  <Scene key="employment" component={Employment} title="Employment" icon={iEmployment} hideNavBar={true} initial={false} />
-                  <Scene key="main" title='HOME' component={Main} icon={iMain} hideNavBar={true} initial={true} />
-                  <Scene key="profile" component={Profile} title="Profile" icon={iProfile} hideNavBar={true} initial={false} />
-                </Scene>
-                <Scene key="mywork" component={Mywork} title="Mywork" hideNavBar={true} initial={false} />
-                <Scene key="editpic" component={Editpic} title="Editpic" hideNavBar={true} initial={false} />
-                <Scene key="editpack" component={Editpack} title="Editpack" hideNavBar={true} initial={false} />
-                <Scene key="editwork" component={Editwork} title="Editwork" hideNavBar={true} initial={false} />
-                <Scene key="selectpost" component={SelectPost} title="SelectPost" hideNavBar={true} initial={false} />
-                <Scene key="addpack" component={Addpack} title="Addpack" hideNavBar={true} initial={false} />
-              </Scene>
-      }
-    </Router>
-
-  )
+            </NavigationContainer>
+        </>
+    )
 }
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ea3345',
-    justifyContent: 'center',
-    alignItems: 'center',
+    container: {
+        flex: 1,
+        backgroundColor: '#ea3345',
+        justifyContent: 'center',
+        alignItems: 'center',
 
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10
-  }
+    },
+    welcome: {
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 10
+    },
+    butt: {
+        width: width / 5,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    viewicon: {
+        flexDirection: "row",
+        justifyContent: "center",
+        backgroundColor: "#000000a0",
+
+        padding: 20
+
+    },
+    viewin: {
+        marginRight: 10,
+        marginLeft: 10
+    }
+
 
 })
 
 export default App
-

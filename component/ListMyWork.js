@@ -82,7 +82,7 @@ const ListMyWork = ({ data }) => {
             <CardItem style={styles.CardItem}>
               <Image
                 source={{ uri: data.w_img_name }}
-                style={styles.image}
+                style={styles.imageHead}
               />
               <Body style={styles.body}>
                 <Text style={styles.textTitle}>
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     width: 70,
     height: height / 7,
   },
-  image: {
+  imageHead: {
     width: 150,
     height: 130,
     borderRadius: 10,

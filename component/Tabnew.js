@@ -4,45 +4,11 @@ import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { Icon, Item } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Main from './Main';
-import Tabnew from '../component/Tabnew';
-const Profile = ({ navigation }) => {
-    const [data, setdata] = useState({
-        User_id: "",
-        Image: "",
-        Name: "",
-        Status: ""
-    })
-    useEffect(() => {
-        onLoad()
+const Tabnew = ({ navigation }) => {
 
-    }, []);
-    const onLoad = async () => {
-        const User_id = await AsyncStorage.getItem('User_id');
-        const name = await AsyncStorage.getItem('fname');
-        const image = await AsyncStorage.getItem('image');
-        const status = await AsyncStorage.getItem('status');
-        setdata({ ...data, User_id: User_id, Image: image, Name: name, Status: status })
-    }
-    const removeValue = async () => {
-        await AsyncStorage.clear()
-        console.log('clear')
-        navigation.navigate('login')
-    }
     return (
         <>
-            <View style={styles.view}>
-                <ImageBackground source={{uri:data.Image}} style={styles.imageBg}>
-                </ImageBackground>
-                <View style={styles.viewImg}>
-                    <Image
-                        source={{uri:data.Image}}
-                        style={styles.image}
-                    />
-                </View>
-                <Text style={styles.text}>
-                    {data.Name}
-                </Text>
+           
                 <View style={styles.viewicon}>
                     <View style={styles.viewin}>
                         <MaterialIcons onPress={() => navigation.navigate('Mywork')} style={styles.icon} name="work-outline" />
@@ -62,8 +28,8 @@ const Profile = ({ navigation }) => {
                         <Text style={styles.texticon}>Logout</Text>
                     </View>
                 </View>
-                {/* <Tabnew/> */}
-            </View>
+
+      
         </>
     )
 }
@@ -126,4 +92,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default Profile
+export default Tabnew
