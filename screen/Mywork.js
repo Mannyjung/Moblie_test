@@ -49,7 +49,7 @@ let userID = data.Username
                 <FlatList
                     data={mypost}
                     renderItem={({ item, index }) => {
-                        return <ListMyWork data={item} />;
+                        return <ListMyWork data={item} navigation/>;
                     }}
 
                 />

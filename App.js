@@ -172,40 +172,51 @@ const App = ({ navigation }) => {
     let status = data.Status
     return (
         <>
-            <NavigationContainer>
-                <Stack.Navigator screenOptions={{
-                    headerShown: false
-                }}>
-                    {/* {status == "Student" ?
-                        (
+            {data.Status === 'Student' ?
+                <NavigationContainer>
+                    <Stack.Navigator screenOptions={{
+                        headerShown: false
+                    }}>
+                        <Stack.Screen name="student" component={Student} />
+                        <Stack.Screen name="employer" component={Employer} />
+                        <Stack.Screen name="login" component={NotLogin} />
+                        <Stack.Screen name="selectpost" component={SelectPost} />
+                        <Stack.Screen name="editpic" component={Editpic} />
+                        <Stack.Screen name="editpack" component={Editpack} />
+                        <Stack.Screen name="editwork" component={Editwork} />
+                        <Stack.Screen name="addpack" component={Addpack} />
+                    </Stack.Navigator>
+
+
+                </NavigationContainer> :
+                data.Status === 'Employer' ?
+                    <NavigationContainer>
+                        <Stack.Navigator screenOptions={{
+                            headerShown: false
+                        }}>
+                            <Stack.Screen name="employer" component={Employer} />
                             <Stack.Screen name="student" component={Student} />
-                        )
+                            <Stack.Screen name="login" component={NotLogin} />
+                            <Stack.Screen name="selectpost" component={SelectPost} />
 
-                        :
-                        status == "Employer" ?
-                            (
-                                <Stack.Screen name="employer" component={Employer} />
-                            )
-                            :
-                            (
+                        </Stack.Navigator>
+
+                    </NavigationContainer> :
+                    data.Status === null || '' ?
+                        <NavigationContainer>
+                            <Stack.Navigator screenOptions={{
+                                headerShown: false
+                            }}>
                                 <Stack.Screen name="login" component={NotLogin} />
-                            )
-                    } */}
-                    
-                    <Stack.Screen name="login" component={NotLogin} />
-                    <Stack.Screen name="student" component={Student} />
-                    <Stack.Screen name="employer" component={Employer} />
-                    <Stack.Screen name="selectpost" component={SelectPost} />
-                    <Stack.Screen name="editpic" component={Editpic} />
-                    <Stack.Screen name="editpack" component={Editpack} />
-                    <Stack.Screen name="editwork" component={Editwork} />
-                    <Stack.Screen name="addpack" component={Addpack} />
+                                <Stack.Screen name="employer" component={Employer} />
+                                <Stack.Screen name="student" component={Student} />
+                                <Stack.Screen name="selectpost" component={SelectPost} />
 
+                            </Stack.Navigator>
+                        </NavigationContainer> :
+                        null
 
-
-                </Stack.Navigator>
-
-            </NavigationContainer>
+            }
         </>
     )
 }

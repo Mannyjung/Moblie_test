@@ -8,7 +8,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { Actions } from 'react-native-router-flux';
 const { width, height } = Dimensions.get('screen');
 
-const ListMyWork = ({ data }) => {
+const ListMyWork = ({ data, navigation }) => {
 
   const leftSwipe = (progress, dragX) => {
     const scale = dragX.interpolate({
@@ -21,7 +21,13 @@ const ListMyWork = ({ data }) => {
     return (
 
       <>
-        <TouchableOpacity activeOpacity={0.6} onPress={() => Actions.editwork()}>
+        <TouchableOpacity activeOpacity={0.6}
+          onPress={() => {
+            navigation.navigate('editwork', {
+              dataW: data.aw_id,
+            });
+          }}>
+
           <View style={styles.editBox} >
             <Animated.Text style={{ transform: [{ scale: scale }] }} >
               <View >
@@ -37,7 +43,11 @@ const ListMyWork = ({ data }) => {
             </Animated.Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.6} onPress={() => Actions.editpack()}>
+        <TouchableOpacity activeOpacity={0.6} onPress={() => {
+          navigation.navigate('editpack', {
+            dataW: data.aw_id,
+          });
+        }}>
           <View style={styles.packBox}>
             <Animated.Text style={{ transform: [{ scale: scale }] }}>
               <View >
@@ -53,7 +63,11 @@ const ListMyWork = ({ data }) => {
             </Animated.Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.6} onPress={() => Actions.editpic()}>
+        <TouchableOpacity activeOpacity={0.6} onPress={() => {
+          navigation.navigate('editpic', {
+            dataW: data.aw_id,
+          });
+        }}>
           <View style={styles.picBox}>
             <Animated.Text style={{ transform: [{ scale: scale }] }}>
               <View >
@@ -75,7 +89,7 @@ const ListMyWork = ({ data }) => {
   };
   return (
     <>
-     
+
       <Swipeable renderRightActions={leftSwipe}>
         <View style={styles.container} key={data.aw_id}>
           <Card transparent >

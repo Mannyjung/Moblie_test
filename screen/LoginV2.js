@@ -65,7 +65,7 @@ const LoginV2 = ({ navigation }) => {
                             </Item>
                             <Item regular style={styles.inputItem}>
                                 <MaterialCommunityIcons name="form-textbox-password" size={24} color="black" />
-                                <Input placeholder='รหัสผ่าน' name="User_password" onChangeText={(e) => setdata({ ...data, User_password: e })} />
+                                <Input placeholder='รหัสผ่าน' name="User_password" secureTextEntry={true} onChangeText={(e) => setdata({ ...data, User_password: e })} />
                             </Item>
                             <Button block style={styles.button} onPress={() => login()}  >
                                 <Text style={styles.text22} >เข้าสู่ระบบ</Text>

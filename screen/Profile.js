@@ -32,7 +32,7 @@ const Profile = ({ navigation }) => {
     return (
         <>
             <View style={styles.view}>
-                <ImageBackground source={{uri:data.Image}} style={styles.imageBg}>
+                <ImageBackground source={{uri:data.Image} || ''} style={styles.imageBg}>
                 </ImageBackground>
                 <View style={styles.viewImg}>
                     <Image

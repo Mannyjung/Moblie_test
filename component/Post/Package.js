@@ -154,13 +154,13 @@ const Package = ({ id }) => {
                                     </Text>
                                 </Body>
                             </CardItem>
-                            <Button style={{ marginLeft: "3%" }}
+                            <Button style={{ marginLeft:20,margin:5 }} transparent
                                 onPress={() => showConfirm(detailPacks.pk_id, detailPacks.pk_name)}>
                                 <CardItem footer bordered style={{ backgroundColor: '#ff5957' }}>
                                     <Text style={{ color: '#fff' }}>ราคา {detailPacks.pk_price} บาท</Text>
                                     <Right style={{ paddingLeft: 150 }}>
                                         <Text style={{ color: '#fff' }}>
-                                            สนใจ
+                                            สนใจจ้าง
                                         </Text>
                                     </Right>
                                 </CardItem>
@@ -193,10 +193,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#F57C00'
     },
     card: {
-        padding: 5
+        padding: 3
     },
     content: {
-        marginTop: -20
+        marginTop: -15
     }
 })
 

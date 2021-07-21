@@ -23,17 +23,16 @@ const CardMain = ({ navigation }) => {
             {data.map((dataW) => {
                 return (
                     <Card transparent key={dataW.aw_id}>
-                        <TouchableOpacity style={styles.touch} onPress={() => {
-                            /* 1. Navigate to the Details route with params */
-                            navigation.navigate('selectpost', {
-                                dataW: dataW,
-                                
-                            });
-                        }} >
+                        <TouchableOpacity style={styles.touch}
+                            onPress={() => {
+                                navigation.navigate('selectpost', {
+                                    dataW: dataW,
+                                });
+                            }} >
                             <CardItem style={styles.CardItem}>
                                 <Image
                                     source={{ uri: dataW.w_img_name }}
-                                    style={styles.image}
+                                    style={styles.imageCard}
                                 />
                                 <Body style={styles.body}>
                                     <Text style={styles.textTitle}>
@@ -52,7 +51,7 @@ const CardMain = ({ navigation }) => {
     )
 }
 const styles = StyleSheet.create({
-    image: {
+    imageCard: {
         width: 150,
         height: 100,
         borderRadius: 10,

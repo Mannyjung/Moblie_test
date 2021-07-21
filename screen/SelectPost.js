@@ -18,7 +18,6 @@ const SelectPost = ({ route, navigation }) => {
             <Content style={styles.container}>
                 <ScrollView >
                     <Carouselmained id={dataW.aw_id} />
-                    {/* <DetailPost id={dataW.aw_id} /> */}
                     <Package id={dataW.aw_id} />
                     <Review id={dataW.aw_id} />
                 </ScrollView>
