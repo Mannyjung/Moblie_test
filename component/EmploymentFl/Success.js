@@ -22,7 +22,7 @@ const Success = ({Userid}) => {
     <Content padder>
       {employmentFlSuc.map((employmentFlSucs) => {
         return (
-          <>
+        
             <Card key={employmentFlSucs.emm_id}>
               <CardItem header bordered>
                 <Body>
@@ -73,7 +73,7 @@ const Success = ({Userid}) => {
 
               </CardItem>
             </Card>
-          </>
+       
         )
       })}
     </Content>

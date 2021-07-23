@@ -5,7 +5,6 @@ import axios from 'axios'
 import { Actions } from 'react-native-router-flux';
 const CardMain = ({ navigation }) => {
     const [data, setData] = useState([]);
-
     useEffect(() => {
         axios.get("https://newapi-flashwork.herokuapp.com/public/show_work")
             .then(response => {
@@ -14,10 +13,7 @@ const CardMain = ({ navigation }) => {
             .catch(error => {
                 console.log(error);
             });
-
     }, []);
-
-
     return (
         <View style={styles.heades}>
             {data.map((dataW) => {
@@ -32,7 +28,7 @@ const CardMain = ({ navigation }) => {
                             <CardItem style={styles.CardItem}>
                                 <Image
                                     source={{ uri: dataW.w_img_name }}
-                                    style={styles.imageCard}
+                                    style={styles.imgCard}
                                 />
                                 <Body style={styles.body}>
                                     <Text style={styles.textTitle}>
@@ -51,7 +47,7 @@ const CardMain = ({ navigation }) => {
     )
 }
 const styles = StyleSheet.create({
-    imageCard: {
+    imgCard: {
         width: 150,
         height: 100,
         borderRadius: 10,
@@ -61,7 +57,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 1, height: 1 },
         shadowOpacity: 0.5,
         shadowRadius: 3,
-        elevation: 5,
+        // elevation: 5,
         backgroundColor: '#fff'
     },
     heades: {

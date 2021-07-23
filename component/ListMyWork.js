@@ -7,8 +7,10 @@ import { AntDesign, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { Actions } from 'react-native-router-flux';
 const { width, height } = Dimensions.get('screen');
+import { useNavigation } from '@react-navigation/native';
 
-const ListMyWork = ({ data, navigation }) => {
+const ListMyWork = ({ data }) => {
+  const navigation = useNavigation();
 
   const leftSwipe = (progress, dragX) => {
     const scale = dragX.interpolate({
@@ -17,16 +19,11 @@ const ListMyWork = ({ data, navigation }) => {
       extrapolate: 'clamp',
     });
 
-
     return (
 
       <>
         <TouchableOpacity activeOpacity={0.6}
-          onPress={() => {
-            navigation.navigate('editwork', {
-              dataW: data.aw_id,
-            });
-          }}>
+          onPress={() => navigation.navigate('editwork', { data_id: data.aw_id, })}>
 
           <View style={styles.editBox} >
             <Animated.Text style={{ transform: [{ scale: scale }] }} >
@@ -45,7 +42,7 @@ const ListMyWork = ({ data, navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.6} onPress={() => {
           navigation.navigate('editpack', {
-            dataW: data.aw_id,
+            data_id: data.aw_id,
           });
         }}>
           <View style={styles.packBox}>
@@ -65,7 +62,7 @@ const ListMyWork = ({ data, navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.6} onPress={() => {
           navigation.navigate('editpic', {
-            dataW: data.aw_id,
+            data_id: data.aw_id,
           });
         }}>
           <View style={styles.picBox}>
@@ -156,7 +153,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.5,
     shadowRadius: 3,
-    elevation: 5,
+    // elevation: 5,
     backgroundColor: '#fff'
   }
   ,
@@ -171,7 +168,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0.5, height: 0.5 },
     shadowOpacity: 0.5,
     shadowRadius: 3,
-    elevation: 5,
+    // elevation: 5,
     backgroundColor: '#fff'
   }
   ,

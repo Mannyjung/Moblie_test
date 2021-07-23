@@ -30,7 +30,7 @@ const EmploymentEmp = () => {
                     <WaitFree Userid={Userid} />
                 </Tab>
                 <Tab heading={<TabHeading style={styles.head}><Text style={styles.text}>กำลังดำเนินการ</Text></TabHeading>}>
-                    <WorkEmp Userid={Userid} />
+                    <WorkEmp Userid={Userid}  />
                 </Tab>
                 <Tab heading={<TabHeading style={styles.head}><Text style={styles.text}>เสร็จสิ้น</Text></TabHeading>}>
                     <SucEmp Userid={Userid} />

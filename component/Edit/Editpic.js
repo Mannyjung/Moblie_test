@@ -4,12 +4,13 @@ import { Modal, Text, Image, View, StyleSheet, Dimensions, Pressable, TouchableO
 import { Data } from '../carou/data'
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('screen')
-const Editpic = () => {
+const Editpic = ({route}) => {
+    const {data_id} = route.params;
     return (
         <>
             <Header androidStatusBarColor="#ff5722" searchBar rounded style={{ backgroundColor: '#ff5722' }}>
                 <Text style={styles.textStyle}>
-                    รูป
+                    รูป {data_id}
                 </Text>
             </Header>
             <Text style={{ fontSize: 18 }}>

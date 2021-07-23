@@ -6,7 +6,7 @@ import { AntDesign, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ListMyWork from '../component/ListMyWork';
 import axios from 'axios'
-const Mywork = () => {
+const Mywork = ({navigation}) => {
     const [data, setdata] = useState({
         Username: ""
     })
@@ -43,13 +43,14 @@ let userID = data.Username
             </View>
             <Text style={{ fontSize: 18 }}>
                 {/* เลื่อนขาว -> ซ้าย (เพื่อลบรูป) */}
-                <Ionicons name="hand-left" size={24} color="black" />ปัดซ้ายเพื่อปรับปุ่ง
+                <Ionicons name="hand-left" size={24} color="black" />ปัดซ้ายเพื่อปรับปรุง
             </Text>
+       
             <SafeAreaView style={styles.container}>
                 <FlatList
                     data={mypost}
                     renderItem={({ item, index }) => {
-                        return <ListMyWork data={item} navigation/>;
+                        return <ListMyWork data={item}/>;
                     }}
 
                 />

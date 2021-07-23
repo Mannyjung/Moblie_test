@@ -21,7 +21,7 @@ const SucEmp = ({ Userid }) => {
     <Content padder>
       {getsuccess.map((getsucc) => {
         return (
-          <Card>
+          <Card key={getsucc.emm_std_id}>
             <CardItem header bordered>
               <Body>
                 <Text style={styles.text}>

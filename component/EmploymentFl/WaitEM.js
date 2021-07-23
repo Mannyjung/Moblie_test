@@ -54,7 +54,7 @@ let userID = Userid
     <Content padder>
       {employmentFlReq.map((employmentFlReqs) => {
         return (
-          <>
+        
             <Card key={employmentFlReqs.emm_id}>
               <CardItem header bordered>
                 <Body>
@@ -111,7 +111,7 @@ let userID = Userid
                 </Right>
               </CardItem>
             </Card>
-          </>
+       
         )
       })}
     </Content>

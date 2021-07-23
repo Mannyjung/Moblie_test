@@ -2,14 +2,15 @@ import { Button, Card, Content, Form, Header, Input, Item, Label, Textarea } fro
 import React, { useState } from 'react'
 
 import { Picker, StyleSheet, Text, View } from 'react-native'
-const Editwork = () => {
-   
+const Editwork = ({ route }) => {
+    const { data_id } = route.params;
+    console.log(data_id)
     return (
         <>
             <View >
                 <Header androidStatusBarColor="#ff5722" searchBar rounded style={{ backgroundColor: '#ff5722' }}>
                     <Text style={styles.textHead}>
-                        งานของฉัน  614259048
+                        งานของฉัน  {data_id}
                     </Text>
                 </Header>
             </View>
@@ -45,8 +46,8 @@ const Editwork = () => {
                         </Item>
 
                         <Button block style={styles.button} >
-                                <Text style={styles.text22}  >บันทึก</Text>
-                            </Button>
+                            <Text style={styles.text22}  >บันทึก</Text>
+                        </Button>
                     </Form>
                 </Card>
 
@@ -105,8 +106,8 @@ const styles = StyleSheet.create({
         fontSize: 22,
         color: '#ffff'
     },
-    textarea:{
-        height:300
+    textarea: {
+        height: 300
     }
 })
 

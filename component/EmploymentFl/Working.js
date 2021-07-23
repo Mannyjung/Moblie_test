@@ -4,7 +4,7 @@ import { Container, Header, Content, Card, CardItem, Body, Left, Right, Button }
 import axios from 'axios';
 const { width, height } = Dimensions.get('screen')
 
-const Working = ({Userid}) => {
+const Working = ({ Userid }) => {
 
 
     const [employmentFlProgress, setemploymentFlProgress] = useState([]);
@@ -23,58 +23,58 @@ const Working = ({Userid}) => {
         <Content padder>
             {employmentFlProgress.map((employmentFlProgresss) => {
                 return (
-                    <>
-                        <Card key={employmentFlProgresss.emm_id}>
-                            <CardItem header bordered>
-                                <Body>
-                                    <Text style={styles.text}>
-                                        ผู้ว่าจ้าง
-                                    </Text>
-                                    <Text style={styles.content}>
-                                        {employmentFlProgresss.emm_user_id}
-                                    </Text>
-                                </Body>
 
-                                <Body>
-                                    <Text style={styles.text}>
-                                        วันที่
-                                    </Text>
-                                    <Text style={styles.content}>
-                                        {employmentFlProgresss.aw_date_post}
-                                    </Text>
-                                </Body>
-                            </CardItem>
-                            <CardItem bordered>
-                                <Body>
-                                    <Text style={styles.text}>
-                                        ชื่องาน
-                                    </Text>
-                                    <Text style={styles.content}>
-                                        {employmentFlProgresss.aw_name}
-                                    </Text>
-                                </Body>
-                                <Body>
-                                    <Text style={styles.text}>
-                                        ชื่อแพ็คเก็จ
-                                    </Text>
-                                    <Text style={styles.content}>
-                                        {employmentFlProgresss.pk_name}
-                                    </Text>
-                                </Body>
-                            </CardItem>
-                            <CardItem bordered>
-                                <Body>
-                                    <Text style={styles.text}>
-                                        สถานะ
-                                    </Text>
-                                    <Text style={styles.content}>
-                                        {employmentFlProgresss.emm_status}
-                                    </Text>
-                                </Body>
+                    <Card key={employmentFlProgresss.emm_id}>
+                        <CardItem header bordered>
+                            <Body>
+                                <Text style={styles.text}>
+                                    ผู้ว่าจ้าง
+                                </Text>
+                                <Text style={styles.content}>
+                                    {employmentFlProgresss.emm_user_id}
+                                </Text>
+                            </Body>
 
-                            </CardItem>
-                        </Card>
-                    </>
+                            <Body>
+                                <Text style={styles.text}>
+                                    วันที่
+                                </Text>
+                                <Text style={styles.content}>
+                                    {employmentFlProgresss.aw_date_post}
+                                </Text>
+                            </Body>
+                        </CardItem>
+                        <CardItem bordered>
+                            <Body>
+                                <Text style={styles.text}>
+                                    ชื่องาน
+                                </Text>
+                                <Text style={styles.content}>
+                                    {employmentFlProgresss.aw_name}
+                                </Text>
+                            </Body>
+                            <Body>
+                                <Text style={styles.text}>
+                                    ชื่อแพ็คเก็จ
+                                </Text>
+                                <Text style={styles.content}>
+                                    {employmentFlProgresss.pk_name}
+                                </Text>
+                            </Body>
+                        </CardItem>
+                        <CardItem bordered>
+                            <Body>
+                                <Text style={styles.text}>
+                                    สถานะ
+                                </Text>
+                                <Text style={styles.content}>
+                                    {employmentFlProgresss.emm_status}
+                                </Text>
+                            </Body>
+
+                        </CardItem>
+                    </Card>
+
                 )
             })}
         </Content>

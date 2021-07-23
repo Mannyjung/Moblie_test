@@ -29,14 +29,15 @@ const Profile = ({ navigation }) => {
         console.log('clear')
         navigation.navigate('login')
     }
+
     return (
         <>
             <View style={styles.view}>
-                <ImageBackground source={{uri:data.Image} || ''} style={styles.imageBg}>
+                <ImageBackground source={{ uri: data.Image ? data.Image : null }} style={styles.imageBg}>
                 </ImageBackground>
                 <View style={styles.viewImg}>
                     <Image
-                        source={{uri:data.Image}}
+                        source={{ uri: data.Image ? data.Image : null }}
                         style={styles.image}
                     />
                 </View>

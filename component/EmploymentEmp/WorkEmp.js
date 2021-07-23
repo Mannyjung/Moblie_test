@@ -51,7 +51,7 @@ const WorkEmp = ({ Userid }) => {
         <Content padder>
             {getworkingemp.map((getworking) => {
                 return (
-                    <Card>
+                    <Card key={getworking.emm_std_id}>
                         <CardItem header bordered>
                             <Body>
                                 <Text style={styles.text}>

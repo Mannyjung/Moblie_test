@@ -52,7 +52,7 @@ console.log(Userid)
     <Content padder>
       {getwaitemp.map((getwait) => {
         return (
-          <Card>
+          <Card key={getwait.emm_std_id}>
             <CardItem header bordered>
               <Body>
                 <Text style={styles.text}>

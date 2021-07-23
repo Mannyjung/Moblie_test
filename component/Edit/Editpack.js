@@ -16,8 +16,8 @@ import { useState } from "react";
 import { Picker, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Actions } from "react-native-router-flux";
 
-const Editpack = ({ route, navigation }) => {
-    const { dataW } = route.params;
+const Editpack = ({ route }) => {
+    const { data_id } = route.params;
     const [selectedValue, setSelectedValue] = useState("java");
     return (
         <>
@@ -28,7 +28,7 @@ const Editpack = ({ route, navigation }) => {
                     rounded
                     style={{ backgroundColor: "#ff5722" }}
                 >
-                    <Text style={styles.textHead}>งานของฉัน {data.aw_id}</Text>
+                    <Text style={styles.textHead}>งานของฉัน {data_id}</Text>
                 </Header>
             </View>
             <Content>
