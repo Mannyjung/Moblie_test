@@ -59,7 +59,7 @@ console.log(Userid)
                   ฟรีแลนซ์
                 </Text>
                 <Text style={styles.content}>
-                  : {getwait.emm_std_id}
+                  {getwait.emm_std_id}
                 </Text>
               </Body>
 

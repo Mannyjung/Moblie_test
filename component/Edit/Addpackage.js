@@ -1,58 +1,90 @@
 import { Button, Card, Content, Form, Header, Input, Item, Label, Textarea, View } from 'native-base'
-import React from 'react'
-import { useState } from 'react';
-import { Picker, StyleSheet, Text } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, Text,Alert } from 'react-native'
+import { Picker } from '@react-native-picker/picker';
+import axios from 'axios'
+import { useNavigation } from '@react-navigation/native';
 
-const Addpackage = () => {
-    const [selectedValue, setSelectedValue] = useState("java");
+const Addpackage = ({ route }) => {
+    const [selectedValue, setSelectedValue] = useState();
+    //console.log(selectedValue)
+    const navigation = useNavigation();
+    const { awpk_id } = route.params;
+
+    const [addpackage, setaddpackage] = useState(
+        {
+            pk_name: "",
+            pk_detail: "",
+            pk_aw_id: awpk_id,
+            pk_price: "",
+            pk_time_period: "",
+        }
+    );
+
+    const savePack = () => {
+        console.log(addpackage);
+
+        axios.post("https://newapi-flashwork.herokuapp.com/public/newpackage", addpackage)
+            .then((response) => {
+                console.log(response.data);
+                Alert.alert("บันทึกเรียบร้อย")
+            })
+            .then(()=>{
+                navigation.navigate('package')
+            })
+            .catch((error) => {
+                console.log(error);
+
+            });
+
+    }
+
     return (
         <>
-           <View >
+            <View >
                 <Header androidStatusBarColor="#ff5722" searchBar rounded style={{ backgroundColor: '#ff5722' }}>
                     <Text style={styles.textHead}>
-                        งานของฉัน  614259048
+                    เพิ่มแพ็คเกจ {awpk_id}
                     </Text>
                 </Header>
             </View>
             <View style={styles.view}>
                 <Content style={styles.heades}>
-                    
-                <Card transparent>
+
+                    <Card transparent>
                         <Form style={styles.from}>
-
-                            <Text style={styles.text}>
-                                เพิ่มแพ็คเกจ
-                            </Text>
-
 
                             <Label style={styles.text16}>ชื่อแพ็คเกจ</Label>
                             <Item style={styles.item} regular>
-                                <Input />
+                                <Input onChangeText={(e) => setaddpackage({ ...addpackage, pk_name: e })} />
                             </Item>
                             <Label style={styles.text16}>ลายละเอียดรายแพ็คเกจ</Label>
                             <Item style={styles.item} regular>
-                                {/* <Input rowSpan={5} bordered /> */}
-                                <Textarea rowSpan={13} />
+                               
+                                <Textarea rowSpan={13} onChangeText={(e) => setaddpackage({ ...addpackage, pk_detail: e })} />
                             </Item>
                             <Label style={styles.text16}>ราคา</Label>
                             <Item style={styles.item} regular>
-                                <Input />
+                                <Input  onChangeText={(e) => setaddpackage({ ...addpackage, pk_price: e })}/>
                             </Item>
                             <Label style={styles.text16}>ระยะเวลา</Label>
                             <Picker
-                                selectedValue={selectedValue}
+                                selectedValue={addpackage.pk_time_period}
                                 style={{ height: 50 }}
-                                onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+                                onValueChange={(e) => setaddpackage({ ...addpackage, pk_time_period: e })}
                             >
-                                <Picker.Item label="7 วัน" value="7" />
-                                <Picker.Item label="30 วัน" value="30" />
+                                <Picker.Item label="เลือกระยะเวลา" value="" />
+                                <Picker.Item label="3 วัน" value="ภายใน 3 วัน" />
+                                <Picker.Item label="7 วัน" value="ภายใน 7 วัน" />
+                                <Picker.Item label="14 วัน" value="ภายใน 14 วัน" />
+                                <Picker.Item label="30 วัน" value="ภายใน 30 วัน" />
                             </Picker>
                         </Form>
                     </Card>
-                    <Button block style={styles.button} >
-                                <Text style={styles.text22}  >บันทึก</Text>
-                            </Button>
-                   
+                    <Button block style={styles.button} onPress={() => savePack()} >
+                        <Text style={styles.text22}  >บันทึก</Text>
+                    </Button>
+
                 </Content>
             </View>
         </>
@@ -103,14 +135,11 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         shadowRadius: 3,
         elevation: 5,
-        
-        
-        
     },
     text22: {
         fontSize: 22,
         color: '#ffff'
     },
-    
+
 })
 export default Addpackage

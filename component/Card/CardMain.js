@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Card, CardItem, Body, View } from "native-base";
-import axios from 'axios'
+// import axios from 'axios'
+import Api from '../../api/Api'
 import { Actions } from 'react-native-router-flux';
 const CardMain = ({ navigation }) => {
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get("https://newapi-flashwork.herokuapp.com/public/show_work")
+        NewApi()
+    }, []);
+    const NewApi = async () => {
+        await Api.get('show_work')
             .then(response => {
                 setData(response.data)
             })
-            .catch(error => {
-                console.log(error);
-            });
-    }, []);
+    }
     return (
         <View style={styles.heades}>
             {data.map((dataW) => {

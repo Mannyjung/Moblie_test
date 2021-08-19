@@ -46,10 +46,10 @@ const Profile = ({ navigation }) => {
                 </Text>
                 <View style={styles.viewicon}>
                     <View style={styles.viewin}>
-                        <MaterialIcons onPress={() => navigation.navigate('Mywork')} style={styles.icon} name="work-outline" />
+                        <MaterialIcons onPress={() => navigation.navigate('mywork')} style={styles.icon} name="work-outline" />
                         <Text style={styles.texticon}>My work</Text>
                     </View>
-                    <View style={styles.viewin}>
+                    {/* <View style={styles.viewin}>
                         <AntDesign onPress={() => navigation.navigate('Tabnew')} style={styles.icon} name="profile" />
                         <Text style={styles.texticon}>Edit profile</Text>
                     </View>
@@ -57,7 +57,7 @@ const Profile = ({ navigation }) => {
                     <View style={styles.viewin}>
                         <AntDesign onPress={() => Actions.mywork()} style={styles.icon} name="setting" />
                         <Text style={styles.texticon}>Setting</Text>
-                    </View>
+                    </View> */}
                     <View style={styles.viewin}>
                         <MaterialIcons onPress={() => removeValue()} style={styles.icon} name="logout" />
                         <Text style={styles.texticon}>Logout</Text>

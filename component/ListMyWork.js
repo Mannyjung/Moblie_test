@@ -41,7 +41,7 @@ const ListMyWork = ({ data }) => {
           </View>
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.6} onPress={() => {
-          navigation.navigate('editpack', {
+          navigation.navigate('package', {
             data_id: data.aw_id,
           });
         }}>

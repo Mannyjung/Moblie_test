@@ -28,7 +28,7 @@ const SucEmp = ({ Userid }) => {
                   ฟรีแลนซ์
                 </Text>
                 <Text style={styles.content}>
-                  : {getsucc.emm_std_id}
+                  {getsucc.emm_std_id}
                 </Text>
               </Body>
 

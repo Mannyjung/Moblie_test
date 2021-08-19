@@ -58,7 +58,7 @@ const WorkEmp = ({ Userid }) => {
                                     ฟรีแลนซ์
                                 </Text>
                                 <Text style={styles.content}>
-                                    : {getworking.emm_std_id}
+                                    {getworking.emm_std_id}
                                 </Text>
                             </Body>
 

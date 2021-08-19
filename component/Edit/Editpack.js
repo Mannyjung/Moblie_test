@@ -11,14 +11,87 @@ import {
     Textarea,
     Content,
 } from "native-base";
-import React from "react";
-import { useState } from "react";
-import { Picker, ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useState, useEffect } from 'react'
+import { ScrollView, StyleSheet, Text, View, Alert } from "react-native";
+import { Picker } from '@react-native-picker/picker';
 import { Actions } from "react-native-router-flux";
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios'
 
 const Editpack = ({ route }) => {
-    const { data_id } = route.params;
-    const [selectedValue, setSelectedValue] = useState("java");
+    const navigation = useNavigation();
+    const { pk_id } = route.params;
+    //const [selectedValue, setSelectedValue] = useState("");
+
+    const [packageDetailbyid, setpackageDetailbyid] = useState([]);
+    // console.log(mypost);
+    useEffect(() => {
+        axios.get("https://newapi-flashwork.herokuapp.com/public/getPackagebyId/" + pk_id)
+            .then(response => {
+                setpackageDetailbyid(response.data[0])
+                //console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }, [pk_id]);
+
+    const [editpackage, seteditpackage] = useState(
+        {
+            pk_name: "",
+            pk_detail: "",
+            pk_price: "",
+            pk_time_period: "",
+        }
+    );
+
+    const showConfirm = async () => {
+        await Alert.alert(
+            "แก้ไขแพ็คเกจ",
+            "คุณต้องการแก้ไขแพ็คเกจหรือไม่ ?",
+            [
+                {
+                    text: "ยกเลิก",
+                    //onPress: () => console.log(pk_id,pk_name),
+                    style: "cancel"
+                },
+                {
+                    text: "ตกลง",
+                    onPress: () => savePack()
+                    //onPress: () => console.log(dataPost),
+                }
+            ]
+        )
+    };
+    const savePack = () => {
+        //console.log(editpackage);
+        var data = {
+            pk_name: editpackage.pk_name,
+            pk_detail: editpackage.pk_detail,
+            pk_price: editpackage.pk_price,
+            pk_time_period: editpackage.pk_time_period,
+        }
+        //console.log(data);
+        axios.put("https://newapi-flashwork.herokuapp.com/public/editpackage/" + pk_id, data)
+            .then((response) => {
+                seteditpackage({ ...editpackage, data })
+                console.log(response.data);
+
+            }).then(() => {
+                Alert.alert("แก้ไขเรียบร้อย")
+            }).then(()=>{
+                navigation.navigate('package')
+            })
+            .catch((error) => {
+                console.log(error);
+
+            });
+
+    }
+
+
+    //console.log(editpackage)
+    let timed = packageDetailbyid.pk_time_period;
     return (
         <>
             <View>
@@ -28,7 +101,7 @@ const Editpack = ({ route }) => {
                     rounded
                     style={{ backgroundColor: "#ff5722" }}
                 >
-                    <Text style={styles.textHead}>งานของฉัน {data_id}</Text>
+                    <Text style={styles.textHead}>แพ็คเกจของฉัน {pk_id}</Text>
                 </Header>
             </View>
             <Content>
@@ -36,69 +109,48 @@ const Editpack = ({ route }) => {
                     <Form style={styles.from}>
                         <Label style={styles.text16}>ชื่อแพ็คเกจ</Label>
                         <Item style={styles.item} regular>
-                            <Input value="แพ็กเกจ1" />
+                            <Input
+                                defaultValue={packageDetailbyid.pk_name}
+                                onChangeText={(e) => seteditpackage({ ...editpackage, pk_name: e })}
+                            />
                         </Item>
                         <Label style={styles.text16}>ลายละเอียดรายแพ็คเกจ</Label>
                         <Item style={styles.item} regular>
                             {/* <Input rowSpan={5} bordered /> */}
                             <Textarea
                                 rowSpan={3}
-                                value="วาดการ์ตูนช่องเล่าเรื่องแบบจบในตอนความยาวเรื่องห้ามเกิน1หน้ากระดาษA4 เพื่อประชาสัมพันธ์สินค้าคุณหรือสร้างเนื้อหา FB page ให้ลูกค้า อยากติดตาม"
+                                defaultValue={packageDetailbyid.pk_detail}
+                                onChangeText={(e) => seteditpackage({ ...editpackage, pk_detail: e })}
                             />
                         </Item>
                         <Label style={styles.text16}>ราคา</Label>
                         <Item style={styles.item} regular>
-                            <Input value="500฿" />
-                        </Item>
-                        <Label style={styles.text16}>ระยะเวลา</Label>
-                        <Picker
-                            selectedValue={selectedValue}
-                            style={{ height: 50 }}
-                            onValueChange={(itemValue, itemIndex) =>
-                                setSelectedValue(itemValue)
-                            }
-                        >
-                            <Picker.Item label="เลือก" value="" />
-                            <Picker.Item label="7 วัน" value="7" />
-                            <Picker.Item label="30 วัน" value="30" />
-                        </Picker>
-                    </Form>
-                    <Form style={styles.from}>
-                        <Label style={styles.text16}>ชื่อแพ็คเกจ</Label>
-                        <Item style={styles.item} regular>
-                            <Input value="แพ็กเกจ1" />
-                        </Item>
-                        <Label style={styles.text16}>ลายละเอียดรายแพ็คเกจ</Label>
-                        <Item style={styles.item} regular>
-                            {/* <Input rowSpan={5} bordered /> */}
-                            <Textarea
-                                rowSpan={3}
-                                value="วาดการ์ตูนช่องเล่าเรื่องแบบจบในตอนความยาวเรื่องห้ามเกิน1หน้ากระดาษA4 เพื่อประชาสัมพันธ์สินค้าคุณหรือสร้างเนื้อหา FB page ให้ลูกค้า อยากติดตาม"
+                            <Input
+                                defaultValue={packageDetailbyid.pk_price}
+                                onChangeText={(e) => seteditpackage({ ...editpackage, pk_price: e })}
                             />
                         </Item>
-                        <Label style={styles.text16}>ราคา</Label>
-                        <Item style={styles.item} regular>
-                            <Input value="500฿" />
-                        </Item>
                         <Label style={styles.text16}>ระยะเวลา</Label>
+
                         <Picker
-                            selectedValue={selectedValue}
+                            selectedValue={editpackage.pk_time_period}
                             style={{ height: 50 }}
-                            onValueChange={(itemValue, itemIndex) =>
-                                setSelectedValue(itemValue)
-                            }
+                            onValueChange={(e) => seteditpackage({ ...editpackage, pk_time_period: e })}
                         >
-                            <Picker.Item label="เลือก" value="" />
-                            <Picker.Item label="7 วัน" value="7" />
-                            <Picker.Item label="30 วัน" value="30" />
+                            {/* <Picker.Item label={timed} /> */}
+                            <Picker.Item label="3 วัน" value="ภายใน 3 วัน" />
+                            <Picker.Item label="7 วัน" value="ภายใน 7 วัน" />
+                            <Picker.Item label="14 วัน" value="ภายใน 14 วัน" />
+                            <Picker.Item label="30 วัน" value="ภายใน 30 วัน" />
                         </Picker>
                     </Form>
+
 
 
                 </Card>
                 <Body>
-                    <Button block style={styles.button} onPress={() => Actions.addpack()}>
-                        <Text style={styles.text22}>เพิ่มแพ็กเกจ</Text>
+                    <Button block style={styles.button} onPress={() => showConfirm()}>
+                        <Text style={styles.text22}>บันทึก</Text>
                     </Button>
                 </Body></Content>
         </>

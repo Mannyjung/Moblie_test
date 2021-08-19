@@ -1,13 +1,23 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import { Text,Image,StyleSheet, ScrollView} from 'react-native'
 import { Card, Col, Item, Input, Container, Header, Content, CardItem, Body} from 'native-base';
 //import Icon from 'react-native-vector-icons/FontAwesome';
 import Carouselmained from '../component/carou/Carouselmained';
 import CardMain from '../component/Card/CardMain';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Main = ({navigation}) => {
+    const [data, setdata] = useState({
+        Image: "",
+    })
+    useEffect(() => {
+        onLoad()
 
+    }, []);
+    const onLoad = async () => {
+        const image = await AsyncStorage.getItem('image');
+        setdata({ ...data, Image: image })
+    }
     return (
         <>
 
@@ -20,7 +30,7 @@ const Main = ({navigation}) => {
                             {/* <Icon name="search" /> */}
                             <Input placeholder="Flash work" />
                             <Image
-                                source={{ uri: 'https://storage.googleapis.com/fastwork-static/26a0f24e-ef16-4069-bf6b-eafe96cab47b.jpg' }}
+                                source={{ uri: data.Image ? data.Image : null }}
                                 style={styles.logo}
                             />
                         </Item>

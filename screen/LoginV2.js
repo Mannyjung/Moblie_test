@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, Dimensions, Image, RefreshControlBase, RefreshControlComponent } from 'react-native'
+import { StyleSheet, Text, View, Dimensions, Image, RefreshControlBase, RefreshControlComponent, Alert } from 'react-native'
 import { Card, Item, Input, CardItem, Form, Button } from 'native-base'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,9 +12,23 @@ const LoginV2 = ({ navigation }) => {
         User_id: "",
         User_password: ""
     })
+
     const login = async () => {
+        const alerts = "กรุณาใส่"
+        if (!data.User_id.trim()) {
+            Alert.alert(
+
+                alerts + 'ชื่อผู้ใช้');
+            return;
+        } if (!data.User_password.trim()) {
+            Alert.alert(
+
+                alerts + 'รหัสผ่าน');
+            return;
+        }
         console.log('Post now')
         await axios.post("https://newapi-flashwork.herokuapp.com/public/login_user", data)
+
             .then(async (res) => {
                 if (res.data.message === 'Fail Login') {
                     console.log('Failpass')

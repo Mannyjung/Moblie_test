@@ -20,6 +20,8 @@ import EmploymentEmp from './screen/EmploymentEmp';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import TabCate from './screen/TabCate';
+import Package from './component/Edit/Package';
 
 const { width, hieght } = Dimensions.get('screen')
 const Stack = createStackNavigator();
@@ -74,10 +76,10 @@ function Student() {
                 }}
             />
             <Tab.Screen
-                name="Mywork"
-                component={Mywork}
+                name="Cate"
+                component={TabCate}
                 options={{
-                    tabBarLabel: 'Mywork',
+                    tabBarLabel: 'Category',
                     tabBarIcon: ({ color }) => (
                         <Entypo name="network" size={22} color={color} />
                     ),
@@ -180,14 +182,15 @@ const App = ({ navigation }) => {
                         <Stack.Screen name="student" component={Student} />
                         <Stack.Screen name="employer" component={Employer} />
                         <Stack.Screen name="login" component={NotLogin} />
+                        <Stack.Screen name="tabcate" component={TabCate} />
+                        <Stack.Screen name="mywork" component={Mywork} />
                         <Stack.Screen name="selectpost" component={SelectPost} />
                         <Stack.Screen name="editpic" component={Editpic} />
+                        <Stack.Screen name="package" component={Package} />
                         <Stack.Screen name="editpack" component={Editpack} />
                         <Stack.Screen name="editwork" component={Editwork} />
                         <Stack.Screen name="addpack" component={Addpack} />
                     </Stack.Navigator>
-
-
                 </NavigationContainer> :
                 data.Status === 'Employer' ?
                     <NavigationContainer>
@@ -198,9 +201,7 @@ const App = ({ navigation }) => {
                             <Stack.Screen name="student" component={Student} />
                             <Stack.Screen name="login" component={NotLogin} />
                             <Stack.Screen name="selectpost" component={SelectPost} />
-
                         </Stack.Navigator>
-
                     </NavigationContainer> :
                     data.Status === null || '' ?
                         <NavigationContainer>

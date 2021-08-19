@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, View, StyleSheet, ScrollView, TouchableOpacity, Dimensions, Button } from 'react-native'
+import { Image, View, StyleSheet, ScrollView, TouchableOpacity, Dimensions, Button, Alert } from 'react-native'
 import {
     Card, Item, Input, Content, Text, CardItem, Body, Form, Label, Textarea
 } from 'native-base';
@@ -8,16 +8,54 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('screen')
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as ImagePicker from 'expo-image-picker';
+import { storage } from "../firebase";
+import { useNavigation } from '@react-navigation/native';
 
 const FromAddV2 = () => {
-    const [selectedValue, setSelectedValue] = useState("java");
+    const navigation = useNavigation();
+
     const [subcate, setsubcate] = useState([]);
     const [data, setdata] = useState({
         User_id: "",
         Image: "",
         Name: "",
-        Status:""
+        Status: ""
     })
+    const [postwork, setPostwork] = useState(
+        {
+            User_id: "",
+            Work_name: "",
+            Work_detail: "",
+            Work_category: "",
+            Pk_name: "",
+            Pk_detail: "",
+            Pk_price: "",
+            timeperiod: "",
+            Work_img: '',
+            rawimg: ""
+        }
+    );
+    const refreshcomp = () => {
+        setPostwork({
+            User_id: "",
+            Work_name: "",
+            Work_detail: "",
+            Work_category: "",
+            Pk_name: "",
+            Pk_detail: "",
+            Pk_price: "",
+            timeperiod: "",
+            Work_img: '',
+        })
+    }
+    useEffect(() => {
+        const unsubscribe = navigation.addListener("focus", () => {
+            refreshcomp()
+            return unsubscribe;
+        })
+    }, [navigation]);
+
     useEffect(() => {
         onLoad()
     }, []);
@@ -35,39 +73,79 @@ const FromAddV2 = () => {
         const name = await AsyncStorage.getItem('fname');
         const image = await AsyncStorage.getItem('image');
         const status = await AsyncStorage.getItem('status');
-        setdata({ ...data, User_id: User_id, Image: image, Name: name, Status:status})
-
+        setdata({ ...data, User_id: User_id, Image: image, Name: name, Status: status })
+        setPostwork({ ...postwork, User_id: User_id })
 
     }
-    const [postwork, setPostwork] = useState(
-        {
-            User_id: "614259048",
-            Work_name: "",
-            Work_detail: "",
-            Work_category: "",
-            Pk_name: "",
-            Pk_detail: "",
-            Pk_price: "",
-            timeperiod: "",
-            Work_img: ["fsaasfsa.jpg"],
-        }
-    );
-    console.log(data)
-    const [selectsub, setselectsub] = useState({
-        Work_category: "",
-    })
-    const savePost = () => {
-        console.log(postwork);
-        axios.post("https://newapi-flashwork.herokuapp.com/public/postwork", postwork)
-            .then((response) => {
-                console.log(response.data);
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
 
+        })
+        if (!result.cancelled) {
+            setPostwork({ ...postwork, rawimg: result.uri });
+        }
+    };
+
+
+    const uploadFileToFirebase = async () => {
+        if (!postwork.Work_name.trim()) {
+            Alert.alert('กรุณากรอกชื่องาน');
+            return;
+        } if (!postwork.Work_detail.trim()) {
+            Alert.alert('กรุณากรอกรายละเอียดงาน');
+            return;
+        } if (!postwork.Work_category.trim()) {
+            Alert.alert('กรุณาเลือกหมวดหมู่งาน');
+            return;
+        } if (!postwork.Pk_name.trim()) {
+            Alert.alert('กรุณากรอกชื่อเเพ็คเก็จ');
+            return;
+        } if (!postwork.Pk_detail.trim()) {
+            Alert.alert('กรุณากรอกรายละเอียดเเพ็คเก็จ');
+            return;
+        } if (!postwork.Pk_price.trim()) {
+            Alert.alert('กรุณากรอกราคาของเเพ็คเก็จ');
+            return;
+        } if (!postwork.timeperiod.trim()) {
+            Alert.alert('กรุณาเลือกระยะเวลาทำงาน');
+            return;
+        }
+        const user_id = await AsyncStorage.getItem('User_id');
+        const newName = Math.random();
+        const img = await fetch(postwork.rawimg);
+        const blob = await img.blob();
+        const snapshot = await storage.ref(`${user_id}/image/${newName}`).put(blob);
+
+        blob.close();
+        const imgUrl = await snapshot.ref.getDownloadURL()
+
+        savePost(imgUrl)
+    }
+    const savePost = async (img) => {
+        let work = {
+            User_id: postwork.User_id,
+            Work_name: postwork.Work_name,
+            Work_detail: postwork.Work_detail,
+            Work_category: postwork.Work_category,
+            Pk_name: postwork.Pk_name,
+            Pk_detail: postwork.Pk_detail,
+            Pk_price: postwork.Pk_price,
+            timeperiod: postwork.timeperiod,
+            Work_img: [img]
+        }
+        await axios.post("https://newapi-flashwork.herokuapp.com/public/postwork", work)
+            .then((res) => {
+                alert('success')
+                refreshcomp()
             })
             .catch((error) => {
                 console.log(error);
 
             });
-
     }
 
     return (
@@ -76,64 +154,50 @@ const FromAddV2 = () => {
                 <Content style={styles.heades}>
                     <Form >
                         <Card transparent>
-
                             <Form style={styles.from}>
-
                                 <Text style={styles.text}>
                                     เนื้อหา
                                 </Text>
-                               
-
                                 <Label style={styles.text16}>ชื่องาน</Label>
                                 <Item style={styles.item} regular>
-                                    <Input name="Work_name" onChangeText={(e) => setPostwork({ ...postwork, Work_name: e })} />
+                                    <Input value={postwork.Work_name} name="Work_name" onChangeText={(e) => setPostwork({ ...postwork, Work_name: e })} />
                                 </Item>
-                                <Label style={styles.text16}>ลายละเอียดงาน</Label>
+                                <Label style={styles.text16}>รายละเอียดงาน</Label>
                                 <Item style={styles.item} regular>
                                     {/* <Input rowSpan={5} bordered /> */}
-                                    <Textarea name="Work_detail" onChangeText={(e) => setPostwork({ ...postwork, Work_detail: e })} rowSpan={3} placeholder="ลายละเอียดงาน" />
+                                    <Textarea value={postwork.Work_detail} name="Work_detail" onChangeText={(e) => setPostwork({ ...postwork, Work_detail: e })} rowSpan={3} placeholder="รายละเอียดงาน" />
                                 </Item>
-                                {/* <Label style={styles.text16}>หมวดหลัก</Label>
-                            <Item style={styles.item} regular>
-                                <Input  type="select" name="main_cate_id" id="main_cate_id"/>
-                            </Item> */}
                                 <Label style={styles.text16}>หมวดย่อย</Label>
-                                <Picker
+                                <Picker selectedValue={postwork.Work_category}
                                     style={{ height: 50 }}
-                                    onValueChange={(e) => setselectsub({ ...selectsub, Work_category: e })}
+                                    onValueChange={(e) => setPostwork({ ...postwork, Work_category: e })}
                                 >
+                                    <Picker.Item label={'เลือก'} value={null} />
                                     {subcate.map((item) => {
                                         return (
                                             <Picker.Item label={item.sub_cate_name} value={item.sub_cate_id} key={item.sub_cate_id} />
                                         )
                                     })}
                                 </Picker>
-                                <Item style={styles.item} regular>
-                                    <Input name="Work_category" onChangeText={(e) => setPostwork({ ...postwork, Work_category: e })} />
-                                </Item>
-
                             </Form>
                         </Card>
                         <Card transparent>
                             <Form style={styles.from}>
-
                                 <Text style={styles.text}>
                                     แพ็คเกจ
                                 </Text>
-
-
                                 <Label style={styles.text16}>ชื่อแพ็คเกจ</Label>
                                 <Item style={styles.item} regular>
-                                    <Input name="Pk_name" onChangeText={(e) => setPostwork({ ...postwork, Pk_name: e })} />
+                                    <Input value={postwork.Pk_name} name="Pk_name" onChangeText={(e) => setPostwork({ ...postwork, Pk_name: e })} />
                                 </Item>
-                                <Label style={styles.text16}>ลายละเอียดรายแพ็คเกจ</Label>
+                                <Label style={styles.text16}>รายละเอียดรายแพ็คเกจ</Label>
                                 <Item style={styles.item} regular>
                                     {/* <Input rowSpan={5} bordered /> */}
-                                    <Textarea name="Pk_detail" onChangeText={(e) => setPostwork({ ...postwork, Pk_detail: e })} rowSpan={3} />
+                                    <Input value={postwork.Pk_detail} name="Pk_detail" onChangeText={(e) => setPostwork({ ...postwork, Pk_detail: e })} />
                                 </Item>
                                 <Label style={styles.text16}>ราคา</Label>
                                 <Item style={styles.item} regular>
-                                    <Input name="Pk_price" onChangeText={(e) => setPostwork({ ...postwork, Pk_price: e })} />
+                                    <Input value={postwork.Pk_price} name="Pk_price" onChangeText={(e) => setPostwork({ ...postwork, Pk_price: e })} />
                                 </Item>
                                 <Label style={styles.text16}>ระยะเวลา</Label>
                                 {/* <Picker
@@ -145,28 +209,26 @@ const FromAddV2 = () => {
                                 <Picker.Item label="30 วัน" value="30" />
                             </Picker> */}
                                 <Item style={styles.item} regular>
-                                    <Input name="timeperiod" onChangeText={(e) => setPostwork({ ...postwork, timeperiod: e })} />
+                                    <Input value={postwork.timeperiod} name="timeperiod" onChangeText={(e) => setPostwork({ ...postwork, timeperiod: e })} />
                                 </Item>
                             </Form>
                         </Card>
                         <Card transparent>
                             <Form style={styles.from}>
-
                                 <Text style={styles.text}>
                                     รูป
                                 </Text>
-
-
+                                <Image source={{ uri: postwork.rawimg ? postwork.rawimg : null }} style={{ width: 200, height: 200 }} />
                                 <Body>
                                     <MaterialCommunityIcons name="camera-burst" style={styles.icon} />
                                     <Label>เพิ่มรูป</Label>
+                                    <Button onPress={pickImage} title="Open image picker"></Button>
                                 </Body>
                             </Form>
-
                         </Card>
                         <Button
-                            title="ตกลง"
-                            onPress={() => savePost()}
+                            title="โพสต์งาน"
+                            onPress={() => uploadFileToFirebase()}
                         />
                     </Form>
                 </Content>

@@ -1,42 +1,59 @@
-import React from 'react'
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
-import {Card, CardItem, Text, Body, View } from "native-base";
-import { Actions } from 'react-native-router-flux';
-const CardList = ({ data }) => {
+import React, { useState, useEffect } from 'react'
+import { Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Card, CardItem, Body, View } from "native-base";
+import { useNavigation } from '@react-navigation/native';
+import Api from '../../api/Api'
+const CardList = ({ id }) => {
+    const navigation = useNavigation();
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        NewApi()
+    }, [id]);
+    console.log(id)
+    // console.log(data)
+    const NewApi = async () => {
+        await Api.get('showWorkbyMaincate/' + id)
+            .then(response => {
+                setData(response.data)
+            })
+    }
     return (
-        <>
-            <View style={styles.heades}>
-                {data.map((item) => {
-                    return (
-                            <Card transparent key={item.id}>
-                                <TouchableOpacity style={styles.touch} onPress={() => Actions.selectpost({item})} >
-                                    <CardItem style={styles.CardItem}>
-                                        <Image
-                                            source={{ uri: item.url }}
-                                            style={styles.image}
-                                        />
-                                        <Body style={styles.body}>
-                                            <Text style={styles.textTitle}>
-                                                {item.title}
-                                            </Text>
-                                            <Text style={styles.textDes}>
-                                                {item.des}
-                                            </Text>
-                                        </Body>
-                                    </CardItem>
-                                </TouchableOpacity>
-                            </Card>
-                    )
-                })}
-            </View>
-        </>
+        
+        <View style={styles.heades} >
+            {data.map((dataW) => {
+                return (
+                    <Card transparent key={dataW.aw_id}>
+                        <TouchableOpacity style={styles.touch}
+                            onPress={() => {
+                                navigation.navigate('selectpost', {
+                                    dataW: dataW,
+                                });
+                            }} >
+                            <CardItem style={styles.CardItem}>
+                                <Image
+                                    source={{ uri: dataW.w_img_name }}
+                                    style={styles.imgCard}
+                                />
+                                <Body style={styles.body}>
+                                    <Text style={styles.textTitle}>
+                                        {dataW.aw_name}
+                                    </Text>
+                                    <Text style={styles.textDes}>
+                                        เริ่มต้น {dataW.pk_price} บาท
+                                    </Text>
+                                </Body>
+                            </CardItem>
+                        </TouchableOpacity>
+                    </Card>
+                )
+            })}
+        </View>
     )
 }
 const styles = StyleSheet.create({
-
-    image: {
+    imgCard: {
         width: 150,
-        height: 130,
+        height: 100,
         borderRadius: 10,
         marginTop: -20,
         marginLeft: -10,
@@ -44,10 +61,9 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 1, height: 1 },
         shadowOpacity: 0.5,
         shadowRadius: 3,
-        elevation: 5,
+        // elevation: 5,
         backgroundColor: '#fff'
-    }
-    ,
+    },
     heades: {
         paddingRight: 8,
         paddingLeft: 8
@@ -61,30 +77,24 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         elevation: 5,
         backgroundColor: '#fff'
-    }
-    ,
+    },
     body: {
         marginLeft: 10,
-
-    }
-    ,
+    },
     textTitle: {
-        textShadowColor: '#4E4E4E',
+        //textShadowColor: '#4E4E4E',
         textShadowOffset: { width: -1, height: 0.5 },
-        textShadowRadius: 5,
-        elevation: 5,
-        fontSize: 22,
+        //textShadowRadius: 5,
+        fontSize: 16,
         color: '#000'
     },
     textDes: {
-        textShadowColor: '#4E4E4E',
-        textShadowOffset: { width: -1, height: 1 },
-        textShadowRadius: 10,
-        elevation: 5,
-        paddingTop: 5,
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        paddingTop: 18,
         fontSize: 15,
         color: '#000'
     }
 })
-
 export default CardList
