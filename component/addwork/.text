@@ -32,7 +32,8 @@ const FromAddV2 = () => {
             Pk_detail: "",
             Pk_price: "",
             timeperiod: "",
-            rawimg: []
+            Work_img: '',
+            rawimg: ""
         }
     );
     const refreshcomp = () => {
@@ -45,7 +46,7 @@ const FromAddV2 = () => {
             Pk_detail: "",
             Pk_price: "",
             timeperiod: "",
-            Work_img: []
+            Work_img: '',
         })
     }
     useEffect(() => {
@@ -84,38 +85,35 @@ const FromAddV2 = () => {
             quality: 1,
 
         })
-
         if (!result.cancelled) {
-            let uri = result.uri
-            setPostwork({ ...postwork, rawimg: [...postwork.rawimg, uri] });
-            console.log(postwork)
+            setPostwork({ ...postwork, rawimg: result.uri });
         }
     };
- 
-    const uploadFileToFirebase = async (raw) => {
+
+
+    const uploadFileToFirebase = async () => {
         if (!postwork.Work_name.trim()) {
-            alert('กรุณากรอกชื่องาน');
+            Alert.alert('กรุณากรอกชื่องาน');
             return;
         } if (!postwork.Work_detail.trim()) {
-            alert('กรุณากรอกรายละเอียดงาน');
+            Alert.alert('กรุณากรอกรายละเอียดงาน');
             return;
         } if (!postwork.Work_category.trim()) {
-            alert('กรุณาเลือกหมวดหมู่งาน');
+            Alert.alert('กรุณาเลือกหมวดหมู่งาน');
             return;
         } if (!postwork.Pk_name.trim()) {
-            alert('กรุณากรอกชื่อเเพ็คเก็จ');
+            Alert.alert('กรุณากรอกชื่อเเพ็คเก็จ');
             return;
         } if (!postwork.Pk_detail.trim()) {
-            alert('กรุณากรอกรายละเอียดเเพ็คเก็จ');
+            Alert.alert('กรุณากรอกรายละเอียดเเพ็คเก็จ');
             return;
         } if (!postwork.Pk_price.trim()) {
-            alert('กรุณากรอกราคาของเเพ็คเก็จ');
+            Alert.alert('กรุณากรอกราคาของเเพ็คเก็จ');
             return;
         } if (!postwork.timeperiod.trim()) {
-            alert('กรุณาเลือกระยะเวลาทำงาน');
+            Alert.alert('กรุณาเลือกระยะเวลาทำงาน');
             return;
         }
-
         const user_id = await AsyncStorage.getItem('User_id');
         const newName = Math.random();
         const img = await fetch(postwork.rawimg);
@@ -139,15 +137,15 @@ const FromAddV2 = () => {
             timeperiod: postwork.timeperiod,
             Work_img: [img]
         }
-        // await axios.post("https://newapi-flashwork.herokuapp.com/public/postwork", work)
-        //     .then((res) => {
-        //         alert('success')
-        //         refreshcomp()
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
+        await axios.post("https://newapi-flashwork.herokuapp.com/public/postwork", work)
+            .then((res) => {
+                alert('success')
+                refreshcomp()
+            })
+            .catch((error) => {
+                console.log(error);
 
-        //     });
+            });
     }
 
     return (
@@ -156,14 +154,10 @@ const FromAddV2 = () => {
                 <Content style={styles.heades}>
                     <Form >
                         <Card transparent>
-
                             <Form style={styles.from}>
-
                                 <Text style={styles.text}>
                                     เนื้อหา
                                 </Text>
-
-
                                 <Label style={styles.text16}>ชื่องาน</Label>
                                 <Item style={styles.item} regular>
                                     <Input value={postwork.Work_name} name="Work_name" onChangeText={(e) => setPostwork({ ...postwork, Work_name: e })} />
@@ -178,24 +172,20 @@ const FromAddV2 = () => {
                                     style={{ height: 50 }}
                                     onValueChange={(e) => setPostwork({ ...postwork, Work_category: e })}
                                 >
+                                    <Picker.Item label={'เลือก'} value={null} />
                                     {subcate.map((item) => {
                                         return (
                                             <Picker.Item label={item.sub_cate_name} value={item.sub_cate_id} key={item.sub_cate_id} />
                                         )
                                     })}
                                 </Picker>
-
-
                             </Form>
                         </Card>
                         <Card transparent>
                             <Form style={styles.from}>
-
                                 <Text style={styles.text}>
                                     แพ็คเกจ
                                 </Text>
-
-
                                 <Label style={styles.text16}>ชื่อแพ็คเกจ</Label>
                                 <Item style={styles.item} regular>
                                     <Input value={postwork.Pk_name} name="Pk_name" onChangeText={(e) => setPostwork({ ...postwork, Pk_name: e })} />
@@ -225,26 +215,16 @@ const FromAddV2 = () => {
                         </Card>
                         <Card transparent>
                             <Form style={styles.from}>
-
                                 <Text style={styles.text}>
                                     รูป
-
                                 </Text>
-
-                                {postwork.rawimg ? postwork.rawimg.map((item, i) => {
-
-                                    return (
-                                        <Image key={i} source={{ uri: item ? item : null }} style={{ width: 150, height: 150 }} />
-                                    )
-                                }) : (
-                                    null
-                                )}
-
-                                <Form style={styles.from}>
-                                    <Button onPress={pickImage} title="เพิ่มรูป"></Button>
-                                </Form>
+                                <Image source={{ uri: postwork.rawimg ? postwork.rawimg : null }} style={{ width: 200, height: 200 }} />
+                                <Body>
+                                    <MaterialCommunityIcons name="camera-burst" style={styles.icon} />
+                                    <Label>เพิ่มรูป</Label>
+                                    <Button onPress={pickImage} title="Open image picker"></Button>
+                                </Body>
                             </Form>
-
                         </Card>
                         <Button
                             title="โพสต์งาน"
