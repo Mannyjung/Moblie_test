@@ -87,12 +87,25 @@ const FromAddV2 = () => {
 
         if (!result.cancelled) {
             let uri = result.uri
-            setPostwork({ ...postwork, rawimg: [...postwork.rawimg, uri] });
+            await setPostwork({ ...postwork, rawimg: [...postwork.rawimg, uri] });
             console.log(postwork)
         }
     };
- 
+
+    const upload = async (uri) => {
+        const user_id = data.User_id;
+        const newName = Math.random();
+        const img = await fetch(uri);
+        const blob = await img.blob();
+        const snapshot = await storage.ref(`${user_id}/image/${newName}`).put(blob);
+        blob.close();
+        const imgUrl = await snapshot.ref.getDownloadURL()
+        console.log("รูป"+imgUrl);
+        return imgUrl
+    }
+
     const uploadFileToFirebase = async (raw) => {
+        console.log("uploadFileToFirebase")
         if (!postwork.Work_name.trim()) {
             alert('กรุณากรอกชื่องาน');
             return;
@@ -116,18 +129,28 @@ const FromAddV2 = () => {
             return;
         }
 
-        const user_id = await AsyncStorage.getItem('User_id');
-        const newName = Math.random();
-        const img = await fetch(postwork.rawimg);
-        const blob = await img.blob();
-        const snapshot = await storage.ref(`${user_id}/image/${newName}`).put(blob);
+        // let array = Array.from(raw)
+        // console.log(raw)
+        const promises = [];
+        raw.forEach(file => {
+            console.log(file);
+            console.log("forEach")
+            promises.push(
+                new Promise((resolve, reject) => {
+                    console.log("promises")
+                    resolve(upload(file))
+                })
+            )
 
-        blob.close();
-        const imgUrl = await snapshot.ref.getDownloadURL()
+        })
+        let result = await Promise.all(promises);
+        console.log(result);
+        return result;
 
-        savePost(imgUrl)
+
     }
     const savePost = async (img) => {
+        console.log("savePosts",img)
         let work = {
             User_id: postwork.User_id,
             Work_name: postwork.Work_name,
@@ -137,17 +160,17 @@ const FromAddV2 = () => {
             Pk_detail: postwork.Pk_detail,
             Pk_price: postwork.Pk_price,
             timeperiod: postwork.timeperiod,
-            Work_img: [img]
+            Work_img: img
         }
-        // await axios.post("https://newapi-flashwork.herokuapp.com/public/postwork", work)
-        //     .then((res) => {
-        //         alert('success')
-        //         refreshcomp()
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
 
-        //     });
+        await axios.post("https://newapi-flashwork.herokuapp.com/public/postwork", work)
+            .then((res) => {
+                alert('success')
+                refreshcomp()
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     return (
@@ -248,7 +271,19 @@ const FromAddV2 = () => {
                         </Card>
                         <Button
                             title="โพสต์งาน"
-                            onPress={() => uploadFileToFirebase()}
+                            onPress={async () => {
+                                console.log("onPress")
+                                if (postwork.rawimg) {
+                                    console.log("if")
+                                    console.log(postwork.rawimg)
+                                    const urls = await uploadFileToFirebase(postwork.rawimg);
+                                    savePost(urls);
+                                }
+                                else {
+                                    savePost("")
+                                }
+                                //uploadFileToFirebase()
+                            }}
                         />
                     </Form>
                 </Content>
