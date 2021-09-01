@@ -58,7 +58,7 @@ const Main = ({navigation}) => {
                             </Card>
                         </Content>
                         {/* import CardMain from '../component/Card/CardMain'; */}
-                        <CardMain key='cardlist' navigation={navigation}/>
+                        <CardMain key='cardmain' navigation={navigation}/>
                         
                     </ScrollView>
                 </Content>

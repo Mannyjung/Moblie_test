@@ -1,17 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Dimensions, Image, RefreshControlBase, RefreshControlComponent, Alert } from 'react-native'
 import { Card, Item, Input, CardItem, Form, Button } from 'native-base'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Feather, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
 import { Actions } from 'react-native-router-flux';
+import Api from '../api/Api'
 import Main from './Main';
 const { width, height } = Dimensions.get('screen')
 const LoginV2 = ({ navigation }) => {
+    useEffect(() => {
+        const unsubscribe = navigation.addListener("focus", () => {
+            setdata({
+                User_id: "",
+                User_password: ""
+            })
+            return unsubscribe;
+        })
+    }, [navigation]);
+
     const [data, setdata] = useState({
         User_id: "",
         User_password: ""
     })
+
 
     const login = async () => {
         const alerts = "กรุณาใส่"
@@ -27,7 +39,7 @@ const LoginV2 = ({ navigation }) => {
             return;
         }
         console.log('Post now')
-        await axios.post("https://newapi-flashwork.herokuapp.com/public/login_user", data)
+        await Api.post('login_user', data)
 
             .then(async (res) => {
                 if (res.data.message === 'Fail Login') {

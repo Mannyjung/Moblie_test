@@ -1,85 +1,121 @@
 import React, { useState, useEffect } from 'react'
-import { Text, StyleSheet, Dimensions, Alert } from 'react-native'
-import { Container, Header, Content, Card, CardItem, Body, Left, Right, Button } from "native-base";
+import { Text, StyleSheet, Dimensions, RefreshControl, SafeAreaView, ScrollView } from 'react-native'
+import { Content, Card, CardItem, Body, Right, Button } from "native-base";
 import axios from 'axios';
-const { width, height } = Dimensions.get('screen')
+import Api from '../../api/Api'
+import { useNavigation } from '@react-navigation/native';
+const { width, } = Dimensions.get('screen')
+const wait = (timeout) => {
 
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
 const SucEmp = ({ Userid }) => {
+  const navigation = useNavigation();
+  const [refreshing, setRefreshing] = useState(false);
   const [getsuccess, setSuccess] = useState([]);
-  useEffect(() => {
-    axios.get("http://newapi-flashwork.herokuapp.com/public/employmentEpySuc/" + Userid)
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    reload()
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
+  const reload = () => {
+    Api.get("employmentEpySuc/" + Userid)
       .then(response => {
         setSuccess(response.data)
-
       })
       .catch(error => {
+        console.log(error);
+      });
+  }
 
+  useEffect(() => {
+    Api.get("employmentEpySuc/" + Userid)
+      .then(response => {
+        setSuccess(response.data)
+      })
+      .catch(error => {
+        console.log(error);
       });
   }, [Userid]);
 
   return (
-    <Content padder>
-      {getsuccess.map((getsucc) => {
-        return (
-          <Card key={getsucc.emm_std_id}>
-            <CardItem header bordered>
-              <Body>
-                <Text style={styles.text}>
-                  ฟรีแลนซ์
-                </Text>
-                <Text style={styles.content}>
-                  {getsucc.emm_std_id}
-                </Text>
-              </Body>
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
+      >
 
-              <Body>
-                <Text style={styles.text}>
-                  วันที่
-                </Text>
-                <Text style={styles.content}>
-                  {getsucc.emm_date_time}
-                </Text>
-              </Body>
-            </CardItem>
-            <CardItem bordered>
-              <Body>
-                <Text style={styles.text}>
-                  ชื่องาน
-                </Text>
-                <Text style={styles.content}>
-                  {getsucc.aw_name}
-                </Text>
-              </Body>
-              <Body>
-                <Text style={styles.text}>
-                  ชื่อแพ็คเก็จ
-                </Text>
-                <Text style={styles.content}>
-                  {getsucc.pk_name}
-                </Text>
-              </Body>
-            </CardItem>
-            <CardItem bordered>
-              <Body>
-                <Text style={styles.text}>
-                  สถานะ
-                </Text>
-                <Text style={styles.content}>
-                  {getsucc.emm_status}
-                </Text>
-              </Body>
-              <Right>
-                <Button style={styles.butt} >
-                  <Text style={{ color: '#fff' }}>
-                    รีวิว
-                  </Text>
-                </Button>
-              </Right>
-            </CardItem>
-          </Card>
-        )
-      })}
-    </Content>
+        <Content padder>
+          {getsuccess.map((getsucc, index) => {
+            return (
+              <Card key={index}>
+                <CardItem header bordered>
+                  <Body>
+                    <Text style={styles.text}>
+                      ฟรีแลนซ์
+                    </Text>
+                    <Text style={styles.content}>
+                      : {getsucc.emm_std_id}
+                    </Text>
+                  </Body>
+
+                  <Body>
+                    <Text style={styles.text}>
+                      วันที่
+                    </Text>
+                    <Text style={styles.content}>
+                      {getsucc.emm_date_time}
+                    </Text>
+                  </Body>
+                </CardItem>
+                <CardItem bordered>
+                  <Body>
+                    <Text style={styles.text}>
+                      ชื่องาน
+                    </Text>
+                    <Text style={styles.content}>
+                      {getsucc.aw_name}
+                    </Text>
+                  </Body>
+                  <Body>
+                    <Text style={styles.text}>
+                      ชื่อแพ็คเก็จ
+                    </Text>
+                    <Text style={styles.content}>
+                      {getsucc.pk_name}
+                    </Text>
+                  </Body>
+                </CardItem>
+                <CardItem bordered>
+                  <Body>
+                    <Text style={styles.text}>
+                      สถานะ
+                    </Text>
+                    <Text style={styles.content}>
+                      {getsucc.emm_status}
+                    </Text>
+                  </Body>
+                  <Right>
+                    <Button style={styles.butt} onPress={() => navigation.navigate('empreview')} >
+                      <Text style={{ color: '#fff' }}>
+                        รีวิว
+                      </Text>
+                    </Button>
+                  </Right>
+                </CardItem>
+              </Card>
+            )
+          })}
+        </Content>
+
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 

@@ -2,42 +2,46 @@ import React, { useState, useEffect } from 'react';
 import { Text, StyleSheet, Dimensions, Alert, RefreshControl, SafeAreaView, ScrollView } from 'react-native'
 import { Container, Header, Content, Card, CardItem, Body, Left, Right, Button } from "native-base";
 import axios from 'axios';
-const { width, height } = Dimensions.get('screen')
-// const wait = (timeout) => {
-//   return new Promise(resolve => setTimeout(resolve, timeout));
-// }
+import Api from '../../api/Api'
+const { width, height } = Dimensions.get('screen');
+
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
 const WaitEM = ({ Userid }) => {
 
-  let userID = Userid
-  // const [refreshing, setRefreshing] = React.useState(false);
-
-  // const onRefresh = React.useCallback(async () => {
-  //   setRefreshing(true);
-  //   if (employmentFlReq.length < 100) {
-  //     try {
-  //       let response = await axios.get("https://newapi-flashwork.herokuapp.com/public/employmentFlReq/" + userID)
-  //       let responseJson = await response.json();
-  //       console.log(responseJson);
-  //       setemploymentFlReq(responseJson.result.concat(userID));
-  //       setRefreshing(false)
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-
-  // }, [refreshing]);
+  const [refreshing, setRefreshing] = React.useState(false);
   const [employmentFlReq, setemploymentFlReq] = useState([]);
+
+  let userID = Userid
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    reload()
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
   useEffect(() => {
-    axios.get("https://newapi-flashwork.herokuapp.com/public/employmentFlReq/" + userID)
+    Api.get("employmentFlReq/" + userID)
       .then(response => {
         setemploymentFlReq(response.data)
-        console.log(response.data)
       })
       .catch(error => {
         console.log(error);
       });
 
   }, [userID]);
+
+  const reload = () => {
+    Api.get("employmentFlReq/" + userID)
+      .then(response => {
+        setemploymentFlReq(response.data)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   const showConfirm = async (emm_id) => {
     await Alert.alert(
       "ยอมรับการจ้างงาน",
@@ -55,36 +59,40 @@ const WaitEM = ({ Userid }) => {
       ]
     )
   };
+
   const accept = async (emm_id) => {
     let data = {
       emm_status: "In progress",
     }
     await axios.put("https://newapi-flashwork.herokuapp.com/public/acceptFromFl/" + emm_id, data)
       .then((response) => {
-        console.log(response.data.message);
         if (response.data.message === "success") {
           Alert.alert("ยอมรับการจ้างงานเสร็จสิ้น")
+          reload()
         }
 
       });
   };
 
   return (
-    // <SafeAreaView style={styles.container}>
-    //   <ScrollView
-    //     contentContainerStyle={styles.scrollView}
-    //     refreshControl={
-    //       <RefreshControl
-    //         refreshing={refreshing}
-    //         onRefresh={onRefresh}
-    //       />
-    //     }
-    //   >
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
+      >
         <Content padder>
-          {employmentFlReq.map((employmentFlReqs) => {
+
+        </Content>
+        <Content padder>
+          {employmentFlReq.map((employmentFlReqs, index) => {
             return (
 
-              <Card key={employmentFlReqs.emm_id}>
+              <Card key={index}>
                 <CardItem header bordered>
                   <Body>
                     <Text style={styles.text}>
@@ -144,8 +152,8 @@ const WaitEM = ({ Userid }) => {
             )
           })}
         </Content>
-    //   </ScrollView>
-    // </SafeAreaView>
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 const styles = StyleSheet.create({

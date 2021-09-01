@@ -1,82 +1,121 @@
 import React, { useState, useEffect } from 'react'
-import { Text, StyleSheet, Dimensions } from 'react-native'
-import { Container, Header, Content, Card, CardItem, Body, Left, Right, Button, View } from "native-base";
+import { Text, StyleSheet, Dimensions, RefreshControl, SafeAreaView, ScrollView } from 'react-native'
+import { Content, Card, CardItem, Body, } from "native-base";
 import axios from 'axios';
-const { width, height } = Dimensions.get('screen')
-const Success = ({Userid}) => {
+import Api from '../../api/Api'
+const { width } = Dimensions.get('screen')
 
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
+const Success = ({ Userid }) => {
+
+  const [refreshing, setRefreshing] = useState(false);
   const [employmentFlSuc, setemploymentFlSuc] = useState([]);
-  useEffect(() => {
-    axios.get("https://newapi-flashwork.herokuapp.com/public/employmentFlSuc/" + Userid)
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    reload()
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
+  const reload = () => {
+    Api.get("employmentFlSuc/" + Userid)
       .then(response => {
         setemploymentFlSuc(response.data)
-        //console.log(response.data)
+
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => {
+    Api.get("employmentFlSuc/" + Userid)
+      .then(response => {
+        setemploymentFlSuc(response.data)
+
       })
       .catch(error => {
         console.log(error);
       });
 
   }, [Userid]);
+
   return (
-    <Content padder>
-      {employmentFlSuc.map((employmentFlSucs) => {
-        return (
-        
-            <Card key={employmentFlSucs.emm_id}>
-              <CardItem header bordered>
-                <Body>
-                  <Text style={styles.text}>
-                    ผู้ว่าจ้าง
-                  </Text>
-                  <Text style={styles.content}>
-                    {employmentFlSucs.emm_user_id}
-                  </Text>
-                </Body>
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
+      >
 
-                <Body>
-                  <Text style={styles.text}>
-                    วันที่
-                  </Text>
-                  <Text style={styles.content}>
-                    {employmentFlSucs.aw_date_post}
-                  </Text>
-                </Body>
-              </CardItem>
-              <CardItem bordered>
-                <Body>
-                  <Text style={styles.text}>
-                    ชื่องาน
-                  </Text>
-                  <Text style={styles.content}>
-                    {employmentFlSucs.aw_name}
-                  </Text>
-                </Body>
-                <Body>
-                  <Text style={styles.text}>
-                    ชื่อแพ็คเก็จ
-                  </Text>
-                  <Text style={styles.content}>
-                    {employmentFlSucs.pk_name}
-                  </Text>
-                </Body>
-              </CardItem>
-              <CardItem bordered>
-                <Body>
-                  <Text style={styles.text}>
-                    สถานะ
-                  </Text>
-                  <Text style={styles.content}>
-                    {employmentFlSucs.emm_status}
-                  </Text>
-                </Body>
+        <Content padder>
+          {employmentFlSuc.map((employmentFlSucs, index) => {
+            return (
 
-              </CardItem>
-            </Card>
-       
-        )
-      })}
-    </Content>
+              <Card key={index}>
+                <CardItem header bordered>
+                  <Body>
+                    <Text style={styles.text}>
+                      ผู้ว่าจ้าง
+                    </Text>
+                    <Text style={styles.content}>
+                      {employmentFlSucs.emm_user_id}
+                    </Text>
+                  </Body>
+
+                  <Body>
+                    <Text style={styles.text}>
+                      วันที่
+                    </Text>
+                    <Text style={styles.content}>
+                      {employmentFlSucs.aw_date_post}
+                    </Text>
+                  </Body>
+                </CardItem>
+                <CardItem bordered>
+                  <Body>
+                    <Text style={styles.text}>
+                      ชื่องาน
+                    </Text>
+                    <Text style={styles.content}>
+                      {employmentFlSucs.aw_name}
+                    </Text>
+                  </Body>
+                  <Body>
+                    <Text style={styles.text}>
+                      ชื่อแพ็คเก็จ
+                    </Text>
+                    <Text style={styles.content}>
+                      {employmentFlSucs.pk_name}
+                    </Text>
+                  </Body>
+                </CardItem>
+                <CardItem bordered>
+                  <Body>
+                    <Text style={styles.text}>
+                      สถานะ
+                    </Text>
+                    <Text style={styles.content}>
+                      {employmentFlSucs.emm_status}
+                    </Text>
+                  </Body>
+
+                </CardItem>
+              </Card>
+
+            )
+          })}
+
+        </Content>
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 const styles = StyleSheet.create({

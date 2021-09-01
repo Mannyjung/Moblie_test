@@ -1,18 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { Text, StyleSheet, Dimensions } from 'react-native'
-import { Container, Header, Content, Card, CardItem, Body, Left, Right, Button } from "native-base";
+import { Text, StyleSheet, Dimensions, RefreshControl, SafeAreaView, ScrollView } from 'react-native'
+import { Content, Card, CardItem, Body, } from "native-base";
 import axios from 'axios';
-const { width, height } = Dimensions.get('screen')
+import Api from '../../api/Api'
+const { width } = Dimensions.get('screen')
+
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 const Working = ({ Userid }) => {
-
-
+    const [refreshing, setRefreshing] = React.useState(false);
     const [employmentFlProgress, setemploymentFlProgress] = useState([]);
-    useEffect(() => {
-        axios.get("https://newapi-flashwork.herokuapp.com/public/employmentFlProgress/" + Userid)
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        reload()
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
+
+    const reload = () => {
+        Api.get('employmentFlProgress/' + Userid)
             .then(response => {
                 setemploymentFlProgress(response.data)
-                //console.log(response.data)
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    useEffect(() => {
+        Api.get('employmentFlProgress/' + Userid)
+            .then(response => {
+                setemploymentFlProgress(response.data)
             })
             .catch(error => {
                 console.log(error);
@@ -20,64 +40,78 @@ const Working = ({ Userid }) => {
 
     }, [Userid]);
     return (
-        <Content padder>
-            {employmentFlProgress.map((employmentFlProgresss) => {
-                return (
+        <SafeAreaView style={styles.container}>
+            <ScrollView
+                contentContainerStyle={styles.scrollView}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
+            >
 
-                    <Card key={employmentFlProgresss.emm_id}>
-                        <CardItem header bordered>
-                            <Body>
-                                <Text style={styles.text}>
-                                    ผู้ว่าจ้าง
-                                </Text>
-                                <Text style={styles.content}>
-                                    {employmentFlProgresss.emm_user_id}
-                                </Text>
-                            </Body>
+                <Content padder>
+                    {employmentFlProgress.map((employmentFlProgresss, index) => {
+                        return (
 
-                            <Body>
-                                <Text style={styles.text}>
-                                    วันที่
-                                </Text>
-                                <Text style={styles.content}>
-                                    {employmentFlProgresss.aw_date_post}
-                                </Text>
-                            </Body>
-                        </CardItem>
-                        <CardItem bordered>
-                            <Body>
-                                <Text style={styles.text}>
-                                    ชื่องาน
-                                </Text>
-                                <Text style={styles.content}>
-                                    {employmentFlProgresss.aw_name}
-                                </Text>
-                            </Body>
-                            <Body>
-                                <Text style={styles.text}>
-                                    ชื่อแพ็คเก็จ
-                                </Text>
-                                <Text style={styles.content}>
-                                    {employmentFlProgresss.pk_name}
-                                </Text>
-                            </Body>
-                        </CardItem>
-                        <CardItem bordered>
-                            <Body>
-                                <Text style={styles.text}>
-                                    สถานะ
-                                </Text>
-                                <Text style={styles.content}>
-                                    {employmentFlProgresss.emm_status}
-                                </Text>
-                            </Body>
+                            <Card key={index}>
+                                <CardItem header bordered>
+                                    <Body>
+                                        <Text style={styles.text}>
+                                            ผู้ว่าจ้าง
+                                        </Text>
+                                        <Text style={styles.content}>
+                                            {employmentFlProgresss.emm_user_id}
+                                        </Text>
+                                    </Body>
 
-                        </CardItem>
-                    </Card>
+                                    <Body>
+                                        <Text style={styles.text}>
+                                            วันที่
+                                        </Text>
+                                        <Text style={styles.content}>
+                                            {employmentFlProgresss.aw_date_post}
+                                        </Text>
+                                    </Body>
+                                </CardItem>
+                                <CardItem bordered>
+                                    <Body>
+                                        <Text style={styles.text}>
+                                            ชื่องาน
+                                        </Text>
+                                        <Text style={styles.content}>
+                                            {employmentFlProgresss.aw_name}
+                                        </Text>
+                                    </Body>
+                                    <Body>
+                                        <Text style={styles.text}>
+                                            ชื่อแพ็คเก็จ
+                                        </Text>
+                                        <Text style={styles.content}>
+                                            {employmentFlProgresss.pk_name}
+                                        </Text>
+                                    </Body>
+                                </CardItem>
+                                <CardItem bordered>
+                                    <Body>
+                                        <Text style={styles.text}>
+                                            สถานะ
+                                        </Text>
+                                        <Text style={styles.content}>
+                                            {employmentFlProgresss.emm_status}
+                                        </Text>
+                                    </Body>
 
-                )
-            })}
-        </Content>
+                                </CardItem>
+                            </Card>
+
+                        )
+                    })}
+                </Content>
+
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 const styles = StyleSheet.create({

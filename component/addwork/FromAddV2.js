@@ -6,7 +6,8 @@ import {
 import { Picker } from '@react-native-picker/picker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('screen')
-import axios from 'axios'
+
+import Api from '../../api/Api'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
 import { storage } from "../firebase";
@@ -59,7 +60,7 @@ const FromAddV2 = () => {
         onLoad()
     }, []);
     useEffect(() => {
-        axios.get("https://newapi-flashwork.herokuapp.com/public/subcate")
+        Api.get("subcate")
             .then(response => {
                 setsubcate(response.data)
             })
@@ -88,7 +89,6 @@ const FromAddV2 = () => {
         if (!result.cancelled) {
             let uri = result.uri
             await setPostwork({ ...postwork, rawimg: [...postwork.rawimg, uri] });
-            console.log(postwork)
         }
     };
 
@@ -100,12 +100,10 @@ const FromAddV2 = () => {
         const snapshot = await storage.ref(`${user_id}/image/${newName}`).put(blob);
         blob.close();
         const imgUrl = await snapshot.ref.getDownloadURL()
-        console.log("รูป"+imgUrl);
         return imgUrl
     }
 
     const uploadFileToFirebase = async (raw) => {
-        console.log("uploadFileToFirebase")
         if (!postwork.Work_name.trim()) {
             alert('กรุณากรอกชื่องาน');
             return;
@@ -130,27 +128,23 @@ const FromAddV2 = () => {
         }
 
         // let array = Array.from(raw)
-        // console.log(raw)
         const promises = [];
         raw.forEach(file => {
-            console.log(file);
             console.log("forEach")
             promises.push(
                 new Promise((resolve, reject) => {
-                    console.log("promises")
                     resolve(upload(file))
                 })
             )
 
         })
         let result = await Promise.all(promises);
-        console.log(result);
         return result;
 
 
     }
+
     const savePost = async (img) => {
-        console.log("savePosts",img)
         let work = {
             User_id: postwork.User_id,
             Work_name: postwork.Work_name,
@@ -163,7 +157,7 @@ const FromAddV2 = () => {
             Work_img: img
         }
 
-        await axios.post("https://newapi-flashwork.herokuapp.com/public/postwork", work)
+        await Api.post("postwork", work)
             .then((res) => {
                 alert('success')
                 refreshcomp()
@@ -172,7 +166,6 @@ const FromAddV2 = () => {
                 console.log(error);
             });
     }
-
     return (
         <>
             <View style={styles.view}>
@@ -233,17 +226,19 @@ const FromAddV2 = () => {
                                     <Input value={postwork.Pk_price} name="Pk_price" onChangeText={(e) => setPostwork({ ...postwork, Pk_price: e })} />
                                 </Item>
                                 <Label style={styles.text16}>ระยะเวลา</Label>
-                                {/* <Picker
-                                selectedValue={selectedValue}
-                                style={{ height: 50 }}
-                                onValueChange={(e) => setPostwork({ ...postwork, timeperiod: e })}
-                            >
-                                <Picker.Item label="7 วัน" value="7" />
-                                <Picker.Item label="30 วัน" value="30" />
-                            </Picker> */}
-                                <Item style={styles.item} regular>
-                                    <Input value={postwork.timeperiod} name="timeperiod" onChangeText={(e) => setPostwork({ ...postwork, timeperiod: e })} />
-                                </Item>
+                                <Picker
+                                    selectedValue={postwork.timeperiod}
+                                    style={{ height: 50 }}
+                                    onValueChange={(e) => setPostwork({ ...postwork, timeperiod: e })}
+                                >
+                                    <Picker.Item label="3 วัน" value="ภายใน 3 วัน" />
+                                    <Picker.Item label="7 วัน" value="ภายใน 7 วัน" />
+                                    <Picker.Item label="14 วัน" value="ภายใน 14 วัน" />
+                                    <Picker.Item label="21 วัน" value="ภายใน 21 วัน" />
+                                    <Picker.Item label="30 วัน" value="ภายใน 30 วัน" />
+
+                                </Picker>
+
                             </Form>
                         </Card>
                         <Card transparent>
@@ -272,17 +267,13 @@ const FromAddV2 = () => {
                         <Button
                             title="โพสต์งาน"
                             onPress={async () => {
-                                console.log("onPress")
                                 if (postwork.rawimg) {
-                                    console.log("if")
-                                    console.log(postwork.rawimg)
                                     const urls = await uploadFileToFirebase(postwork.rawimg);
                                     savePost(urls);
                                 }
                                 else {
                                     savePost("")
                                 }
-                                //uploadFileToFirebase()
                             }}
                         />
                     </Form>

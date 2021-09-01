@@ -17,6 +17,7 @@ import SelectPost from './screen/SelectPost';
 import Addpack from './component/Edit/Addpackage';
 import EmploymentFL from './screen/EmploymentFL';
 import EmploymentEmp from './screen/EmploymentEmp';
+import EmpReview from './component/EmploymentEmp/EmpReview';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
@@ -201,6 +202,7 @@ const App = ({ navigation }) => {
                             <Stack.Screen name="student" component={Student} />
                             <Stack.Screen name="login" component={NotLogin} />
                             <Stack.Screen name="selectpost" component={SelectPost} />
+                            <Stack.Screen name="empreview" component={EmpReview} />
                         </Stack.Navigator>
                     </NavigationContainer> :
                     data.Status === null || '' ?

@@ -27,7 +27,10 @@ const Profile = ({ navigation }) => {
     const removeValue = async () => {
         await AsyncStorage.clear()
         console.log('clear')
-        navigation.navigate('login')
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'login' }],
+        });
     }
 
     return (
