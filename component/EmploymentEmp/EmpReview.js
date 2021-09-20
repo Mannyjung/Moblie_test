@@ -1,37 +1,89 @@
 import { Body, CardItem, Container, Content, Form, Header, Input, Label, Item, Button } from 'native-base';
-import React from 'react'
-import { Text, StyleSheet, Image, View } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { Text, StyleSheet, Image, View, Alert } from "react-native";
 import { Card } from 'react-native-paper';
-const EmpReview = () => {
+import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
+
+const EmpReview = ({ route }) => {
+
+    const navigation = useNavigation();
+    const { emm_id } = route.params;
+
+    const [showdetailReviews, setshowdetailReviews] = useState([]);
+    // console.log(emm_id)
+    useEffect(() => {
+        axios.get("https://mobileflashwork.herokuapp.com/public/show_comment/" + emm_id)
+            .then(response => {
+                setshowdetailReviews(response.data[0])
+                console.log(response.data[0])
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }, [emm_id]);
+
+    const [insertcomment, setComment] = useState({
+        emm_review: ""
+    });
+
+    const saveComment = () => {
+        let data = {
+            emm_review: insertcomment.emm_review,
+            emm_status: "เสร็จสิ้นและรีวิว"
+        }
+        // console.log(data);
+        axios.put('https://mobileflashwork.herokuapp.com/public/addreview/' + emm_id, data)
+            .then((response) => {
+                setComment({ ...insertcomment, data });
+                if (response.data.message === "success") {
+                    Alert.alert("บันทึกเรียบร้อย")
+                    console.log(response.data);
+                }
+                else {
+                    Alert.alert("เกิดปัญหากับระบบกรุณาลองใหม่อีกครั้งภายหลัง")
+                }
+
+            }).then(() => {
+                navigation.navigate('Employment')
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
     return (
         <Content style={styles.content}>
             <Header androidStatusBarColor="#ff5749" searchBar rounded style={styles.head} transparent>
                 <Text style={styles.text1}>
-                    รีวิวงาน
+                    รีวิวงาน {emm_id}
                 </Text>
             </Header>
             <Card transparent>
                 <Form style={styles.from}>
                     <CardItem>
-                        <Image source={{ uri: 'https://storage.googleapis.com/fastwork-static/f6cbbf62-e180-484a-92bf-119523bc5fc2.jpg' }}
+                        <Image source={{ uri: showdetailReviews.w_img_name }}
                             style={styles.img} />
                     </CardItem>
                     <CardItem>
 
                         <Body style={styles.body}>
                             <Text style={styles.textTitle}>
-                                รับวาดภาพแฟนอาร์ต ตัวการ์ตูน ดารา ที่คุณชอบ
+                                งาน : {showdetailReviews.aw_name}
                             </Text>
                             <Text style={styles.textDes}>
-                                ราคา 500 บาท
+                                แพ็คเก็จ : {showdetailReviews.pk_name}
+                            </Text>
+                            <Text style={styles.textDes}>
+                                ราคา : {showdetailReviews.pk_price}
                             </Text>
                             <Label style={styles.text16}>รีวิว</Label>
 
                             <Item style={styles.item} regular>
-                                <Input />
-                                <Button style={styles.butt}  >
+                                <Input onChangeText={(e) => setComment({ ...insertcomment, emm_review: e })} />
+                                <Button style={styles.butt} onPress={() => saveComment()}  >
                                     <Text style={{ color: '#fff' }}>
-                                        รีวิว
+                                        ยืนยันการรีวิว
                                     </Text>
                                 </Button>
                             </Item>
@@ -108,7 +160,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#559999',
     },
     img: {
-        
+
         width: 340,
         height: 350,
 

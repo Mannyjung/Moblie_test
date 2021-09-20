@@ -4,8 +4,10 @@ import { Content, Card, CardItem, Body, List, Left, Thumbnail, Right, Button } f
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Foundation } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('screen');
+import { useNavigation } from '@react-navigation/native';
 import axios from 'axios'
 const Package = ({ id }) => {
+
     const [data, setdata] = useState({
         User_id: "",
     })
@@ -18,9 +20,10 @@ const Package = ({ id }) => {
         setdata({ ...data, User_id: User_id })
     }
     let Userid = data.User_id
+    const navigation = useNavigation();
     const [detailPack, setdetailPack] = useState([]);
     useEffect(() => {
-        axios.get("https://newapi-flashwork.herokuapp.com/public/getPackage/" + id)
+        axios.get("https://mobileflashwork.herokuapp.com/public/getPackage/" + id)
             .then(response => {
                 setdetailPack(response.data)
             })
@@ -32,7 +35,7 @@ const Package = ({ id }) => {
 
     const [detailPost, setdetailPost] = useState([]);
     useEffect(() => {
-        axios.get("https://newapi-flashwork.herokuapp.com/public/detailpost/" + id)
+        axios.get("https://mobileflashwork.herokuapp.com/public/detailpost/" + id)
             .then(response => {
                 setdetailPost(response.data[0])
                 //console.log(response.data)
@@ -46,7 +49,7 @@ const Package = ({ id }) => {
     const [freepost, setfreepost] = useState([]);
 
     useEffect(() => {
-        axios.get("https://newapi-flashwork.herokuapp.com/public/freepost/" + id)
+        axios.get("https://mobileflashwork.herokuapp.com/public/freepost/" + id)
             .then(response => {
                 setfreepost(response.data[0])
                 //console.log(img)
@@ -80,7 +83,7 @@ const Package = ({ id }) => {
             emm_user_id: Userid,
             emm_std_id: detailPost.aw_std_id,
             emm_pk_id: pk_id,
-            emm_status: "Request",
+            emm_status: "รอการตอบรับ",
         }
 
         let data = {
@@ -97,7 +100,7 @@ const Package = ({ id }) => {
         // console.log(dataEmp);
         // console.log(data);
         // console.log(data1);
-        axios.post("https://newapi-flashwork.herokuapp.com/public/employment", dataEmp)
+        axios.post("https://mobileflashwork.herokuapp.com/public/employment", dataEmp)
             .then((res) => {
                 if (res.data.message === "success") {
                     console.log(dataEmp)
@@ -105,15 +108,19 @@ const Package = ({ id }) => {
                 }
             }
             )
-        axios.post("https://newapi-flashwork.herokuapp.com/public/message", data)
+        axios.post("https://mobileflashwork.herokuapp.com/public/message", data)
             .then((res) => {
                 if (res.data.message === "success") {
                     console.log(res.data)
                     if (res.data.message === "success") {
-                        axios.post("https://newapi-flashwork.herokuapp.com/public/message", data1)
+                        axios.post("https://mobileflashwork.herokuapp.com/public/message", data1)
                             .then((res) => {
                                 console.log(res.data)
+                                Alert.alert("การจ้างงานเสร็จสิ้น")
                             })
+                            // .then(()=>{
+                            //     navigation.navigate('Employment')
+                            // })
                     }
                 }
             })

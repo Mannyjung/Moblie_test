@@ -26,7 +26,7 @@ const Editpack = ({ route }) => {
     const [packageDetailbyid, setpackageDetailbyid] = useState([]);
     // console.log(mypost);
     useEffect(() => {
-        axios.get("https://newapi-flashwork.herokuapp.com/public/getPackagebyId/" + pk_id)
+        axios.get("https://mobileflashwork.herokuapp.com/public/getPackagebyId/" + pk_id)
             .then(response => {
                 setpackageDetailbyid(response.data[0])
                 //console.log(response.data);
@@ -74,13 +74,14 @@ const Editpack = ({ route }) => {
         //console.log(data);
         axios.put("https://newapi-flashwork.herokuapp.com/public/editpackage/" + pk_id, data)
             .then((response) => {
-                seteditpackage({ ...editpackage, data })
-                console.log(response.data);
+                if (response.data.message === "success") {
+                    Alert.alert("แก้ไขเรียบร้อย")
+                    seteditpackage({ ...editpackage, data })
+                    navigation.navigate('package')
 
-            }).then(() => {
-                Alert.alert("แก้ไขเรียบร้อย")
-            }).then(()=>{
-                navigation.navigate('package')
+                } else {
+                    Alert.alert("เกิดปัญหากับระบบกรุณาลองใหม่อีกครั้งภายหลัง")
+                }
             })
             .catch((error) => {
                 console.log(error);

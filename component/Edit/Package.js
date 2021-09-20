@@ -25,7 +25,7 @@ const Package = ({ route }) => {
     const [packageDetail, setpackageDetail] = useState([]);
     // console.log(mypost);
     useEffect(() => {
-        axios.get("https://newapi-flashwork.herokuapp.com/public/getPackage/" + data_id)
+        axios.get("https://mobileflashwork.herokuapp.com/public/getPackage/" + data_id)
             .then(response => {
                 setpackageDetail(response.data)
                 //console.log(response.data);

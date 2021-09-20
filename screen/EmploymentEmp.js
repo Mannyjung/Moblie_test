@@ -5,9 +5,7 @@ import WaitFree from '../component/EmploymentEmp/WaitFree';
 import WorkEmp from '../component/EmploymentEmp/WorkEmp';
 import SucEmp from '../component/EmploymentEmp/SucEmp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const wait = (timeout) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-}
+
 const EmploymentEmp = () => {
     const [data, setdata] = useState({
         User_id: "",
@@ -22,23 +20,9 @@ const EmploymentEmp = () => {
     }
     let Userid = data.User_id
 
-    const [refreshing, setRefreshing] = React.useState(false);
-
-    const onRefresh = React.useCallback(() => {
-        setRefreshing(true);
-        wait(2000).then(() => setRefreshing(false));
-    }, []);
+  
     return (
-        <SafeAreaView style={styles.container}>
-            <ScrollView
-                contentContainerStyle={styles.scrollView}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={onRefresh}
-                    />
-                }
-            >
+    
                 <Container>
                     <Header androidStatusBarColor="#ff5749" searchBar rounded style={styles.head} transparent>
                         <Text style={styles.text}>
@@ -57,8 +41,7 @@ const EmploymentEmp = () => {
                         </Tab>
                     </Tabs>
                 </Container>
-            </ScrollView>
-        </SafeAreaView>
+    
 
     )
 }

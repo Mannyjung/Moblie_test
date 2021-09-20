@@ -5,7 +5,7 @@ import axios from 'axios';
 const Review = ({ id }) => {
     const [detailReview, setdetailReview] = useState([]);
     useEffect(() => {
-        axios.get("https://newapi-flashwork.herokuapp.com/public/reviewpost/" + id)
+        axios.get("https://mobileflashwork.herokuapp.com/public/reviewpost/" + id)
             .then(response => {
                 setdetailReview(response.data)
 

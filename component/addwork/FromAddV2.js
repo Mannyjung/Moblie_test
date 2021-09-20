@@ -105,25 +105,25 @@ const FromAddV2 = () => {
 
     const uploadFileToFirebase = async (raw) => {
         if (!postwork.Work_name.trim()) {
-            alert('กรุณากรอกชื่องาน');
+            Alert.alert('กรุณากรอกชื่องาน');
             return;
         } if (!postwork.Work_detail.trim()) {
-            alert('กรุณากรอกรายละเอียดงาน');
+            Alert.alert('กรุณากรอกรายละเอียดงาน');
             return;
         } if (!postwork.Work_category.trim()) {
-            alert('กรุณาเลือกหมวดหมู่งาน');
+            Alert.alert('กรุณาเลือกหมวดหมู่งาน');
             return;
         } if (!postwork.Pk_name.trim()) {
-            alert('กรุณากรอกชื่อเเพ็คเก็จ');
+            Alert.alert('กรุณากรอกชื่อเเพ็คเก็จ');
             return;
         } if (!postwork.Pk_detail.trim()) {
-            alert('กรุณากรอกรายละเอียดเเพ็คเก็จ');
+            Alert.alert('กรุณากรอกรายละเอียดเเพ็คเก็จ');
             return;
         } if (!postwork.Pk_price.trim()) {
-            alert('กรุณากรอกราคาของเเพ็คเก็จ');
+            Alert.alert('กรุณากรอกราคาของเเพ็คเก็จ');
             return;
         } if (!postwork.timeperiod.trim()) {
-            alert('กรุณาเลือกระยะเวลาทำงาน');
+            Alert.alert('กรุณาเลือกระยะเวลาทำงาน');
             return;
         }
 
@@ -159,8 +159,12 @@ const FromAddV2 = () => {
 
         await Api.post("postwork", work)
             .then((res) => {
-                alert('success')
+                if (res.data.message === "success"){
+                    Alert.alert('success')
                 refreshcomp()
+                }else{
+                    Alert.alert("เกิดปัญหากับระบบกรุณาลองใหม่อีกครั้งภายหลัง")
+                }
             })
             .catch((error) => {
                 console.log(error);

@@ -59,19 +59,54 @@ const WaitEM = ({ Userid }) => {
       ]
     )
   };
+  const showConfirmCancel = async (emm_id) => {
+    await Alert.alert(
+      "การยกเลิกการจ้างงาน",
+      "คุณต้องการยกเลิกการจ้างงานหรือไม่ ?",
+      [
+        {
+          text: "ยกเลิก",
+          onPress: () => console.log(emm_id),
+          style: "cancel"
+        },
+        {
+          text: "ตกลง",
+          onPress: () => cancelEmploy(emm_id)
+        }
+      ]
+    )
+  };
 
   const accept = async (emm_id) => {
     let data = {
-      emm_status: "In progress",
+      emm_status: "กำลังดำเนินการ",
     }
-    await axios.put("https://newapi-flashwork.herokuapp.com/public/acceptFromFl/" + emm_id, data)
+    await axios.put("https://mobileflashwork.herokuapp.com/public/employmentEpyReq/" + emm_id, data)
       .then((response) => {
         if (response.data.message === "success") {
           Alert.alert("ยอมรับการจ้างงานเสร็จสิ้น")
           reload()
+        } else {
+          Alert.alert("เกิดปัญหากับระบบกรุณาลองใหม่อีกครั้งภายหลัง")
+          reload()
         }
 
       });
+  };
+
+  const cancelEmploy = async (emm_id) => {
+    axios.delete("https://mobileflashwork.herokuapp.com/public/deleteemploymentReq/" + emm_id)
+      .then((response) => {
+        console.log(response.data.message);
+        if (response.data.message === "success") {
+          Alert.alert("ยกเลิกการจ้างงานเรียบร้อย")
+          reload()
+        } else {
+          Alert.alert("ยกเลิกการจ้างงานไม่สำเร็จกรุณาลองใหม่ภายหลัง")
+          reload()
+        }
+      });
+
   };
 
   return (
@@ -145,6 +180,12 @@ const WaitEM = ({ Userid }) => {
                         ยอมรับ
                       </Text>
                     </Button>
+
+                    <Button style={styles.butt1} onPress={() => showConfirmCancel(employmentFlReqs.emm_id)}>
+                      <Text style={{ color: '#fff' }}>
+                        ยกเลิก
+                      </Text>
+                    </Button>
                   </Right>
                 </CardItem>
               </Card>
@@ -171,6 +212,13 @@ const styles = StyleSheet.create({
     height: -5,
     width: width / 2.5,
     backgroundColor: '#559999',
+  },
+  butt1: {
+    padding: 10,
+    height: -5,
+    width: width / 2.5,
+    marginTop: 4,
+    backgroundColor: '#FB1F1F',
   }
 })
 

@@ -38,12 +38,11 @@ const LoginV2 = ({ navigation }) => {
                 alerts + 'รหัสผ่าน');
             return;
         }
-        console.log('Post now')
         await Api.post('login_user', data)
 
             .then(async (res) => {
                 if (res.data.message === 'Fail Login') {
-                    console.log('Failpass')
+                    Alert.alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง')
                     navigation.navigate('login')
 
                 }
@@ -61,7 +60,7 @@ const LoginV2 = ({ navigation }) => {
                     }
                 }
                 else {
-                    console.log("err")
+                    Alert.alert('เกิดปัญหากับระบบกรุณาลองใหม่อีกครั้งภายหลัง')
                 }
             })
     }

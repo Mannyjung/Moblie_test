@@ -1,25 +1,25 @@
 import { Container, Header, Content, SwipeRow, Icon, Button } from 'native-base';
 import React, { useState, useEffect } from 'react';
-import { Modal, Text, Image, View, StyleSheet, Dimensions, Pressable, TouchableOpacity, ScrollView,Alert } from 'react-native'
+import { Modal, Text, Image, View, StyleSheet, Dimensions, Pressable, TouchableOpacity, ScrollView, Alert } from 'react-native'
 import { Data } from '../carou/data'
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import axios from 'axios'
 const { width, height } = Dimensions.get('screen')
 
-const Editpic = ({route}) => {
+const Editpic = ({ route }) => {
 
-    const {data_id} = route.params;
+    const { data_id } = route.params;
     const [photoWorkbyid, setphotoWorkbyid] = useState([]);
     useEffect(() => {
-      axios.get("https://newapi-flashwork.herokuapp.com/public/PIC/" + data_id)
-        .then(response => {
-            setphotoWorkbyid(response.data)
-            console.log(response.data)
-        })
-        .catch(error => {
-          console.log(error);
-        });
-  
+        axios.get("https://mobileflashwork.herokuapp.com/public/PIC/" + data_id)
+            .then(response => {
+                setphotoWorkbyid(response.data)
+                console.log(response.data)
+            })
+            .catch(error => {
+                console.log(error);
+            });
+
     }, [data_id]);
 
     const showConfirm = async (w_img_id) => {
@@ -45,10 +45,13 @@ const Editpic = ({route}) => {
     const deletePic = (w_img_id) => {
         console.log(w_img_id);
 
-        axios.delete("https://newapi-flashwork.herokuapp.com/public/deletePhotos/"+ w_img_id)
+        axios.delete("https://mobileflashwork.herokuapp.com/public/deletePhotos/" + w_img_id)
             .then((response) => {
-                console.log(response.data);
-                Alert.alert("ลบเสร็จสิ้น")
+                if (response.data.message === "success") {
+                    Alert.alert("ลบเสร็จสิ้น")
+                } else {
+                    Alert.alert("เกิดปัญหากับระบบกรุณาลองใหม่อีกครั้งภายหลัง")
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -71,24 +74,24 @@ const Editpic = ({route}) => {
             {/* <Container> */}
 
 
-                <ScrollView >
-                    {photoWorkbyid.map((uri) => {
-                        return (
-                            <SwipeRow style={{ width: width }} key={uri.w_img_id} rightOpenValue={-75}
-                                body={
-                                    <>
-                                        <Image source={{ uri: uri.w_img_name }} style={styles.pic} key={uri.w_img_id} />
-                                    </>
-                                }
-                                right={
-                                    <Button danger style={styles.butt} onPress={() => showConfirm(uri.w_img_id)}>
-                                        <Icon active name="trash" />
-                                    </Button>
-                                }
-                            />
-                        )
-                    })}
-                </ScrollView>
+            <ScrollView >
+                {photoWorkbyid.map((uri) => {
+                    return (
+                        <SwipeRow style={{ width: width }} key={uri.w_img_id} rightOpenValue={-75}
+                            body={
+                                <>
+                                    <Image source={{ uri: uri.w_img_name }} style={styles.pic} key={uri.w_img_id} />
+                                </>
+                            }
+                            right={
+                                <Button danger style={styles.butt} onPress={() => showConfirm(uri.w_img_id)}>
+                                    <Icon active name="trash" />
+                                </Button>
+                            }
+                        />
+                    )
+                })}
+            </ScrollView>
             {/* </Container> */}
         </>
     )
@@ -119,11 +122,11 @@ const styles = StyleSheet.create({
         width: width,
         height: 170,
     },
-    butt:{
-        paddingBottom:-100,
-        paddingTop:-100
+    butt: {
+        paddingBottom: -100,
+        paddingTop: -100
     }
-    
+
 
 })
 

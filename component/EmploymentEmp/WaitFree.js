@@ -10,17 +10,13 @@ const wait = (timeout) => {
 }
 
 const WaitFree = ({ Userid }) => {
-  const [refreshing, setRefreshing] = useState(false);
+  let userID = Userid
   const [getwaitemp, setGetwaitemp] = useState([]);
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    reload()
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
+  const [refreshing, setRefreshing] = useState(false);
 
   const reload = () => {
-    Api.get("employmentEpyReq/" + Userid)
+    Api.get("employmentEpyReq/" + userID)
       .then(response => {
         setGetwaitemp(response.data)
       })
@@ -28,16 +24,24 @@ const WaitFree = ({ Userid }) => {
         console.log(error);
       });
   }
+  
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    reload()
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
+
 
   useEffect(() => {
-    Api.get("employmentEpyReq/" + Userid)
+    Api.get("employmentEpyReq/" + userID)
       .then(response => {
         setGetwaitemp(response.data)
       })
       .catch(error => {
         console.log(error);
       });
-  }, [Userid]);
+  }, [userID]);
 
   const showConfirm = async (emm_id) => {
     await Alert.alert(
@@ -46,7 +50,6 @@ const WaitFree = ({ Userid }) => {
       [
         {
           text: "ยกเลิก",
-          onPress: () => console.log(emm_id),
           style: "cancel"
         },
         {
@@ -58,11 +61,13 @@ const WaitFree = ({ Userid }) => {
   };
 
   const cancelEmploy = async (emm_id) => {
-    axios.delete("https://newapi-flashwork.herokuapp.com/public/deleteFromEpy/" + emm_id)
+    axios.delete("https://mobileflashwork.herokuapp.com/public/deleteemploymentReq/" + emm_id)
       .then((response) => {
-        console.log(response.data.message);
         if (response.data.message === "success") {
           Alert.alert("ยกเลิกการจ้างงานเรียบร้อย")
+          reload()
+        } else {
+          Alert.alert("เกิดปัญหากับระบบกรุณาลองใหม่อีกครั้งภายหลัง")
           reload()
         }
       });

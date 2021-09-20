@@ -15,6 +15,8 @@ import Editpack from './component/Edit/Editpack';
 import Editwork from './component/Edit/Editwork';
 import SelectPost from './screen/SelectPost';
 import Addpack from './component/Edit/Addpackage';
+import historyEmp from './screen/historyEmp';
+import historyFl from './screen/historyFl';
 import EmploymentFL from './screen/EmploymentFL';
 import EmploymentEmp from './screen/EmploymentEmp';
 import EmpReview from './component/EmploymentEmp/EmpReview';
@@ -147,6 +149,16 @@ function Employer() {
                     ),
                 }}
             />
+             <Tab.Screen
+                name="History"
+                component={historyEmp}
+                options={{
+                    tabBarLabel: 'History',
+                    tabBarIcon: ({ color }) => (
+                        <MaterialCommunityIcons name="history" color={color} size={26} />
+                    ),
+                }}
+            />
             <Tab.Screen
                 name="Profile"
                 component={Profile}
@@ -185,6 +197,7 @@ const App = ({ navigation }) => {
                         <Stack.Screen name="login" component={NotLogin} />
                         <Stack.Screen name="tabcate" component={TabCate} />
                         <Stack.Screen name="mywork" component={Mywork} />
+                        <Stack.Screen name="historyFl" component={historyFl} />
                         <Stack.Screen name="selectpost" component={SelectPost} />
                         <Stack.Screen name="editpic" component={Editpic} />
                         <Stack.Screen name="package" component={Package} />
@@ -202,7 +215,8 @@ const App = ({ navigation }) => {
                             <Stack.Screen name="student" component={Student} />
                             <Stack.Screen name="login" component={NotLogin} />
                             <Stack.Screen name="selectpost" component={SelectPost} />
-                            <Stack.Screen name="empreview" component={EmpReview} />
+                            {/* <Stack.Screen name="employmentEmp" component={EmploymentEmp} /> */}
+                            <Stack.Screen name="empReview" component={EmpReview} />
                         </Stack.Navigator>
                     </NavigationContainer> :
                     data.Status === null || '' ?

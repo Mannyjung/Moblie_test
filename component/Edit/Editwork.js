@@ -12,7 +12,7 @@ const Editwork = ({ route }) => {
 
     const [detailWorkbyid, setDetailWorkbyid] = useState([]);
     useEffect(() => {
-        axios.get("https://newapi-flashwork.herokuapp.com/public/detailpost/" + data_id)
+        axios.get("https://mobileflashwork.herokuapp.com/public/detailpost/" + data_id)
             .then(response => {
                 setDetailWorkbyid(response.data[0])
                 //console.log(detailWorkbyid)
@@ -54,12 +54,15 @@ const Editwork = ({ route }) => {
         }
         // console.log(data)
 
-        axios.put("https://newapi-flashwork.herokuapp.com/public/editpost/" + data_id, data)
+        axios.put("https://mobileflashwork.herokuapp.com/public/editpost/" + data_id, data)
             .then((response) => {
                 console.log(response.data.message);
                 if (response.data.message === "success") {
                     Alert.alert("แก้ไขงานเสร็จสิ้น")
                     navigation.navigate('mywork')
+                }
+                else {
+                    Alert.alert("เกิดปัญหากับระบบกรุณาลองใหม่อีกครั้งภายหลัง")
                 }
             })
 

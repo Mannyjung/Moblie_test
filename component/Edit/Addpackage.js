@@ -1,6 +1,6 @@
 import { Button, Card, Content, Form, Header, Input, Item, Label, Textarea, View } from 'native-base'
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text,Alert } from 'react-native'
+import { StyleSheet, Text, Alert } from 'react-native'
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios'
 import { useNavigation } from '@react-navigation/native';
@@ -24,12 +24,17 @@ const Addpackage = ({ route }) => {
     const savePack = () => {
         console.log(addpackage);
 
-        axios.post("https://newapi-flashwork.herokuapp.com/public/newpackage", addpackage)
+        axios.post("https://mobileflashwork.herokuapp.com/public/newpackage", addpackage)
             .then((response) => {
-                console.log(response.data);
-                Alert.alert("บันทึกเรียบร้อย")
+
+                if (response.data.message === "success") {
+                    Alert.alert("บันทึกเรียบร้อย")
+                } else {
+                    Alert.alert("เกิดปัญหากับระบบกรุณาลองใหม่อีกครั้งภายหลัง")
+                }
             })
-            .then(()=>{
+
+            .then(() => {
                 navigation.navigate('package')
             })
             .catch((error) => {
@@ -44,7 +49,7 @@ const Addpackage = ({ route }) => {
             <View >
                 <Header androidStatusBarColor="#ff5722" searchBar rounded style={{ backgroundColor: '#ff5722' }}>
                     <Text style={styles.textHead}>
-                    เพิ่มแพ็คเกจ {awpk_id}
+                        เพิ่มแพ็คเกจ {awpk_id}
                     </Text>
                 </Header>
             </View>
@@ -60,12 +65,12 @@ const Addpackage = ({ route }) => {
                             </Item>
                             <Label style={styles.text16}>ลายละเอียดรายแพ็คเกจ</Label>
                             <Item style={styles.item} regular>
-                               
+
                                 <Textarea rowSpan={13} onChangeText={(e) => setaddpackage({ ...addpackage, pk_detail: e })} />
                             </Item>
                             <Label style={styles.text16}>ราคา</Label>
                             <Item style={styles.item} regular>
-                                <Input  onChangeText={(e) => setaddpackage({ ...addpackage, pk_price: e })}/>
+                                <Input onChangeText={(e) => setaddpackage({ ...addpackage, pk_price: e })} />
                             </Item>
                             <Label style={styles.text16}>ระยะเวลา</Label>
                             <Picker

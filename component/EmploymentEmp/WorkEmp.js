@@ -60,15 +60,20 @@ const WorkEmp = ({ Userid }) => {
     };
     const EmpSuc = async (emm_id) => {
         let data = {
-            emm_status: "Success",
+            emm_status: "เสร็จสิ้น",
         }
-        await axios.put("https://newapi-flashwork.herokuapp.com/public/successFromEpy/" + emm_id, data)
+        await axios.put("https://mobileflashwork.herokuapp.com/public/employmentEpySuc/" + emm_id, data)
             .then((response) => {
                 console.log(response.data.message);
                 if (response.data.message === "success") {
                     Alert.alert("การจ้างงานเสร็จสิ้น")
                     reload()
                 }
+                else {
+                    Alert.alert("เกิดปัญหากับระบบกรุณาลองใหม่อีกครั้งภายหลัง")
+                    reload()
+                }
+
             });
     };
     return (

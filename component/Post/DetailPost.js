@@ -5,7 +5,7 @@ import axios from 'axios'
 const DetailPost = ({ id }) => {
     const [detailPost, setdetailPost] = useState([]);
     useEffect(() => {
-        axios.get("https://newapi-flashwork.herokuapp.com/public/detailpost/" + id)
+        axios.get("https://mobileflashwork.herokuapp.com/public/detailpost/" + id)
             .then(response => {
                 setdetailPost(response.data)
                 //console.log(detailPost)

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, StyleSheet, ImageBackground, Image, RefreshControlBase } from 'react-native'
+import { Text, View, StyleSheet, ImageBackground, Image, RefreshControlBase, Alert } from 'react-native'
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { Icon, Item } from 'native-base';
 import { Actions } from 'react-native-router-flux';
@@ -25,8 +25,9 @@ const Profile = ({ navigation }) => {
         setdata({ ...data, User_id: User_id, Image: image, Name: name, Status: status })
     }
     const removeValue = async () => {
-        await AsyncStorage.clear()
-        console.log('clear')
+        await AsyncStorage.clear().then(
+            Alert.alert("ออกจากระบบเรียบร้อย")
+        )
         navigation.reset({
             index: 0,
             routes: [{ name: 'login' }],
@@ -51,6 +52,10 @@ const Profile = ({ navigation }) => {
                     <View style={styles.viewin}>
                         <MaterialIcons onPress={() => navigation.navigate('mywork')} style={styles.icon} name="work-outline" />
                         <Text style={styles.texticon}>My work</Text>
+                    </View>
+                    <View style={styles.viewin}>
+                        <MaterialIcons onPress={() => navigation.navigate('historyFl')} style={styles.icon} name="history" />
+                        <Text style={styles.texticon}>History</Text>
                     </View>
                     {/* <View style={styles.viewin}>
                         <AntDesign onPress={() => navigation.navigate('Tabnew')} style={styles.icon} name="profile" />

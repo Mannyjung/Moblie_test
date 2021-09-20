@@ -5,8 +5,8 @@ import axios from 'axios';
 import Api from '../../api/Api'
 import { useNavigation } from '@react-navigation/native';
 const { width, } = Dimensions.get('screen')
-const wait = (timeout) => {
 
+const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
 const SucEmp = ({ Userid }) => {
@@ -102,7 +102,9 @@ const SucEmp = ({ Userid }) => {
                     </Text>
                   </Body>
                   <Right>
-                    <Button style={styles.butt} onPress={() => navigation.navigate('empreview')} >
+                    <Button style={styles.butt} onPress={() => navigation.navigate('empreview', {
+                                    emm_id: getsucc.emm_id,
+                                })} >
                       <Text style={{ color: '#fff' }}>
                         รีวิว
                       </Text>
