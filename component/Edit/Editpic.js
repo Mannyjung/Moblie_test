@@ -5,13 +5,14 @@ import { Data } from '../carou/data'
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import axios from 'axios'
 const { width, height } = Dimensions.get('screen')
+import Api from '../../api/Api'
 
 const Editpic = ({ route }) => {
 
     const { data_id } = route.params;
     const [photoWorkbyid, setphotoWorkbyid] = useState([]);
     useEffect(() => {
-        axios.get("https://mobileflashwork.herokuapp.com/public/PIC/" + data_id)
+        Api.get("PIC/" + data_id)
             .then(response => {
                 setphotoWorkbyid(response.data)
                 console.log(response.data)
@@ -45,7 +46,7 @@ const Editpic = ({ route }) => {
     const deletePic = (w_img_id) => {
         console.log(w_img_id);
 
-        axios.delete("https://mobileflashwork.herokuapp.com/public/deletePhotos/" + w_img_id)
+        Api.delete("deletePhotos/" + w_img_id)
             .then((response) => {
                 if (response.data.message === "success") {
                     Alert.alert("ลบเสร็จสิ้น")

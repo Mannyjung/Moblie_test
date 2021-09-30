@@ -5,6 +5,7 @@ import axios from 'axios'
 
 import { Picker, StyleSheet, Text, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
+import Api from '../../api/Api'
 const Editwork = ({ route }) => {
     const navigation = useNavigation();
     const { data_id } = route.params;
@@ -12,7 +13,7 @@ const Editwork = ({ route }) => {
 
     const [detailWorkbyid, setDetailWorkbyid] = useState([]);
     useEffect(() => {
-        axios.get("https://mobileflashwork.herokuapp.com/public/detailpost/" + data_id)
+        Api.get("detailpost/" + data_id)
             .then(response => {
                 setDetailWorkbyid(response.data[0])
                 //console.log(detailWorkbyid)
@@ -54,7 +55,7 @@ const Editwork = ({ route }) => {
         }
         // console.log(data)
 
-        axios.put("https://mobileflashwork.herokuapp.com/public/editpost/" + data_id, data)
+        Api.put("editpost/" + data_id, data)
             .then((response) => {
                 console.log(response.data.message);
                 if (response.data.message === "success") {

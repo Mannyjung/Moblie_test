@@ -6,10 +6,13 @@ import { Foundation } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('screen');
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios'
+import Api from '../../api/Api'
 const Package = ({ id }) => {
 
     const [data, setdata] = useState({
         User_id: "",
+        Status: ""
+
     })
     useEffect(() => {
         onLoad()
@@ -17,13 +20,14 @@ const Package = ({ id }) => {
     }, []);
     const onLoad = async () => {
         const User_id = await AsyncStorage.getItem('User_id');
-        setdata({ ...data, User_id: User_id })
+        const status = await AsyncStorage.getItem('status');
+        setdata({ ...data, User_id: User_id, Status: status })
     }
     let Userid = data.User_id
     const navigation = useNavigation();
     const [detailPack, setdetailPack] = useState([]);
     useEffect(() => {
-        axios.get("https://mobileflashwork.herokuapp.com/public/getPackage/" + id)
+        Api.get("getPackage/" + id)
             .then(response => {
                 setdetailPack(response.data)
             })
@@ -35,7 +39,7 @@ const Package = ({ id }) => {
 
     const [detailPost, setdetailPost] = useState([]);
     useEffect(() => {
-        axios.get("https://mobileflashwork.herokuapp.com/public/detailpost/" + id)
+        Api.get("detailpost/" + id)
             .then(response => {
                 setdetailPost(response.data[0])
                 //console.log(response.data)
@@ -49,7 +53,7 @@ const Package = ({ id }) => {
     const [freepost, setfreepost] = useState([]);
 
     useEffect(() => {
-        axios.get("https://mobileflashwork.herokuapp.com/public/freepost/" + id)
+        Api.get("freepost/" + id)
             .then(response => {
                 setfreepost(response.data[0])
                 //console.log(img)
@@ -100,7 +104,7 @@ const Package = ({ id }) => {
         // console.log(dataEmp);
         // console.log(data);
         // console.log(data1);
-        axios.post("https://mobileflashwork.herokuapp.com/public/employment", dataEmp)
+        Api.post("employment", dataEmp)
             .then((res) => {
                 if (res.data.message === "success") {
                     console.log(dataEmp)
@@ -108,19 +112,19 @@ const Package = ({ id }) => {
                 }
             }
             )
-        axios.post("https://mobileflashwork.herokuapp.com/public/message", data)
+        Api.post("message", data)
             .then((res) => {
                 if (res.data.message === "success") {
                     console.log(res.data)
                     if (res.data.message === "success") {
-                        axios.post("https://mobileflashwork.herokuapp.com/public/message", data1)
+                        Api.post("message", data1)
                             .then((res) => {
                                 console.log(res.data)
                                 Alert.alert("การจ้างงานเสร็จสิ้น")
                             })
-                            // .then(()=>{
-                            //     navigation.navigate('Employment')
-                            // })
+                        // .then(()=>{
+                        //     navigation.navigate('Employment')
+                        // })
                     }
                 }
             })
@@ -161,17 +165,20 @@ const Package = ({ id }) => {
                                     </Text>
                                 </Body>
                             </CardItem>
-                            <Button style={{ marginLeft:20,margin:5 }} transparent
-                                onPress={() => showConfirm(detailPacks.pk_id, detailPacks.pk_name)}>
-                                <CardItem footer bordered style={{ backgroundColor: '#ff5957' }}>
-                                    <Text style={{ color: '#fff' }}>ราคา {detailPacks.pk_price} บาท</Text>
-                                    <Right style={{ paddingLeft: 150 }}>
-                                        <Text style={{ color: '#fff' }}>
-                                            สนใจจ้าง
-                                        </Text>
-                                    </Right>
-                                </CardItem>
-                            </Button>
+                            {data.Status === "Employer" ?
+                                <Button style={{ marginLeft: 20, margin: 5 }} transparent
+                                    onPress={() => showConfirm(detailPacks.pk_id, detailPacks.pk_name)}>
+                                    <CardItem footer bordered style={{ backgroundColor: '#ff5957' }}>
+                                        <Text style={{ color: '#fff' }}>ราคา {detailPacks.pk_price} บาท</Text>
+                                        <Right style={{ paddingLeft: 150 }}>
+                                            <Text style={{ color: '#fff' }}>
+                                                สนใจจ้าง
+                                            </Text>
+                                        </Right>
+                                    </CardItem>
+                                </Button>
+                                : null
+                            }
                         </Card>
                         <Card style={styles.card}>
                             <List avatar>

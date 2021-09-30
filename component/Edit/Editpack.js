@@ -17,6 +17,7 @@ import { Picker } from '@react-native-picker/picker';
 import { Actions } from "react-native-router-flux";
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios'
+import Api from '../../api/Api'
 
 const Editpack = ({ route }) => {
     const navigation = useNavigation();
@@ -26,7 +27,7 @@ const Editpack = ({ route }) => {
     const [packageDetailbyid, setpackageDetailbyid] = useState([]);
     // console.log(mypost);
     useEffect(() => {
-        axios.get("https://mobileflashwork.herokuapp.com/public/getPackagebyId/" + pk_id)
+        Api.get("getPackagebyId/" + pk_id)
             .then(response => {
                 setpackageDetailbyid(response.data[0])
                 //console.log(response.data);
@@ -72,7 +73,7 @@ const Editpack = ({ route }) => {
             pk_time_period: editpackage.pk_time_period,
         }
         //console.log(data);
-        axios.put("https://newapi-flashwork.herokuapp.com/public/editpackage/" + pk_id, data)
+        Api.put("editpackage/" + pk_id, data)
             .then((response) => {
                 if (response.data.message === "success") {
                     Alert.alert("แก้ไขเรียบร้อย")

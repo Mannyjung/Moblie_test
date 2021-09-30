@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { Card, CardItem, Body, Content } from 'native-base';
 import axios from 'axios'
+import Api from '../../api/Api'
 const DetailPost = ({ id }) => {
     const [detailPost, setdetailPost] = useState([]);
     useEffect(() => {
-        axios.get("https://mobileflashwork.herokuapp.com/public/detailpost/" + id)
+        Api.get("detailpost/" + id)
             .then(response => {
                 setdetailPost(response.data)
                 //console.log(detailPost)

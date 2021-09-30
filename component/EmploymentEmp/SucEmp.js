@@ -9,7 +9,7 @@ const { width, } = Dimensions.get('screen')
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
-const SucEmp = ({ Userid }) => {
+const SucEmp = ({ Userid_s }) => {
   const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
   const [getsuccess, setSuccess] = useState([]);
@@ -20,7 +20,7 @@ const SucEmp = ({ Userid }) => {
   }, []);
 
   const reload = () => {
-    Api.get("employmentEpySuc/" + Userid)
+    Api.get("employmentEpySuc/" + Userid_s)
       .then(response => {
         setSuccess(response.data)
       })
@@ -30,14 +30,14 @@ const SucEmp = ({ Userid }) => {
   }
 
   useEffect(() => {
-    Api.get("employmentEpySuc/" + Userid)
+    Api.get("employmentEpySuc/" + Userid_s)
       .then(response => {
         setSuccess(response.data)
       })
       .catch(error => {
         console.log(error);
       });
-  }, [Userid]);
+  }, [Userid_s]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -83,6 +83,8 @@ const SucEmp = ({ Userid }) => {
                       {getsucc.aw_name}
                     </Text>
                   </Body>
+                </CardItem>
+                <CardItem bordered>
                   <Body>
                     <Text style={styles.text}>
                       ชื่อแพ็คเก็จ
@@ -102,7 +104,7 @@ const SucEmp = ({ Userid }) => {
                     </Text>
                   </Body>
                   <Right>
-                    <Button style={styles.butt} onPress={() => navigation.navigate('empreview', {
+                    <Button style={styles.butt} onPress={() => navigation.navigate('empReview', {
                                     emm_id: getsucc.emm_id,
                                 })} >
                       <Text style={{ color: '#fff' }}>

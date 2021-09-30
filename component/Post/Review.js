@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { Content, Left, Body, Thumbnail, Card, CardItem, View } from 'native-base';
 import axios from 'axios';
+import Api from '../../api/Api'
+
 const Review = ({ id }) => {
     const [detailReview, setdetailReview] = useState([]);
     useEffect(() => {
-        axios.get("https://mobileflashwork.herokuapp.com/public/reviewpost/" + id)
+        Api.get("reviewpost/" + id)
             .then(response => {
                 setdetailReview(response.data)
 
@@ -28,8 +30,8 @@ const Review = ({ id }) => {
                                     <Thumbnail source={{ uri: "https://i.pinimg.com/236x/e8/55/d4/e855d447720358bc71da3b38cd7ff950.jpg" }} />
                                 </Left>
                                 <Body style={styles.body}>
-                                    <Text>{detailReviews.wr_emm_username_id}</Text>
-                                    <Text note> : {detailReviews.wr_comment}</Text>
+                                    <Text>{detailReviews.emm_user_id}</Text>
+                                    <Text note> : {detailReviews.emm_review}</Text>
                                 </Body>
                             </CardItem>
                         </Card>

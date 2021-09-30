@@ -9,19 +9,34 @@ const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
-const WaitFree = ({ Userid }) => {
-  let userID = Userid
+const WaitFree = ({ Userid_w }) => {
+  let userID = Userid_w
+  //console.log(userID);
   const [getwaitemp, setGetwaitemp] = useState([]);
 
   const [refreshing, setRefreshing] = useState(false);
+
+  
+  useEffect(() => {
+    Api.get("employmentEpyReq/" + userID)
+    //Api.get("employmentEpyReqGet/" + userID)
+      .then(response => {
+        setGetwaitemp(response.data)
+        //console.log(response.data)
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
+  }, [userID]);
 
   const reload = () => {
     Api.get("employmentEpyReq/" + userID)
       .then(response => {
         setGetwaitemp(response.data)
+        //console.log(response.data)
       })
       .catch(error => {
-        console.log(error);
+        console.log(error.message);
       });
   }
   
@@ -33,15 +48,6 @@ const WaitFree = ({ Userid }) => {
 
 
 
-  useEffect(() => {
-    Api.get("employmentEpyReq/" + userID)
-      .then(response => {
-        setGetwaitemp(response.data)
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [userID]);
 
   const showConfirm = async (emm_id) => {
     await Alert.alert(
@@ -61,7 +67,7 @@ const WaitFree = ({ Userid }) => {
   };
 
   const cancelEmploy = async (emm_id) => {
-    axios.delete("https://mobileflashwork.herokuapp.com/public/deleteemploymentReq/" + emm_id)
+    Api.delete("deleteemploymentReq/" + emm_id)
       .then((response) => {
         if (response.data.message === "success") {
           Alert.alert("ยกเลิกการจ้างงานเรียบร้อย")
@@ -119,6 +125,8 @@ const WaitFree = ({ Userid }) => {
                       {getwait.aw_name}
                     </Text>
                   </Body>
+                </CardItem>
+                <CardItem bordered>
                   <Body>
                     <Text style={styles.text}>
                       ชื่อแพ็คเก็จ

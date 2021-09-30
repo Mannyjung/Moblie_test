@@ -9,7 +9,7 @@ const CardList = ({ id }) => {
     useEffect(() => {
         NewApi()
     }, [id]);
-    console.log(id)
+    //console.log(id)
     // console.log(data)
     const NewApi = async () => {
         await Api.get('showWorkbyMaincate/' + id)

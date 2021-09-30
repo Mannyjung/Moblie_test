@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Text, StyleSheet, Dimensions, Alert, RefreshControl, SafeAreaView, ScrollView } from 'react-native'
 import { Container, Header, Content, Card, CardItem, Body, Left, Right, Button } from "native-base";
-
 import axios from 'axios';
 import Api from '../../api/Api'
 const { width, height } = Dimensions.get('screen')
@@ -10,7 +9,7 @@ const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
-const WorkEmp = ({ Userid }) => {
+const WorkEmp = ({ Userid_r }) => {
 
     const [refreshing, setRefreshing] = useState(false);
     const [getworkingemp, setGetworkingemp] = useState([])
@@ -22,17 +21,17 @@ const WorkEmp = ({ Userid }) => {
     }, []);
 
     useEffect(() => {
-        Api.get("employmentEpyProgress/" + Userid)
+        Api.get("employmentEpyProgress/" + Userid_r)
             .then(response => {
                 setGetworkingemp(response.data)
             })
             .catch(error => {
                 console.log(error);
             });
-    }, [Userid]);
+    }, [Userid_r]);
 
     const reload = () => {
-        Api.get("employmentEpyProgress/" + Userid)
+        Api.get("employmentEpyProgress/" + Userid_r)
             .then(response => {
                 setGetworkingemp(response.data)
             })
@@ -62,7 +61,7 @@ const WorkEmp = ({ Userid }) => {
         let data = {
             emm_status: "เสร็จสิ้น",
         }
-        await axios.put("https://mobileflashwork.herokuapp.com/public/employmentEpySuc/" + emm_id, data)
+        await Api.put("employmentEpySuc/" + emm_id, data)
             .then((response) => {
                 console.log(response.data.message);
                 if (response.data.message === "success") {
@@ -120,6 +119,8 @@ const WorkEmp = ({ Userid }) => {
                                             {getworking.aw_name}
                                         </Text>
                                     </Body>
+                                </CardItem>
+                                <CardItem bordered>
                                     <Body>
                                         <Text style={styles.text}>
                                             ชื่อแพ็คเก็จ

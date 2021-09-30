@@ -10,22 +10,29 @@ import {
     Input,
     Textarea,
     Content,
+
 } from "native-base";
 import React, { useState, useEffect } from 'react'
-import { Picker, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, RefreshControl, SafeAreaView, ScrollView } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios'
+import Api from '../../api/Api'
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
 
 const Package = ({ route }) => {
     const navigation = useNavigation();
     const { data_id } = route.params;
-    const [selectedValue, setSelectedValue] = useState("java");
 
     const [packageDetail, setpackageDetail] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
+
     // console.log(mypost);
     useEffect(() => {
-        axios.get("https://mobileflashwork.herokuapp.com/public/getPackage/" + data_id)
+        Api.get("getPackage/" + data_id)
             .then(response => {
                 setpackageDetail(response.data)
                 //console.log(response.data);
@@ -35,6 +42,23 @@ const Package = ({ route }) => {
             });
     }, [data_id]);
 
+
+    const reload = () => {
+        Api.get("getPackage/" + data_id)
+            .then(response => {
+                setpackageDetail(response.data)
+                //console.log(response.data)
+            })
+            .catch(error => {
+                console.log(error.message);
+            });
+    }
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        reload()
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
     return (
         <>
             <View>
@@ -47,29 +71,41 @@ const Package = ({ route }) => {
                     <Text style={styles.textHead}>งานของฉัน {data_id}</Text>
                 </Header>
             </View>
-            <Content>
-                {packageDetail.map((packageDetails) => {
-                    return (
-                        <Card transparent>
-                            <TouchableOpacity activeOpacity={0.6} onPress={() => {
-                                navigation.navigate('editpack', {
-                                    pk_id: packageDetails.pk_id,
-                                });
-                            }}>
-                                <Card style={styles.from} >
-                                    <Label style={styles.text16}>{packageDetails.pk_name}</Label>
+            <SafeAreaView style={styles.container}>
+                <ScrollView
+                    contentContainerStyle={styles.scrollView}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
+                >
+                    <Content>
+                        {packageDetail.map((packageDetails) => {
+                            return (
+                                <Card transparent>
+                                    <TouchableOpacity activeOpacity={0.6} onPress={() => {
+                                        navigation.navigate('editpack', {
+                                            pk_id: packageDetails.pk_id,
+                                        });
+                                    }}>
+                                        <Card style={styles.from} >
+                                            <Label style={styles.text16}>{packageDetails.pk_name}</Label>
+                                        </Card>
+                                    </TouchableOpacity>
                                 </Card>
-                            </TouchableOpacity>
-                        </Card>
-                    )
-                })}
-                <Body>
-                    <Button block style={styles.button} onPress={() => navigation.navigate('addpack', {
-                                    awpk_id: data_id,
-                                })}>
-                        <Text style={styles.text22}>เพิ่มแพ็กเกจ</Text>
-                    </Button>
-                </Body></Content>
+                            )
+                        })}
+                        <Body>
+                            <Button block style={styles.button} onPress={() => navigation.navigate('addpack', {
+                                awpk_id: data_id,
+                            })}>
+                                <Text style={styles.text22}>เพิ่มแพ็กเกจ</Text>
+                            </Button>
+                        </Body></Content>
+                </ScrollView>
+            </SafeAreaView>
         </>
     );
 };

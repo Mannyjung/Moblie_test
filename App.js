@@ -78,16 +78,7 @@ function Student() {
                     ),
                 }}
             />
-            <Tab.Screen
-                name="Cate"
-                component={TabCate}
-                options={{
-                    tabBarLabel: 'Category',
-                    tabBarIcon: ({ color }) => (
-                        <Entypo name="network" size={22} color={color} />
-                    ),
-                }}
-            />
+
             <Tab.Screen
                 name="Employment"
                 component={EmploymentFL}
@@ -140,16 +131,26 @@ function Employer() {
                 }}
             />
             <Tab.Screen
+                name="Cate"
+                component={TabCate}
+                options={{
+                    tabBarLabel: 'Category',
+                    tabBarIcon: ({ color }) => (
+                        <Entypo name="network" size={22} color={color} />
+                    ),
+                }}
+            />
+            <Tab.Screen
                 name="Employment"
                 component={EmploymentEmp}
                 options={{
                     tabBarLabel: 'Employment',
                     tabBarIcon: ({ color }) => (
-                        <MaterialCommunityIcons name="account" color={color} size={26} />
+                        <Ionicons name="list-circle" size={26} color={color} />
                     ),
                 }}
             />
-             <Tab.Screen
+            <Tab.Screen
                 name="History"
                 component={historyEmp}
                 options={{
@@ -195,8 +196,7 @@ const App = ({ navigation }) => {
                         <Stack.Screen name="student" component={Student} />
                         <Stack.Screen name="employer" component={Employer} />
                         <Stack.Screen name="login" component={NotLogin} />
-                        <Stack.Screen name="tabcate" component={TabCate} />
-                        <Stack.Screen name="mywork" component={Mywork} />
+                        <Stack.Screen name="myWork" component={Mywork} />
                         <Stack.Screen name="historyFl" component={historyFl} />
                         <Stack.Screen name="selectpost" component={SelectPost} />
                         <Stack.Screen name="editpic" component={Editpic} />
@@ -214,6 +214,7 @@ const App = ({ navigation }) => {
                             <Stack.Screen name="employer" component={Employer} />
                             <Stack.Screen name="student" component={Student} />
                             <Stack.Screen name="login" component={NotLogin} />
+                            <Stack.Screen name="tabcate" component={TabCate} />
                             <Stack.Screen name="selectpost" component={SelectPost} />
                             {/* <Stack.Screen name="employmentEmp" component={EmploymentEmp} /> */}
                             <Stack.Screen name="empReview" component={EmpReview} />

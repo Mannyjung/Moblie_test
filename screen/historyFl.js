@@ -33,14 +33,14 @@ const historyFl = () => {
 
     const [historyFl, sethistoryFl] = useState([]);
     useEffect(() => {
-        axios.get("https://mobileflashwork.herokuapp.com/public/employmentFlSuc/" + Userid)
+        Api.get("employmentFlSucAndR/" + Userid)
             .then((response) => {
                 sethistoryFl(response.data)
             })
     }, [Userid])
 
     const reload = () => {
-        axios.get("https://mobileflashwork.herokuapp.com/public/employmentFlSuc/" + Userid)
+        Api.get("employmentFlSucAndR/" + Userid)
           .then(response => {
             sethistoryFl(response.data)
           })

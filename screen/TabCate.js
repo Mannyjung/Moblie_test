@@ -1,6 +1,6 @@
 import { Text,StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Container, Header, Tab, Tabs, ScrollableTab} from 'native-base';
+import { Container, Header, Tab, Tabs, ScrollableTab,DefaultTabBar} from 'native-base';
 import CardList from '../component/Card/CardList';
 import Api from '../api/Api'
 const TabCate = () => {
@@ -16,6 +16,12 @@ const TabCate = () => {
 
             })
     }
+    const renderTabBar = (props) => {
+        props.tabStyle = Object.create(props.tabStyle);
+        return <DefaultTabBar {...props} />;
+    };
+
+
     return (
         <>
             <Header  androidStatusBarColor="#ff5722" style={{ backgroundColor: '#ff5722' }} >
@@ -23,7 +29,7 @@ const TabCate = () => {
                     หมวดหมู่
                 </Text>
             </Header>
-            <Tabs renderTabBar={() => <ScrollableTab style={{backgroundColor:'#0000', color:'#0000'}} />} >
+            <Tabs renderTabBar={renderTabBar} renderTabBar={() => <ScrollableTab style={{backgroundColor:'#0000', color:'#0000'}} />} >
                 {dataCate.map((data) => {
                     return (
                         <Tab key={data.main_cate_id} heading={data.main_cate_name} tabStyle={{ backgroundColor: '#FFFFFF' }} textStyle={{ color: '#000000' }} activeTabStyle={{ backgroundColor: '#ff5722' }} activeTextStyle={{ color: '#ffff' }}>

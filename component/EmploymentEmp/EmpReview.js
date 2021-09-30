@@ -4,6 +4,7 @@ import { Text, StyleSheet, Image, View, Alert } from "react-native";
 import { Card } from 'react-native-paper';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import Api from '../../api/Api'
 
 const EmpReview = ({ route }) => {
 
@@ -13,7 +14,7 @@ const EmpReview = ({ route }) => {
     const [showdetailReviews, setshowdetailReviews] = useState([]);
     // console.log(emm_id)
     useEffect(() => {
-        axios.get("https://mobileflashwork.herokuapp.com/public/show_comment/" + emm_id)
+        Api.get("show_comment/" + emm_id)
             .then(response => {
                 setshowdetailReviews(response.data[0])
                 console.log(response.data[0])
@@ -33,7 +34,7 @@ const EmpReview = ({ route }) => {
             emm_status: "เสร็จสิ้นและรีวิว"
         }
         // console.log(data);
-        axios.put('https://mobileflashwork.herokuapp.com/public/addreview/' + emm_id, data)
+        Api.put('addreview/' + emm_id, data)
             .then((response) => {
                 setComment({ ...insertcomment, data });
                 if (response.data.message === "success") {

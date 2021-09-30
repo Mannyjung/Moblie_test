@@ -88,6 +88,8 @@ const Success = ({ Userid }) => {
                       {employmentFlSucs.aw_name}
                     </Text>
                   </Body>
+                </CardItem>
+                <CardItem bordered>
                   <Body>
                     <Text style={styles.text}>
                       ชื่อแพ็คเก็จ
@@ -106,10 +108,8 @@ const Success = ({ Userid }) => {
                       {employmentFlSucs.emm_status}
                     </Text>
                   </Body>
-
                 </CardItem>
               </Card>
-
             )
           })}
 

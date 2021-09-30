@@ -81,7 +81,7 @@ const WaitEM = ({ Userid }) => {
     let data = {
       emm_status: "กำลังดำเนินการ",
     }
-    await axios.put("https://mobileflashwork.herokuapp.com/public/employmentEpyReq/" + emm_id, data)
+    await Api.put("employmentAccept/" + emm_id, data)
       .then((response) => {
         if (response.data.message === "success") {
           Alert.alert("ยอมรับการจ้างงานเสร็จสิ้น")
@@ -95,7 +95,7 @@ const WaitEM = ({ Userid }) => {
   };
 
   const cancelEmploy = async (emm_id) => {
-    axios.delete("https://mobileflashwork.herokuapp.com/public/deleteemploymentReq/" + emm_id)
+    Api.delete("deleteemploymentReq/" + emm_id)
       .then((response) => {
         console.log(response.data.message);
         if (response.data.message === "success") {
@@ -156,6 +156,8 @@ const WaitEM = ({ Userid }) => {
                       {employmentFlReqs.aw_name}
                     </Text>
                   </Body>
+                </CardItem>
+                <CardItem bordered>
                   <Body>
                     <Text style={styles.text}>
                       ชื่อแพ็คเก็จ

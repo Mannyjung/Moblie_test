@@ -4,6 +4,7 @@ import { StyleSheet, Text, Alert } from 'react-native'
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios'
 import { useNavigation } from '@react-navigation/native';
+import Api from '../../api/Api'
 
 const Addpackage = ({ route }) => {
     const [selectedValue, setSelectedValue] = useState();
@@ -24,7 +25,7 @@ const Addpackage = ({ route }) => {
     const savePack = () => {
         console.log(addpackage);
 
-        axios.post("https://mobileflashwork.herokuapp.com/public/newpackage", addpackage)
+        Api.post("newpackage", addpackage)
             .then((response) => {
 
                 if (response.data.message === "success") {

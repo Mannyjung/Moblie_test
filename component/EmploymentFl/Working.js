@@ -84,6 +84,8 @@ const Working = ({ Userid }) => {
                                             {employmentFlProgresss.aw_name}
                                         </Text>
                                     </Body>
+                                </CardItem>
+                                <CardItem bordered>
                                     <Body>
                                         <Text style={styles.text}>
                                             ชื่อแพ็คเก็จ

@@ -49,27 +49,27 @@ const Profile = ({ navigation }) => {
                     {data.Name}
                 </Text>
                 <View style={styles.viewicon}>
-                    <View style={styles.viewin}>
-                        <MaterialIcons onPress={() => navigation.navigate('mywork')} style={styles.icon} name="work-outline" />
-                        <Text style={styles.texticon}>My work</Text>
-                    </View>
-                    <View style={styles.viewin}>
-                        <MaterialIcons onPress={() => navigation.navigate('historyFl')} style={styles.icon} name="history" />
-                        <Text style={styles.texticon}>History</Text>
-                    </View>
-                    {/* <View style={styles.viewin}>
-                        <AntDesign onPress={() => navigation.navigate('Tabnew')} style={styles.icon} name="profile" />
-                        <Text style={styles.texticon}>Edit profile</Text>
-                    </View>
-
-                    <View style={styles.viewin}>
-                        <AntDesign onPress={() => Actions.mywork()} style={styles.icon} name="setting" />
-                        <Text style={styles.texticon}>Setting</Text>
-                    </View> */}
-                    <View style={styles.viewin}>
-                        <MaterialIcons onPress={() => removeValue()} style={styles.icon} name="logout" />
-                        <Text style={styles.texticon}>Logout</Text>
-                    </View>
+                    {data.Status === "Student" ?
+                        <>
+                            <View style={styles.viewin}>
+                                <MaterialIcons onPress={() => navigation.navigate('myWork')} style={styles.icon} name="work-outline" />
+                                <Text style={styles.texticon}>My work</Text>
+                            </View>
+                            <View style={styles.viewin}>
+                                <MaterialIcons onPress={() => navigation.navigate('historyFl')} style={styles.icon} name="history" />
+                                <Text style={styles.texticon}>History</Text>
+                            </View>
+                            <View style={styles.viewin}>
+                                <MaterialIcons onPress={() => removeValue()} style={styles.icon} name="logout" />
+                                <Text style={styles.texticon}>Logout</Text>
+                            </View>
+                        </>
+                        :
+                        <View style={styles.viewin}>
+                            <MaterialIcons onPress={() => removeValue()} style={styles.icon} name="logout" />
+                            <Text style={styles.texticon}>Logout</Text>
+                        </View>
+                    }
                 </View>
                 {/* <Tabnew/> */}
             </View>

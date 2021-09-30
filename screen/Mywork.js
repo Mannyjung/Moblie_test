@@ -6,6 +6,7 @@ import { AntDesign, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ListMyWork from '../component/ListMyWork';
 import axios from 'axios'
+import Api from '../api/Api';
 const Mywork = ({navigation}) => {
     const [data, setdata] = useState({
         Username: ""
@@ -21,7 +22,7 @@ let userID = data.Username
     const [mypost, setmypost] = useState([]);
     // console.log(mypost);
     useEffect(() => {
-        axios.get("https://newapi-flashwork.herokuapp.com/public/mypost/" + userID)
+        Api.get("mypost/" + userID)
             .then(response => {
                 setmypost(response.data)
 
