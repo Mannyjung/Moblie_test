@@ -13,11 +13,11 @@ const SucEmp = ({ Userid_s }) => {
   const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
   const [getsuccess, setSuccess] = useState([]);
-  const onRefresh = React.useCallback(() => {
+  const onRefresh = () => {
     setRefreshing(true);
     reload()
     wait(2000).then(() => setRefreshing(false));
-  }, []);
+  };
 
   const reload = () => {
     Api.get("employmentEpySuc/" + Userid_s)

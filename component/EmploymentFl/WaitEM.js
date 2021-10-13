@@ -15,31 +15,34 @@ const WaitEM = ({ Userid }) => {
 
   let userID = Userid
 
-  const onRefresh = React.useCallback(() => {
+  const onRefresh = () => {
     setRefreshing(true);
     reload()
     wait(2000).then(() => setRefreshing(false));
-  }, []);
+  };
 
   useEffect(() => {
+    try{
     Api.get("employmentFlReq/" + userID)
       .then(response => {
         setemploymentFlReq(response.data)
       })
-      .catch(error => {
+    }
+      catch(error){
         console.log(error);
-      });
-
+      }
   }, [userID]);
 
   const reload = () => {
+    try{
     Api.get("employmentFlReq/" + userID)
       .then(response => {
         setemploymentFlReq(response.data)
       })
-      .catch(error => {
-        console.log(error);
-      });
+    }
+      catch(error) {
+        console.log(error.message + "123");
+      }
   }
 
   const showConfirm = async (emm_id) => {

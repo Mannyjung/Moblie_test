@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, SafeAreaView, View, FlatList, Text } from 'react-native';
+import { StyleSheet, View, FlatList, Text, RefreshControl, SafeAreaView, ScrollView } from 'react-native';
 import { Header } from "native-base";
 //import { Data } from '../component/carou/data'
 import { AntDesign, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
@@ -7,7 +7,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ListMyWork from '../component/ListMyWork';
 import axios from 'axios'
 import Api from '../api/Api';
-const Mywork = ({navigation}) => {
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
+const Mywork = ({ navigation }) => {
     const [data, setdata] = useState({
         Username: ""
     })
@@ -18,20 +22,43 @@ const Mywork = ({navigation}) => {
         const user_id = await AsyncStorage.getItem('User_id');
         setdata({ ...data, Username: user_id })
     }
-let userID = data.Username
+    const [refreshing, setRefreshing] = useState(false);
+    let userID = data.Username
     const [mypost, setmypost] = useState([]);
     // console.log(mypost);
     useEffect(() => {
-        Api.get("mypost/" + userID)
-            .then(response => {
-                setmypost(response.data)
-
-            })
-            .catch(error => {
-                // console.log(error);
-            });
+        try {
+            Api.get("mypost/" + userID)
+                .then(response => {
+                    setmypost(response.data)
+                })
+        } catch (error) {
+            console.log(error.message);
+        }
     }, [userID]);
 
+    const onRefresh = () => {
+        //console.log(refreshing);
+        setRefreshing(true);
+        reload()
+        wait(2000).then(() => setRefreshing(false));
+    };
+
+    const reload = () => {
+        //console.log(Userid + "id");
+        try {
+            //console.log("try");
+            Api.get("mypost/" + userID)
+                .then(response => {
+                    //console.log("then");
+                    setmypost(response.data)
+                    //console.log(response.data + "155")
+                })
+        }
+        catch (error) {
+            console.log(error.message);
+        }
+    }
 
     return (
         <>
@@ -46,15 +73,27 @@ let userID = data.Username
                 {/* เลื่อนขาว -> ซ้าย (เพื่อลบรูป) */}
                 <Ionicons name="hand-left" size={24} color="black" />ปัดซ้ายเพื่อปรับปรุง
             </Text>
-       
-            <SafeAreaView style={styles.container}>
-                <FlatList
-                    data={mypost}
-                    renderItem={({ item, index }) => {
-                        return <ListMyWork data={item}/>;
-                    }}
 
-                />
+
+
+            <SafeAreaView style={styles.container}>
+                <ScrollView
+                    contentContainerStyle={styles.scrollView}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
+                >
+                    <FlatList
+                        data={mypost}
+                        renderItem={({ item, index }) => {
+                            return <ListMyWork data={item} />;
+                        }}
+
+                    />
+                </ScrollView>
             </SafeAreaView>
         </>
     )

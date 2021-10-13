@@ -14,11 +14,11 @@ const Success = ({ Userid }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [employmentFlSuc, setemploymentFlSuc] = useState([]);
 
-  const onRefresh = React.useCallback(() => {
+  const onRefresh =() => {
     setRefreshing(true);
     reload()
     wait(2000).then(() => setRefreshing(false));
-  }, []);
+  };
 
   const reload = () => {
     Api.get("employmentFlSuc/" + Userid)

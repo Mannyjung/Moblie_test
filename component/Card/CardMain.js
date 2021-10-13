@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { Card, CardItem, Body, View } from "native-base";
+import { Text, Image, StyleSheet, TouchableOpacity,RefreshControl, SafeAreaView, ScrollView } from 'react-native';
+import { Card, CardItem, Body, View,Content } from "native-base";
 // import axios from 'axios'
 import Api from '../../api/Api'
 import { Actions } from 'react-native-router-flux';
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
 const CardMain = ({ navigation }) => {
     const [data, setData] = useState([]);
     useEffect(() => {
@@ -15,8 +19,38 @@ const CardMain = ({ navigation }) => {
                 setData(response.data)
             })
     }
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = () => {
+        setRefreshing(true);
+        reload()
+        wait(2000).then(() => setRefreshing(false));
+    };
+    const reload = () => {
+        Api.get('show_work')
+          .then(response => {
+            sethistoryEmp(response.data)
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     return (
+
+       
         <View style={styles.heades}>
+             <SafeAreaView>
+                <ScrollView
+                    contentContainerStyle={styles.scrollView}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
+                >
+             <Content padder>
+                 
+            
             {data.map((dataW) => {
                 return (
                     <Card transparent key={dataW.aw_id}>
@@ -44,6 +78,9 @@ const CardMain = ({ navigation }) => {
                     </Card>
                 )
             })}
+             </Content>
+                  </ScrollView>
+            </SafeAreaView>
         </View>
     )
 }

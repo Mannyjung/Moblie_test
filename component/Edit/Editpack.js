@@ -10,6 +10,7 @@ import {
     Input,
     Textarea,
     Content,
+    Select
 } from "native-base";
 import React, { useState, useEffect } from 'react'
 import { ScrollView, StyleSheet, Text, View, Alert } from "react-native";
@@ -29,8 +30,8 @@ const Editpack = ({ route }) => {
     useEffect(() => {
         Api.get("getPackagebyId/" + pk_id)
             .then(response => {
-                setpackageDetailbyid(response.data[0])
-                //console.log(response.data);
+                seteditpackage(response.data[0])
+                console.log(response.data);
             })
             .catch(error => {
                 console.log(error);
@@ -64,6 +65,22 @@ const Editpack = ({ route }) => {
             ]
         )
     };
+
+    const ChangeName = (text) => {
+        console.log(text);
+        seteditpackage({ ...editpackage, pk_name: text })
+    }
+    const ChangeDetail = (text) => {
+        seteditpackage({ ...editpackage, pk_detail: text })
+    }
+    const ChangePrice = (text) => {
+        seteditpackage({ ...editpackage, pk_price: text })
+    }
+    const ChangeDate = (text) => {
+        seteditpackage({ ...editpackage, pk_time_period: text })
+    }
+
+
     const savePack = () => {
         //console.log(editpackage);
         var data = {
@@ -72,7 +89,8 @@ const Editpack = ({ route }) => {
             pk_price: editpackage.pk_price,
             pk_time_period: editpackage.pk_time_period,
         }
-        //console.log(data);
+        console.log(data);
+
         Api.put("editpackage/" + pk_id, data)
             .then((response) => {
                 if (response.data.message === "success") {
@@ -93,7 +111,7 @@ const Editpack = ({ route }) => {
 
 
     //console.log(editpackage)
-    let timed = packageDetailbyid.pk_time_period;
+    // let timed = packageDetailbyid.pk_time_period;
     return (
         <>
             <View>
@@ -112,8 +130,8 @@ const Editpack = ({ route }) => {
                         <Label style={styles.text16}>ชื่อแพ็คเกจ</Label>
                         <Item style={styles.item} regular>
                             <Input
-                                defaultValue={packageDetailbyid.pk_name}
-                                onChangeText={(e) => seteditpackage({ ...editpackage, pk_name: e })}
+                                value={editpackage.pk_name}
+                                onChangeText={text => ChangeName(text)}
                             />
                         </Item>
                         <Label style={styles.text16}>ลายละเอียดรายแพ็คเกจ</Label>
@@ -121,15 +139,15 @@ const Editpack = ({ route }) => {
                             {/* <Input rowSpan={5} bordered /> */}
                             <Textarea
                                 rowSpan={3}
-                                defaultValue={packageDetailbyid.pk_detail}
-                                onChangeText={(e) => seteditpackage({ ...editpackage, pk_detail: e })}
+                                value={editpackage.pk_detail}
+                                onChangeText={text => ChangeDetail(text)}
                             />
                         </Item>
                         <Label style={styles.text16}>ราคา</Label>
                         <Item style={styles.item} regular>
                             <Input
-                                defaultValue={packageDetailbyid.pk_price}
-                                onChangeText={(e) => seteditpackage({ ...editpackage, pk_price: e })}
+                                value={editpackage.pk_price}
+                                onChangeText={text => ChangePrice(text)}
                             />
                         </Item>
                         <Label style={styles.text16}>ระยะเวลา</Label>
@@ -139,12 +157,25 @@ const Editpack = ({ route }) => {
                             style={{ height: 50 }}
                             onValueChange={(e) => seteditpackage({ ...editpackage, pk_time_period: e })}
                         >
-                            {/* <Picker.Item label={timed} /> */}
                             <Picker.Item label="3 วัน" value="ภายใน 3 วัน" />
                             <Picker.Item label="7 วัน" value="ภายใน 7 วัน" />
                             <Picker.Item label="14 วัน" value="ภายใน 14 วัน" />
                             <Picker.Item label="30 วัน" value="ภายใน 30 วัน" />
                         </Picker>
+
+                        {/* <Select
+                            placeholder="Mode of payment"
+                            selectedValue={editpackage.pk_time_period}
+                            width={150}
+                            onValueChange={(itemValue) => seteditpackage(itemValue)}
+                        >
+                            <Select.Item label="Wallet" value="key0" />
+                            <Select.Item label="ATM Card" value="key1" />
+                            <Select.Item label="Debit Card" value="key2" />
+                            <Select.Item label="Credit Card" value="key3" />
+                            <Select.Item label="Net Banking" value="key4" />
+                        </Select> */}
+
                     </Form>
 
 

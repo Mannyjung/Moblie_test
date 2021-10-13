@@ -32,12 +32,14 @@ const EmploymentFL = () => {
                 </Text>
             </Header>
             <Tabs renderTabBar={renderTabBar}>
-                <Tab heading={<TabHeading style={styles.head}><Text style={styles.text}>รอดำเนินการ</Text></TabHeading>}>
+            <Tab heading={<TabHeading style={styles.head}><Text style={styles.text}>รอดำเนินการ</Text></TabHeading>}>
                     <WaitEM Userid={Userid} />
                 </Tab>
-                <Tab heading={<TabHeading style={styles.head}><Text style={styles.text}>ดำเนินการ</Text></TabHeading>}>
+            <Tab heading={<TabHeading style={styles.head}><Text style={styles.text}>ดำเนินการ</Text></TabHeading>}>
                     <Working Userid={Userid} />
                 </Tab>
+               
+                
                 <Tab heading={<TabHeading style={styles.head}><Text style={styles.text}>เสร็จสิ้น</Text></TabHeading>}>
                     <Success Userid={Userid} />
                 </Tab>

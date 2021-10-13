@@ -3,51 +3,72 @@ import { Text, StyleSheet, Dimensions, Alert, RefreshControl, SafeAreaView, Scro
 import { Content, Card, CardItem, Body, Right, Button } from "native-base";
 import axios from 'axios';
 import Api from '../../api/Api'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const { width } = Dimensions.get('screen');
 
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
-const WaitFree = ({ Userid_w }) => {
-  let userID = Userid_w
-  //console.log(userID);
-  const [getwaitemp, setGetwaitemp] = useState([]);
+const WaitFree = () => {
 
+  const [data, setdata] = useState({
+    User_id: "",
+  })
+  useEffect(() => {
+    onLoad()
+
+  }, []);
+  const onLoad = async () => {
+    const User_id = await AsyncStorage.getItem('User_id');
+    setdata({ ...data, User_id: User_id })
+  }
+  let Userid = data.User_id
+
+  //let userID = Userid_w
+
+  //const [userid, setuserid] = useState(Userid);
+  const [getwaitemp, setGetwaitemp] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
-  
+
   useEffect(() => {
-    Api.get("employmentEpyReq/" + userID)
-    //Api.get("employmentEpyReqGet/" + userID)
-      .then(response => {
-        setGetwaitemp(response.data)
-        //console.log(response.data)
-      })
-      .catch(error => {
-        console.log(error.message);
-      });
-  }, [userID]);
+    console.log(Userid);
+    try {
+      Api.get("employmentEpyReq/" + Userid)
+        //Api.get("employmentEpyReqGet/" + Userid)
+        .then(response => {
+          setGetwaitemp(response.data)
+          //console.log(response.data + "sadf")
+        })
+    }
+    catch (error) {
+      console.log(error.message + "fdsfsd");
+    }
+  }, [Userid]);
 
   const reload = () => {
-    Api.get("employmentEpyReq/" + userID)
-      .then(response => {
-        setGetwaitemp(response.data)
-        //console.log(response.data)
-      })
-      .catch(error => {
-        console.log(error.message);
-      });
+    console.log(Userid + "id");
+    try {
+      //console.log("try");
+      Api.get("employmentEpyReq/" + Userid)
+        .then(response => {
+          //console.log("then");
+          setGetwaitemp(response.data)
+          //console.log(response.data + "155")
+        })
+    }
+    catch (error) {
+      console.log(error.message + "123");
+    }
   }
-  
-  const onRefresh = React.useCallback(() => {
+
+  const onRefresh = () => {
+    //console.log(refreshing);
     setRefreshing(true);
     reload()
     wait(2000).then(() => setRefreshing(false));
-  }, []);
-
-
-
+  };
 
   const showConfirm = async (emm_id) => {
     await Alert.alert(

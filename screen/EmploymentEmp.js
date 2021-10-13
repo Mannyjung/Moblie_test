@@ -35,13 +35,16 @@ const EmploymentEmp = () => {
                 </Text>
             </Header>
             <Tabs renderTabBar={renderTabBar}>
-              
+
                 <Tab heading={<TabHeading style={styles.head}><Text style={styles.text}>รอดำเนินการ</Text></TabHeading>}>
                     <WaitFree Userid_w={Userid} />
                 </Tab>
+
                 <Tab heading={<TabHeading style={styles.head}><Text style={styles.text}>ดำเนินการ</Text></TabHeading>}>
                     <WorkEmp Userid_r={Userid} />
                 </Tab>
+
+
                 <Tab heading={<TabHeading style={styles.head}><Text style={styles.text}>เสร็จสิ้น</Text></TabHeading>}>
                     <SucEmp Userid_s={Userid} />
                 </Tab>

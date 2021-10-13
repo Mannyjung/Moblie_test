@@ -25,11 +25,11 @@ const historyFl = () => {
     let Userid = data.User_id
 
     const [refreshing, setRefreshing] = useState(false);
-    const onRefresh = React.useCallback(() => {
+    const onRefresh = () => {
         setRefreshing(true);
         reload()
         wait(2000).then(() => setRefreshing(false));
-    }, []);
+    };
 
     const [historyFl, sethistoryFl] = useState([]);
     useEffect(() => {

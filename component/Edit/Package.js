@@ -38,7 +38,7 @@ const Package = ({ route }) => {
                 //console.log(response.data);
             })
             .catch(error => {
-                // console.log(error);
+                console.log(error);
             });
     }, [data_id]);
 
@@ -54,11 +54,11 @@ const Package = ({ route }) => {
             });
     }
 
-    const onRefresh = React.useCallback(() => {
+    const onRefresh = () => {
         setRefreshing(true);
         reload()
         wait(2000).then(() => setRefreshing(false));
-    }, []);
+    };
     return (
         <>
             <View>

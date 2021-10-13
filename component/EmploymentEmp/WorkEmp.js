@@ -14,11 +14,11 @@ const WorkEmp = ({ Userid_r }) => {
     const [refreshing, setRefreshing] = useState(false);
     const [getworkingemp, setGetworkingemp] = useState([])
 
-    const onRefresh = React.useCallback(() => {
+    const onRefresh = () => {
         setRefreshing(true);
         reload()
         wait(2000).then(() => setRefreshing(false));
-    }, []);
+    };
 
     useEffect(() => {
         Api.get("employmentEpyProgress/" + Userid_r)

@@ -158,9 +158,9 @@ const FromAddV2 = () => {
         }
 
         await Api.post("postwork", work)
-            .then((res) => {
-                if (res.data.message === "success"){
-                    Alert.alert('success')
+            .then((response) => {
+                if (response.data.messages === "success"){
+                    Alert.alert('เสร็จสิ้นการลงทะเบียนงาน')
                 refreshcomp()
                 }else{
                     Alert.alert("เกิดปัญหากับระบบกรุณาลองใหม่อีกครั้งภายหลัง")

@@ -2,7 +2,6 @@ import { Alert } from 'react-native'
 import { Button, Card, Content, Form, Header, Input, Item, Label, Textarea } from 'native-base'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-
 import { Picker, StyleSheet, Text, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import Api from '../../api/Api'
@@ -11,11 +10,15 @@ const Editwork = ({ route }) => {
     const { data_id } = route.params;
     //console.log(data_id)
 
-    const [detailWorkbyid, setDetailWorkbyid] = useState([]);
+
+    const [dataPost, setdataPost] = useState({
+        aw_name: "",
+        aw_detail: "",
+    })
     useEffect(() => {
         Api.get("detailpost/" + data_id)
             .then(response => {
-                setDetailWorkbyid(response.data[0])
+                setdataPost(response.data[0])
                 //console.log(detailWorkbyid)
             })
             .catch(error => {
@@ -23,10 +26,16 @@ const Editwork = ({ route }) => {
             });
     }, [data_id]);
 
-    const [dataPost, setdataPost] = useState({
-        aw_name: "",
-        aw_detail: "",
-    })
+
+
+    const ChangeName = (text) => {
+        console.log(text);
+        setdataPost({ ...dataPost, aw_name: text })
+
+    }
+    const ChangeDetail = (text) => {
+        setdataPost({ ...dataPost, aw_detail: text })
+    }
 
     const showConfirm = async () => {
         await Alert.alert(
@@ -51,16 +60,16 @@ const Editwork = ({ route }) => {
         let data = {
             aw_name: dataPost.aw_name,
             aw_detail: dataPost.aw_detail,
-            aw_status: "Approve",
+            aw_status: "รอดำเนินการ",
         }
-        // console.log(data)
+        console.log(data)
 
         Api.put("editpost/" + data_id, data)
             .then((response) => {
                 console.log(response.data.message);
                 if (response.data.message === "success") {
                     Alert.alert("แก้ไขงานเสร็จสิ้น")
-                    navigation.navigate('mywork')
+                    navigation.navigate('myWork')
                 }
                 else {
                     Alert.alert("เกิดปัญหากับระบบกรุณาลองใหม่อีกครั้งภายหลัง")
@@ -87,12 +96,12 @@ const Editwork = ({ route }) => {
                         </Text>
                         <Label style={styles.text16}>ชื่องาน</Label>
                         <Item style={styles.item} regular>
-                            <Textarea rowSpan={3} name="aw_name" defaultValue={detailWorkbyid.aw_name} onChangeText={(e) => setdataPost({ ...dataPost, aw_name: e })} />
+                            <Textarea rowSpan={3} name="aw_name" value={dataPost.aw_name} onChangeText={text => ChangeName(text)} />
                         </Item>
                         <Label style={styles.text16}>ลายละเอียดงาน</Label>
                         <Item style={styles.item} regular>
                             {/* <Input rowSpan={5} bordered /> */}
-                            <Textarea rowSpan={18} name="aw_detail" defaultValue={detailWorkbyid.aw_detail} onChangeText={(e) => setdataPost({ ...dataPost, aw_detail: e })} />
+                            <Textarea rowSpan={18} name="aw_detail" value={dataPost.aw_detail} onChangeText={text => ChangeDetail(text)} />
                         </Item>
                         {/* <Label style={styles.text16}>หมวดหลัก</Label>
                         <Item style={styles.item} regular>

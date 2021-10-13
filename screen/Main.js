@@ -1,10 +1,11 @@
 import React,{useEffect,useState} from 'react'
-import { Text,Image,StyleSheet, ScrollView} from 'react-native'
+import { Text,Image,StyleSheet , ScrollView}  from 'react-native'
 import { Card, Col, Item, Input, Container, Header, Content, CardItem, Body} from 'native-base';
 //import Icon from 'react-native-vector-icons/FontAwesome';
 import Carouselmained from '../component/carou/Carouselmained';
 import CardMain from '../component/Card/CardMain';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const Main = ({navigation}) => {
     const [data, setdata] = useState({
@@ -27,7 +28,7 @@ const Main = ({navigation}) => {
                     <Col style={styles.boxSearch}>
 
                         <Item style={styles.search} >
-                            {/* <Icon name="search" /> */}
+                         
                             <Input placeholder="Flash work" />
                             <Image
                                 source={{ uri: data.Image ? data.Image : null }}
