@@ -6,15 +6,15 @@ const CarouselItem = ({ item }) => {
     return (
         <>
             <View style={styles.cardView}>
-                <Image style={styles.image} source={{ uri: item.url }} />
-                <View style={styles.textView}>
+                <Image style={styles.image} source={{ uri: item.w_img_name }} />
+                {/* <View style={styles.textView}>
                     <Text style={styles.itemTitle}>
                         {item.title}
                     </Text>
                     <Text style={styles.itemDes}>
                         {item.des}
                     </Text>
-                </View>
+                </View> */}
             </View>
         </>
     )

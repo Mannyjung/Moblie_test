@@ -2,11 +2,12 @@ import { Body, CardItem, Container, Content, Form, Header, Input, Label, Item, B
 import React, { useState, useEffect } from 'react';
 import { Text, StyleSheet, Image, View, Alert } from "react-native";
 import { Card } from 'react-native-paper';
-import axios from 'axios';
+import { AntDesign, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+
 import { useNavigation } from '@react-navigation/native';
 import Api from '../../api/Api'
 
-const EmpReview = ({ route }) => {
+const EmpReview = ({ route, navigation: { goBack } }) => {
 
     const navigation = useNavigation();
     const { emm_id } = route.params;
@@ -56,6 +57,7 @@ const EmpReview = ({ route }) => {
     return (
         <Content style={styles.content}>
             <Header androidStatusBarColor="#ff5749" searchBar rounded style={styles.head} transparent>
+                <AntDesign style={styles.backpage} name="left" id="backpage" onPress={() => goBack()} />
                 <Text style={styles.text1}>
                     รีวิวงาน {emm_id}
                 </Text>
@@ -165,6 +167,14 @@ const styles = StyleSheet.create({
         width: 340,
         height: 350,
 
+    },
+    backpage: {
+        color: '#ffff',
+        fontSize: 20,
+        position: 'absolute',
+        padding: 15,
+        paddingTop:45,
+        left: 0,
     }
 
 })

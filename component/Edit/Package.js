@@ -17,13 +17,14 @@ import { StyleSheet, Text, TouchableOpacity, View, RefreshControl, SafeAreaView,
 import { Actions } from "react-native-router-flux";
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios'
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import Api from '../../api/Api'
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
 
-const Package = ({ route }) => {
+const Package = ({ route , navigation:{goBack}}) => {
     const navigation = useNavigation();
     const { data_id } = route.params;
 
@@ -68,6 +69,7 @@ const Package = ({ route }) => {
                     rounded
                     style={{ backgroundColor: "#ff5722" }}
                 >
+                    <AntDesign style={styles.backpage} name="left" id="backpage" onPress={() => goBack()} />
                     <Text style={styles.textHead}>งานของฉัน {data_id}</Text>
                 </Header>
             </View>
@@ -176,6 +178,14 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 9,
     },
+    backpage: {
+        color: '#ffff',
+        fontSize: 20,
+        position: 'absolute',
+        padding: 15,
+        paddingTop:15,
+        left: 0,
+    }
 });
 
 export default Package

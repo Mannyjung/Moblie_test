@@ -29,7 +29,7 @@ const Main = ({navigation}) => {
 
                         <Item style={styles.search} >
                          
-                            <Input placeholder="Flash work" />
+                            <Input placeholder="Flashwork" disabled />
                             <Image
                                 source={{ uri: data.Image ? data.Image : null }}
                                 style={styles.logo}
@@ -40,7 +40,7 @@ const Main = ({navigation}) => {
                 </Header>
                 <Content>
                 {/* import Carouselmained from '../component/carou/Carouselmained'; */}
-                    <Carouselmained key='carou'/>
+                    {/* <Carouselmained key='carou'/> */}
                 
                     <ScrollView
                         style={{ flex: 1 }}
@@ -52,7 +52,7 @@ const Main = ({navigation}) => {
                                 <CardItem style={styles.headCard}>
                                     <Body >
                                         <Text style={{ color: '#ff5722', fontSize: 20 }}>
-                                            ฟรีแลนซ์ยอดนิยม
+                                            งานทั้งหมด
                                         </Text>
                                     </Body>
                                 </CardItem>

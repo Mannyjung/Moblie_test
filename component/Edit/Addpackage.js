@@ -3,10 +3,11 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, Alert } from 'react-native'
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios'
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Api from '../../api/Api'
 
-const Addpackage = ({ route }) => {
+const Addpackage = ({ route , navigation:{goBack}}) => {
     const [selectedValue, setSelectedValue] = useState();
     //console.log(selectedValue)
     const navigation = useNavigation();
@@ -49,6 +50,7 @@ const Addpackage = ({ route }) => {
         <>
             <View >
                 <Header androidStatusBarColor="#ff5722" searchBar rounded style={{ backgroundColor: '#ff5722' }}>
+                <AntDesign style={styles.backpage} name="left" id="backpage" onPress={() => goBack()} />
                     <Text style={styles.textHead}>
                         เพิ่มแพ็คเกจ {awpk_id}
                     </Text>
@@ -145,7 +147,16 @@ const styles = StyleSheet.create({
     text22: {
         fontSize: 22,
         color: '#ffff'
-    },
+    }
+    ,
+    backpage: {
+        color: '#ffff',
+        fontSize: 20,
+        position: 'absolute',
+        padding: 15,
+        paddingTop:15,
+        left: 0,
+    }
 
 })
 export default Addpackage

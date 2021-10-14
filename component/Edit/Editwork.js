@@ -2,10 +2,11 @@ import { Alert } from 'react-native'
 import { Button, Card, Content, Form, Header, Input, Item, Label, Textarea } from 'native-base'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { Picker, StyleSheet, Text, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import Api from '../../api/Api'
-const Editwork = ({ route }) => {
+const Editwork = ({ route, navigation:{goBack} }) => {
     const navigation = useNavigation();
     const { data_id } = route.params;
     //console.log(data_id)
@@ -82,6 +83,7 @@ const Editwork = ({ route }) => {
         <>
             <View >
                 <Header androidStatusBarColor="#ff5722" searchBar rounded style={{ backgroundColor: '#ff5722' }}>
+                <AntDesign style={styles.backpage} name="left" id="backpage" onPress={() => goBack()} />
                     <Text style={styles.textHead}>
                         งานของฉัน  {data_id}
                     </Text>
@@ -175,6 +177,14 @@ const styles = StyleSheet.create({
     },
     textarea: {
         height: 300
+    },
+    backpage: {
+        color: '#ffff',
+        fontSize: 20,
+        position: 'absolute',
+        padding: 15,
+        paddingTop:15,
+        left: 0,
     }
 })
 

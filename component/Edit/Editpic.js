@@ -1,14 +1,17 @@
 import { Container, Header, Content, SwipeRow, Icon, Button } from 'native-base';
 import React, { useState, useEffect } from 'react';
-import { Modal, Text, Image, View, StyleSheet, Dimensions, Pressable, TouchableOpacity, ScrollView, Alert } from 'react-native'
+import { Modal, Text, Image, View, StyleSheet, Dimensions, Pressable, TouchableOpacity, ScrollView, Alert,RefreshControl, SafeAreaView } from 'react-native'
 import { Data } from '../carou/data'
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import axios from 'axios'
 const { width, height } = Dimensions.get('screen')
 import Api from '../../api/Api'
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
+const Editpic = ({ route , navigation:{goBack}}) => {
 
-const Editpic = ({ route }) => {
-
+    const [refreshing, setRefreshing] = useState(false);
     const { data_id } = route.params;
     const [photoWorkbyid, setphotoWorkbyid] = useState([]);
     useEffect(() => {
@@ -42,13 +45,30 @@ const Editpic = ({ route }) => {
         )
     };
 
+    const reload = () => {
+        Api.get("PIC/" + data_id)
+            .then(response => {
+                setphotoWorkbyid(response.data)
+                //console.log(response.data)
+            })
+            .catch(error => {
+                console.log(error.message);
+            });
+    }
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        reload()
+        wait(2000).then(() => setRefreshing(false));
+    };
 
     const deletePic = (w_img_id) => {
         console.log(w_img_id);
 
         Api.delete("deletePhotos/" + w_img_id)
             .then((response) => {
-                if (response.data.message === "success") {
+                console.log(response.data.message);
+                if (response.data.message === "Delete success") {
                     Alert.alert("ลบเสร็จสิ้น")
                 } else {
                     Alert.alert("เกิดปัญหากับระบบกรุณาลองใหม่อีกครั้งภายหลัง")
@@ -62,8 +82,10 @@ const Editpic = ({ route }) => {
     }
     return (
         <>
+    
             <Header androidStatusBarColor="#ff5722" searchBar rounded style={{ backgroundColor: '#ff5722' }}>
-                <Text style={styles.textStyle}>
+            <AntDesign style={styles.backpage} name="left" id="backpage" onPress={() => goBack()} />
+                <Text style={styles.text}>
                     รูป {data_id}
                 </Text>
             </Header>
@@ -74,8 +96,17 @@ const Editpic = ({ route }) => {
 
             {/* <Container> */}
 
-
-            <ScrollView >
+            <SafeAreaView style={styles.container}>
+                <ScrollView
+                    contentContainerStyle={styles.scrollView}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
+                >
+           
                 {photoWorkbyid.map((uri) => {
                     return (
                         <SwipeRow style={{ width: width }} key={uri.w_img_id} rightOpenValue={-75}
@@ -93,6 +124,7 @@ const Editpic = ({ route }) => {
                     )
                 })}
             </ScrollView>
+            </SafeAreaView>
             {/* </Container> */}
         </>
     )
@@ -116,6 +148,11 @@ const styles = StyleSheet.create({
         color: 'red',
         fontSize: 24
     },
+    text: {
+        fontSize: 16,
+        color: '#ffff',
+        marginTop: 10
+    },
     pic: {
         // margin: -20,
         marginTop: -13,
@@ -126,8 +163,15 @@ const styles = StyleSheet.create({
     butt: {
         paddingBottom: -100,
         paddingTop: -100
+    },
+    backpage: {
+        color: '#ffff',
+        fontSize: 20,
+        position: 'absolute',
+        padding: 15,
+        paddingTop:15,
+        left: 0,
     }
-
 
 })
 

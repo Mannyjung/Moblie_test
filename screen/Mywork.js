@@ -11,7 +11,7 @@ const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
-const Mywork = ({ navigation }) => {
+const Mywork = ({ navigation:{goBack} }) => {
     const [data, setdata] = useState({
         Username: ""
     })
@@ -64,6 +64,7 @@ const Mywork = ({ navigation }) => {
         <>
             <View >
                 <Header androidStatusBarColor="#ff5722" searchBar rounded style={{ backgroundColor: '#ff5722' }}>
+                <AntDesign style={styles.backpage} name="left" id="backpage" onPress={() => goBack()} />
                     <Text style={styles.textHead}>
                         งานของฉัน  {userID}
                     </Text>
@@ -91,6 +92,7 @@ const Mywork = ({ navigation }) => {
                         renderItem={({ item, index }) => {
                             return <ListMyWork data={item} />;
                         }}
+                        keyExtractor={item => item.aw_id}
 
                     />
                 </ScrollView>
@@ -112,6 +114,13 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: 'black',
     },
+    backpage: {
+        color: '#ffff',
+        fontSize: 20,
+        position: 'absolute',
+        padding: 15,
+        left: 0,
+    }
 })
 
 export default Mywork

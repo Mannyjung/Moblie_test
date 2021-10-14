@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, Dimensions, Image, RefreshControlBase, RefreshControlComponent, Alert } from 'react-native'
+import { StyleSheet, Text, View, Dimensions, Image, RefreshControlBase, RefreshControlComponent, Alert,ActivityIndicator } from 'react-native'
 import { Card, Item, Input, CardItem, Form, Button } from 'native-base'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -18,7 +18,7 @@ const LoginV2 = ({ navigation }) => {
             return unsubscribe;
         })
     }, [navigation]);
-
+    const [spin, setSpin] = useState(false)
     const [data, setdata] = useState({
         User_id: "",
         User_password: ""
@@ -38,10 +38,12 @@ const LoginV2 = ({ navigation }) => {
                 alerts + 'รหัสผ่าน');
             return;
         }
+        setSpin(true)
         await Api.post('login_user', data)
 
             .then(async (res) => {
                 if (res.data.message === 'Fail Login') {
+                    setSpin(false)
                     Alert.alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง')
                     navigation.navigate('login')
 
@@ -103,6 +105,9 @@ const LoginV2 = ({ navigation }) => {
                         </Form>
                     </CardItem>
                 </Card>
+                {/* <View style={styles.spin}>
+                    <ActivityIndicator size={100} color="#ff5722" animating={spin} />
+                </View> */}
             </View>
         </>
     )
@@ -124,7 +129,7 @@ const styles = StyleSheet.create({
 
     card: {
         marginTop: 80,
-        width: 300,
+        width: 350,
         marginLeft: -1,
         height: 70,
         borderTopRightRadius: 25,
@@ -215,13 +220,15 @@ const styles = StyleSheet.create({
         color: '#ffff'
     },
     text28: {
-        fontSize: 28,
+        fontSize: 24,
         marginBottom: 15
+    }, spin: {
+        flex: 1,
+        justifyContent: "center",
+        marginTop: -600,
+        // backgroundColor:"#000",
+        // opacity:0.8
     },
-
-
-
-
 
 })
 

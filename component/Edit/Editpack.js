@@ -18,9 +18,10 @@ import { Picker } from '@react-native-picker/picker';
 import { Actions } from "react-native-router-flux";
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios'
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import Api from '../../api/Api'
 
-const Editpack = ({ route }) => {
+const Editpack = ({ route, navigation: { goBack } }) => {
     const navigation = useNavigation();
     const { pk_id } = route.params;
     //const [selectedValue, setSelectedValue] = useState("");
@@ -121,6 +122,7 @@ const Editpack = ({ route }) => {
                     rounded
                     style={{ backgroundColor: "#ff5722" }}
                 >
+                    <AntDesign style={styles.backpage} name="left" id="backpage" onPress={() => goBack()} />
                     <Text style={styles.textHead}>แพ็คเกจของฉัน {pk_id}</Text>
                 </Header>
             </View>
@@ -264,5 +266,13 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 9,
     },
+    backpage: {
+        color: '#ffff',
+        fontSize: 20,
+        position: 'absolute',
+        padding: 15,
+        paddingTop: 15,
+        left: 0,
+    }
 });
 export default Editpack;

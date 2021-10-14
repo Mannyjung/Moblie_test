@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Text,View, StyleSheet, Dimensions, FlatList, Animated } from 'react-native';
 import { Card, CardItem, Body, Content } from 'native-base';
 import axios from 'axios'
 import Api from '../../api/Api'
+const { width, height } = Dimensions.get('window')
 const DetailPost = ({ id }) => {
     const [detailPost, setdetailPost] = useState([]);
     useEffect(() => {
-        Api.get("detailpost/" + id)
+        Api.get("PIC/" + id)
             .then(response => {
                 setdetailPost(response.data)
                 //console.log(detailPost)
@@ -16,7 +17,54 @@ const DetailPost = ({ id }) => {
             });
 
     }, [id]);
+
+    const scrollX = new Animated.Value(0)
+    let position = Animated.divide(scrollX, width)
     return (
+        <View>
+        <FlatList
+
+            data={detailPost}
+            keyExtractor={(item, index) => 'key' + index}
+            horizontal
+            pagingEnabled
+            scrollEnabled
+            snapToAlignment="center"
+            scrollEventThrottle={18}
+            decelerationRate={"fast"}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => {
+                return <CarouselItem item={item} />
+            }}
+            onScroll={Animated.event(
+                [{ nativeEvent: { contentOffset: { x: scrollX } } }]
+            )}
+        />
+        <View style={styles.dotView}>
+            {detailPost.map((_, i) => {
+                let opacity = position.interpolate({
+                    inputRange: [i - 1, i, i + 1],
+                    outputRange: [0.3, 1, 0.3],
+                    extrapolast: 'clamp'
+                })
+                return (
+                    <Animated.View
+                        key={i}
+                        style={{
+                            opacity,
+                            height: 8,
+                            width: 8,
+                            backgroundColor: "#fff",
+                            margin: 8,
+                            padding: 3,
+                            borderRadius: 5
+                        }}
+                    />
+                )
+            })
+            }
+        </View>
+
         <Content padder>
             <Card >
                 <CardItem header >
@@ -24,25 +72,16 @@ const DetailPost = ({ id }) => {
                         return (
                             <Body >
                                 <Text style={{ color: '#000000', fontSize: 20 }}>
-                                    {detailPosts.aw_name}
+                                    {detailPosts.w_img_name}
                                 </Text >
                             </Body>
                         )
                     })}
                 </CardItem>
-                <CardItem>
-                {detailPost.map((detailPosts) => {
-                        return (
-                    <Body>
-                        <Text>
-                           {detailPosts.aw_detail}
-                        </Text>
-                    </Body>
-                    )
-                })}
-                </CardItem>
+              
             </Card>
         </Content>
+        </View>
     )
 }
 const styles = StyleSheet.create({

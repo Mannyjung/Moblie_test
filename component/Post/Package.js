@@ -180,24 +180,25 @@ const Package = ({ id }) => {
                                 : null
                             }
                         </Card>
-                        <Card style={styles.card}>
-                            <List avatar>
-                                <Left>
-                                    <Thumbnail source={{ uri: img }} />
-                                </Left>
-                                <Body>
-                                    <Text>{freepost.std_fname}{" "}{freepost.std_lname}</Text>
-                                </Body>
-                                <Right>
-                                    <Text>
-                                        ผู้โพสต์งาน
-                                    </Text>
-                                </Right>
-                            </List>
-                        </Card>
                     </View>
+
                 )
             })}
+            <Card style={styles.card}>
+                <List avatar>
+                    <Left>
+                        <Thumbnail source={{ uri: img }} />
+                    </Left>
+                    <Body>
+                        <Text>{freepost.std_fname}{" "}{freepost.std_lname}</Text>
+                    </Body>
+                    <Right>
+                        <Text>
+                            ผู้โพสต์งาน
+                        </Text>
+                    </Right>
+                </List>
+            </Card>
         </Content>
     )
 }

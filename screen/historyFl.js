@@ -1,14 +1,16 @@
 import { Text, StyleSheet, RefreshControl, SafeAreaView, ScrollView, Alert } from 'react-native';
 import { Container, Header, Tab, Tabs, TabHeading, Icon, Content, Card, CardItem, Body, Right, Button } from 'native-base';
 import React, { useState, useEffect } from 'react';
+import { AntDesign, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 import Api from '../api/Api';
 // const { width, } = Dimensions.get('screen')
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
-const historyFl = () => {
+const historyFl = ({ navigation: { goBack } }) => {
 
     const [data, setdata] = useState({
         User_id: "",
@@ -41,13 +43,13 @@ const historyFl = () => {
 
     const reload = () => {
         Api.get("employmentFlSucAndR/" + Userid)
-          .then(response => {
-            sethistoryFl(response.data)
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      }
+            .then(response => {
+                sethistoryFl(response.data)
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
     const show_comment = (emm_review) =>
         Alert.alert(
             "รีวิว",
@@ -65,6 +67,7 @@ const historyFl = () => {
     return (
         <>
             <Header androidStatusBarColor="#ff5749" searchBar rounded style={styles.head} transparent>
+                <AntDesign style={styles.backpage} name="left" id="backpage" onPress={() => goBack()} />
                 <Text style={styles.textH}>
                     ประวัติการจ้างงาน
                 </Text>
@@ -80,15 +83,11 @@ const historyFl = () => {
                         />
                     }
                 >
-             <Content padder>
-                 
-             </Content>
-                  </ScrollView>
-            </SafeAreaView>
                     <Content padder>
+
                         {historyFl.map((historyFl, index) => {
                             return (
-                                <Card key={index} style={{marginBottom:"5%"}}>
+                                <Card key={index} style={{ marginBottom: "5%" }}>
                                     <CardItem header bordered>
                                         <Body>
                                             <Text style={styles.text}>
@@ -147,6 +146,12 @@ const historyFl = () => {
                             )
                         })}
                     </Content>
+                    <Card style={{ height: 50 }}>
+
+                    </Card>
+                </ScrollView>
+            </SafeAreaView>
+
         </>
     )
 }
@@ -167,7 +172,7 @@ const styles = StyleSheet.create({
         fontSize: 17,
         paddingLeft: 6,
         paddingRight: 8,
-        marginBottom : 5
+        marginBottom: 10,
     },
     content: {
         fontSize: 17,
@@ -180,5 +185,17 @@ const styles = StyleSheet.create({
         // width: width / 2.5,
         backgroundColor: '#559999',
     },
+    backpage: {
+        color: '#ffff',
+        fontSize: 20,
+        position: 'absolute',
+        padding: 15,
+        paddingTop: 15,
+        left: 0,
+    },
+    Card: {
+        padding: 5
+    }
+
 })
 export default historyFl
