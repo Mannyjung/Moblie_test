@@ -72,7 +72,7 @@ const Mywork = ({ navigation:{goBack} }) => {
             </View>
             <Text style={{ fontSize: 18 }}>
                 {/* เลื่อนขาว -> ซ้าย (เพื่อลบรูป) */}
-                <Ionicons name="hand-left" size={24} color="black" />ปัดซ้ายเพื่อปรับปรุง
+                <Ionicons name="hand-left" size={24} color="black" />เลื่อนซ้ายเปิดเมนูแก้ไข
             </Text>
 
 

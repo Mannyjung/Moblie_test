@@ -105,9 +105,9 @@ const LoginV2 = ({ navigation }) => {
                         </Form>
                     </CardItem>
                 </Card>
-                {/* <View style={styles.spin}>
+                <View style={styles.spin}>
                     <ActivityIndicator size={100} color="#ff5722" animating={spin} />
-                </View> */}
+                </View>
             </View>
         </>
     )

@@ -29,7 +29,7 @@ const EmploymentEmp = () => {
     return (
 
         <Container>
-            <Header androidStatusBarColor="#ff5749" searchBar rounded style={styles.head} transparent>
+            <Header androidStatusBarColor="#ff5749" searchBar rounded style={styles.head} >
                 <Text style={styles.text}>
                     การจ้างงาน
                 </Text>

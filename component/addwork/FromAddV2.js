@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, View, StyleSheet, ScrollView, TouchableOpacity, Dimensions, Button, Alert } from 'react-native'
+import { Image, View, StyleSheet, ScrollView, TouchableOpacity, Dimensions, Button, Alert, ActivityIndicator } from 'react-native'
 import {
     Card, Item, Input, Content, Text, CardItem, Body, Form, Label, Textarea
 } from 'native-base';
@@ -15,7 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const FromAddV2 = () => {
     const navigation = useNavigation();
-
+    const [spin, setSpin] = useState(false)
     const [subcate, setsubcate] = useState([]);
     const [data, setdata] = useState({
         User_id: "",
@@ -126,7 +126,7 @@ const FromAddV2 = () => {
             Alert.alert('กรุณาเลือกระยะเวลาทำงาน');
             return;
         }
-
+        setSpin(true)
         // let array = Array.from(raw)
         const promises = [];
         raw.forEach(file => {
@@ -159,10 +159,12 @@ const FromAddV2 = () => {
 
         await Api.post("postwork", work)
             .then((response) => {
-                if (response.data.messages === "success"){
+                if (response.data.messages === "success") {
+                    setSpin(false)
                     Alert.alert('เสร็จสิ้นการลงทะเบียนงาน')
-                refreshcomp()
-                }else{
+                    refreshcomp()
+                } else {
+                    setSpin(false)
                     Alert.alert("เกิดปัญหากับระบบกรุณาลองใหม่อีกครั้งภายหลัง")
                 }
             })
@@ -172,7 +174,7 @@ const FromAddV2 = () => {
     }
     return (
         <>
-            <View style={styles.view}>
+            {/* <View style={styles.view}> */}
                 <Content style={styles.heades}>
                     <Form >
                         <Card transparent>
@@ -268,6 +270,7 @@ const FromAddV2 = () => {
                             </Form>
 
                         </Card>
+
                         <Button
                             title="โพสต์งาน"
                             onPress={async () => {
@@ -281,7 +284,11 @@ const FromAddV2 = () => {
                             }}
                         />
                     </Form>
+
                 </Content>
+            {/* </View> */}
+            <View >
+                <ActivityIndicator style={styles.spin} size={100} color="#ff5722" animating={spin} />
             </View>
         </>
     )
@@ -293,6 +300,12 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
         // alignItems: 'center',
 
+    }, spin: {
+        flex: 1,
+        justifyContent: "center",
+        marginTop: -600,
+        // backgroundColor:"#000",
+        // opacity:0.8
     },
 
     heades: {
