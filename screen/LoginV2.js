@@ -97,11 +97,6 @@ const LoginV2 = ({ navigation }) => {
                             <Button block style={styles.button} onPress={() => login()}  >
                                 <Text style={styles.text22} >เข้าสู่ระบบ</Text>
                             </Button>
-                            <Button transparent light onPress={() => Actions.main()}>
-                                <Ionicons name="arrow-back-circle-outline" size={16} color="#ff5722" />
-                                <Text style={styles.text16} >ย้อนกลับ
-                                </Text>
-                            </Button>
                         </Form>
                     </CardItem>
                 </Card>

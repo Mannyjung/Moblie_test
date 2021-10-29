@@ -69,7 +69,7 @@ const historyEmp = () => {
     return (
         <>
 
-            <Header androidStatusBarColor="#ff5749" searchBar rounded style={styles.head} transparent>
+            <Header androidStatusBarColor="#ff5749" searchBar rounded style={styles.head} >
                 <Text style={styles.textH}>
                     ประวัติการจ้างงาน
                 </Text>

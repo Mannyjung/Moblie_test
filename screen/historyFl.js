@@ -66,7 +66,7 @@ const historyFl = ({ navigation: { goBack } }) => {
 
     return (
         <>
-            <Header androidStatusBarColor="#ff5749" searchBar rounded style={styles.head} transparent>
+            <Header androidStatusBarColor="#ff5749" searchBar rounded style={styles.head} >
                 <AntDesign style={styles.backpage} name="left" id="backpage" onPress={() => goBack()} />
                 <Text style={styles.textH}>
                     ประวัติการจ้างงาน

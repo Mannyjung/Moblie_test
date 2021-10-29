@@ -7,7 +7,7 @@ import Success from '../component/Employment/Success';
 const Employment = () => {
     return (
         <Container>
-            <Header androidStatusBarColor="#ff5749" searchBar rounded style={styles.head} transparent>
+            <Header androidStatusBarColor="#ff5749" searchBar rounded style={styles.head} >
                 <Text style={styles.text}>
                     การจ้างงาน
                 </Text>
